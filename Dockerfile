@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libpq-dev \
     && docker-php-ext-install pdo pdo_pgsql
 
 # Enable Apache mod_rewrite (required for Laravel routing)
@@ -39,4 +40,3 @@ EXPOSE 80
 
 # Start Apache
 CMD ["apache2-foreground"]
-
