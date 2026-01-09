@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Message;
+
+class AdminDashboardController extends Controller
+{
+    public function index()
+    {
+        $messages = Message::latest()->get();
+        return view('admin.dashboard', compact('messages'));
+    }
+}
+
