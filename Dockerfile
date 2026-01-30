@@ -12,6 +12,13 @@ RUN apt-get update && apt-get install -y \
 
 # Active mod_rewrite pour Laravel
 RUN a2enmod rewrite
+# Configure Apache pour Laravel
+RUN echo "<Directory /var/www/html/public>" \
+    "AllowOverride All" \
+    "Require all granted" \
+    "</Directory>" \
+    > /etc/apache2/conf-available/laravel.conf \
+    && a2enconf laravel
 
 # Configure Apache pour pointer vers /var/www/html/public
 COPY . /var/www/html
