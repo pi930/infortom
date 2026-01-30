@@ -1,42 +1,40 @@
-FROM php:8.2-apache
+# Utilise PHP 8.3 avec Apache
+FROM php:8.3-apache
 
-# Install system dependencies
+# Installe les extensions nécessaires à Laravel + PostgreSQL
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
     libzip-dev \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
+    unzip \
+    sqlite3 \
+    libsqlite3-dev \
     libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql
+    && docker-php-ext-install pdo pdo_mysql pdo_sqlite pdo_pgsql zip
 
-# Enable Apache mod_rewrite (required for Laravel routing)
+# Active mod_rewrite pour Laravel
 RUN a2enmod rewrite
 
-# Copy project files
+# Configure Apache pour pointer vers /var/www/html/public
 COPY . /var/www/html
-
-# Set working directory
 WORKDIR /var/www/html
 
-# Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# Set permissions for Laravel
+# Permissions Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Configure Apache to use the public directory
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+# Installe Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Allow .htaccess overrides
-RUN sed -i 's|AllowOverride None|AllowOverride All|g' /etc/apache2/apache2.conf
+# Installe les dépendances Laravel
+RUN composer install --no-dev --optimize-autoloader
 
-# Expose port 80
+# Génère la clé Laravel si absente
+RUN php artisan key:generate --force || true
+
+# Exécute les migrations automatiquement (plan Free = pas de Shell)
+RUN php artisan migrate --force || true
+
+# Expose le port Apache
 EXPOSE 80
 
-# Start Apache
+# Démarre Apache
 CMD ["apache2-foreground"]
+
