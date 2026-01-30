@@ -15,13 +15,15 @@ WORKDIR /var/www/html
 # Permissions Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Configuration Apache pour Laravel (après COPY)
-RUN printf "<Directory /var/www/html/public>\n\
-    AllowOverride All\n\
-    Require all granted\n\
-</Directory>\n" \
-    > /etc/apache2/conf-available/laravel.conf \
-    && a2enconf laravel
+# Remplace le VirtualHost par défaut
+RUN printf "<VirtualHost *:80>\n\
+    DocumentRoot /var/www/html/public\n\
+    <Directory /var/www/html/public>\n\
+        AllowOverride All\n\
+        Require all granted\n\
+    </Directory>\n\
+</VirtualHost>\n" \
+    > /etc/apache2/sites-available/000-default.conf
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -35,4 +37,3 @@ RUN php artisan migrate --force || true
 
 EXPOSE 80
 CMD ["apache2-foreground"]
-
