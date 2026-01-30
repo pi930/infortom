@@ -11,12 +11,16 @@ class Devis extends Model
     use HasFactory;
 
     protected $fillable = [
-        'client_name',
-        'client_email',
-        'items',
-        'total_ttc',
-        'user_id',
-    ];
+    'client_name',
+    'client_email',
+    'items',
+    'total_ttc',
+    'user_id',
+    'date',
+    'heure',
+    'statut',
+];
+
 
     protected $casts = [
         'items' => 'array',

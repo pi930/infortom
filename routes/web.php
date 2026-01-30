@@ -13,6 +13,12 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Admin\RendezVousController;
 use App\Models\Devis;
 use App\Models\User;
+use App\Http\Controllers\User\PanierController;
+use App\Http\Controllers\DevisController;
+use App\Http\Controllers\PaiementController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+
+
 // -----------------------------
 // AUTH
 // -----------------------------
@@ -38,6 +44,7 @@ Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
     })->name('admin.settings');
 
 });
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index']) ->middleware(['auth', 'isadmin']) ->name('admin.dashboard');
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/profil', [UserProfileController::class, 'profile'])->name('user.profile');
@@ -70,9 +77,6 @@ Route::middleware(['auth'])->group(function () {
 // -----------------------------
 Route::middleware(['auth', 'isadmin'])->group(function () {
 
-    // Dashboard admin
-    Route::get('/admin/dashboard', [AdminMessageController::class, 'index'])
-        ->name('admin.dashboard');
 
     // Répondre aux messages
     Route::get('/admin/messages/{id}/repondre', [AdminMessageController::class, 'repondre'])
@@ -109,8 +113,15 @@ Route::middleware(['auth'])->group(function () {
     // Suppression d’un rendez-vous
     Route::delete('/user/rendezvous/{id}', [UserDashboardController::class, 'destroy'])
         ->name('user.rendezvous.destroy');
-});
 
+        Route::get('/panier', [PanierController::class, 'show'])->name('panier.show');
+        
+});   
+      
+Route::post('/devis/accepter', [DevisController::class, 'accepter'])
+    ->middleware('auth')
+    ->name('devis.accepter');
+    Route::get('/panier/from-devis/{devis}', [PanierController::class, 'fromDevis']) ->middleware('auth') ->name('panier.fromDevis');
 
 
 // -----------------------------
@@ -125,4 +136,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/contact', [ContactController::class, 'index'])->name('contact');
     Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 });
+
+Route::post('/paiement/checkout', [PaiementController::class, 'checkout'])
+    ->middleware('auth')
+    ->name('paiement.checkout');
+
+Route::get('/paiement/success', [PaiementController::class, 'success'])
+    ->middleware('auth')
+    ->name('paiement.success');
 

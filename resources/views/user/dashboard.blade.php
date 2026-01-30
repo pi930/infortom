@@ -64,6 +64,12 @@
         @endforeach
     </ul>
 @endif
+@if(session('panier_total'))
+    <a href="{{ route('panier.show') }}" class="btn btn-success">
+        Voir / Accepter le devis
+    </a>
+@endif
+
 
 
 

@@ -29,6 +29,48 @@
         </div>
     @endforeach
 @endif
+<h3 style="margin-top: 40px; margin-bottom: 20px;">Devis des utilisateurs</h3>
+
+@if($devis->isEmpty())
+    <p>Aucun devis pour le moment.</p>
+@else
+    <table class="table table-bordered" style="background:white;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Client</th>
+                <th>Email</th>
+                <th>Services</th>
+                <th>Total</th>
+                <th>Statut</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach($devis as $d)
+                <tr>
+                    <td>{{ $d->id }}</td>
+                    <td>{{ $d->client_name }}</td>
+                    <td>{{ $d->client_email }}</td>
+                    <td>{{ implode(', ', $d->items) }}</td>
+                    <td>{{ $d->total_ttc }} €</td>
+                    <td>
+                        @if($d->statut === 'payé')
+                            <span class="badge bg-success">Payé</span>
+                        @elseif($d->statut === 'accepté')
+                            <span class="badge bg-primary">Accepté</span>
+                        @else
+                            <span class="badge bg-secondary">En attente</span>
+                        @endif
+                    </td>
+                    <td>{{ $d->created_at->format('d/m/Y H:i') }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endif
+
 <li><a href="{{ route('admin.devis.create') }}">Créer un devis</a></li>
 <tr>
     <td>

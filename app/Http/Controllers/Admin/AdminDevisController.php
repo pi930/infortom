@@ -22,9 +22,9 @@ class AdminDevisController extends Controller
             'ssd' => 60,
             'carte_son' => 60,
             'carte_reseau' => 60,
-            'blog' => 500,
-            'entreprise' => 1000,
-            'commercial' => 2000,
+            'blog' => 250,
+            'entreprise' => 500,
+            'commercial' => 1000,
         ];
 
         // Récupération des éléments cochés

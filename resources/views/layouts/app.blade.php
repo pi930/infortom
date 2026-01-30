@@ -69,6 +69,13 @@
     <h1>Infortom</h1>
 
     <nav>
+        <a href="{{ route('panier.show') }}">
+    Panier 
+    @if(session('panier_total'))
+        ({{ session('panier_total') }} €)
+    @endif
+</a>
+
         <a href="{{ route('home') }}">Accueil</a>
         <a href="{{ route('services') }}">Services</a>
         <a href="{{ route('competences') }}">Compétences</a>

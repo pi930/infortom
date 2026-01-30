@@ -57,21 +57,21 @@
         <div class="form-check mb-2">
             <input class="form-check-input" type="checkbox" name="items[]" value="blog" id="blog">
             <label class="form-check-label" for="blog">
-                Site vitrine / Blog — 500 €
+                Site vitrine / Blog — 250 €
             </label>
         </div>
 
         <div class="form-check mb-2">
             <input class="form-check-input" type="checkbox" name="items[]" value="entreprise" id="entreprise">
             <label class="form-check-label" for="entreprise">
-                Site d'entreprise — 1000 €
+                Site d'entreprise — 500 €
             </label>
         </div>
 
         <div class="form-check mb-4">
             <input class="form-check-input" type="checkbox" name="items[]" value="commercial" id="commercial">
             <label class="form-check-label" for="commercial">
-                Site commercial — 2000 €
+                Site commercial — 1000 €
             </label>
         </div>
 

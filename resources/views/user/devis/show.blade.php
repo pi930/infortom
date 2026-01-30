@@ -1,25 +1,23 @@
-@extends('layouts.user')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
+<h2>Devis #{{ $devis->id }}</h2>
 
-    <h2>Votre devis #{{ $devis->id }}</h2>
+<p><strong>Prestations :</strong> {{ implode(', ', $devis->items) }}</p>
+<p><strong>Total TTC :</strong> {{ $devis->total_ttc }} €</p>
 
-    <p><strong>Nom :</strong> {{ $devis->client_name }}</p>
-    <p><strong>Email :</strong> {{ $devis->client_email }}</p>
+@if($devis->date)
+<p><strong>Date :</strong> {{ $devis->date }}</p>
+@endif
 
-    <hr>
+@if($devis->heure)
+<p><strong>Heure :</strong> {{ $devis->heure }}</p>
+@endif
 
-    <h4>Éléments sélectionnés</h4>
-
-    <ul>
-        @foreach($devis->items as $item)
-            <li>{{ ucfirst(str_replace('_', ' ', $item)) }}</li>
-        @endforeach
-    </ul>
-
-    <h3>Total TTC : {{ $devis->total_ttc }} €</h3>
-
-</div>
+<a href="{{ route('panier.fromDevis', $devis->id) }}"
+   style="background:#4CAF50; color:white; padding:10px 20px; border-radius:5px; text-decoration:none;">
+    Ajouter au panier / Procéder au paiement
+</a>
 @endsection
+
 

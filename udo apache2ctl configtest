@@ -1,0 +1,29 @@
+[0;1;32m●[0m apache2.service - The Apache HTTP Server
+     Loaded: loaded (]8;;file://pierrard-HP-Pavilion-g6-Notebook-PC/usr/lib/systemd/system/apache2.service/usr/lib/systemd/system/apache2.service]8;;; [0;1;32menabled[0m; preset: [0;1;32menabled[0m)
+     Active: [0;1;32mactive (running)[0m since Fri 2026-01-30 08:55:54 CET; 38min ago
+       Docs: ]8;;https://httpd.apache.org/docs/2.4/https://httpd.apache.org/docs/2.4/]8;;
+    Process: 5745 ExecStart=/usr/sbin/apachectl start (code=exited, status=0/SUCCESS)
+    Process: 6490 ExecReload=/usr/sbin/apachectl graceful [0;1;31m(code=exited, status=1/FAILURE)[0m
+   Main PID: 5748 (apache2)
+      Tasks: 7 (limit: 3962)
+     Memory: 22.0M (peak: 33.3M)
+        CPU: 1.739s
+     CGroup: /system.slice/apache2.service
+             ├─[0;38;5;245m5748 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m6245 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m6246 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m6247 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m6248 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m6249 /usr/sbin/apache2 -k start[0m
+             └─[0;38;5;245m6466 /usr/sbin/apache2 -k start[0m
+
+janv. 30 09:14:16 pierrard-HP-Pavilion-g6-Notebook-PC apachectl[6080]: AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+janv. 30 09:14:16 pierrard-HP-Pavilion-g6-Notebook-PC systemd[1]: Reloaded apache2.service - The Apache HTTP Server.
+janv. 30 09:22:49 pierrard-HP-Pavilion-g6-Notebook-PC systemd[1]: Reloading apache2.service - The Apache HTTP Server...
+janv. 30 09:22:49 pierrard-HP-Pavilion-g6-Notebook-PC apachectl[6242]: AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+janv. 30 09:22:49 pierrard-HP-Pavilion-g6-Notebook-PC systemd[1]: Reloaded apache2.service - The Apache HTTP Server.
+janv. 30 09:33:33 pierrard-HP-Pavilion-g6-Notebook-PC systemd[1]: Reloading apache2.service - The Apache HTTP Server...
+janv. 30 09:33:33 pierrard-HP-Pavilion-g6-Notebook-PC apachectl[6493]: AH00526: Syntax error on line 9 of /etc/apache2/sites-enabled/default-ssl.conf:
+janv. 30 09:33:33 pierrard-HP-Pavilion-g6-Notebook-PC apachectl[6493]: Illegal override option Require
+janv. 30 09:33:33 pierrard-HP-Pavilion-g6-Notebook-PC systemd[1]: [0;1;39m[0;1;31m[0;1;39mapache2.service: Control process exited, code=exited, status=1/FAILURE[0m
+janv. 30 09:33:33 pierrard-HP-Pavilion-g6-Notebook-PC systemd[1]: [0;1;31m[0;1;39m[0;1;31mReload failed for apache2.service - The Apache HTTP Server.[0m
