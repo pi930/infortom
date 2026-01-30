@@ -8,20 +8,20 @@ RUN apt-get update && apt-get install -y \
 # Active mod_rewrite
 RUN a2enmod rewrite
 
-# Configuration Apache pour Laravel
-RUN printf "<Directory /var/www/html/public>\n\
-    AllowOverride All\n\
-    Require all granted\n\
-</Directory>\n" \
-    > /etc/apache2/conf-available/laravel.conf \
-    && a2enconf laravel
-
 # Copie du projet
 COPY . /var/www/html
 WORKDIR /var/www/html
 
 # Permissions Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache
+
+# Configuration Apache pour Laravel (après COPY)
+RUN printf "<Directory /var/www/html/public>\n\
+    AllowOverride All\n\
+    Require all granted\n\
+</Directory>\n" \
+    > /etc/apache2/conf-available/laravel.conf \
+    && a2enconf laravel
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
