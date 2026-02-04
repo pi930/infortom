@@ -78,7 +78,6 @@ class PaiementController extends Controller
         'panier_total',
         'devis_id',
     ]);
-dd($session);
 
     return redirect()->route('user.dashboard')->with('success', 'Paiement effectué avec succès.');
 }
