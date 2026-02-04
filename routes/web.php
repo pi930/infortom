@@ -142,6 +142,6 @@ Route::post('/paiement/checkout', [PaiementController::class, 'checkout'])
     ->name('paiement.checkout');
 
 Route::get('/paiement/success', [PaiementController::class, 'success'])
-    ->middleware('auth')
     ->name('paiement.success');
+
 
