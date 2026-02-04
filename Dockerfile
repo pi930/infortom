@@ -16,7 +16,7 @@ WORKDIR /var/www/html
 
 # Permissions Laravel (IMPORTANT : après le COPY)
 RUN chown -R www-data:www-data storage bootstrap/cache
-RUN chmod -R 775 storage bootstrap/cache
+RUN chmod -R 775 storage/ bootstrap/cache/
 
 # VirtualHost
 RUN printf "<VirtualHost *:80>\n\
