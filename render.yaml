@@ -20,6 +20,12 @@ services:
           name: infortom-db
           property: connectionString
 
+      # 🔥 AJOUTE TES VARIABLES STRIPE ICI
+      - key: STRIPE_KEY
+        sync: false
+      - key: STRIPE_SECRET
+        sync: false
+
 databases:
   - name: infortom-db
     plan: free
