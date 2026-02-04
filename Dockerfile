@@ -12,10 +12,11 @@ RUN a2enmod rewrite
 COPY . /var/www/html
 WORKDIR /var/www/html
 
-# Permissions Laravel
+# Permissions Laravel (IMPORTANT : après le COPY)
 RUN chown -R www-data:www-data storage bootstrap/cache
+RUN chmod -R 775 storage bootstrap/cache
 
-# Remplace le VirtualHost par défaut
+# VirtualHost
 RUN printf "<VirtualHost *:80>\n\
     DocumentRoot /var/www/html/public\n\
     <Directory /var/www/html/public>\n\
@@ -31,9 +32,6 @@ RUN composer install --no-dev --optimize-autoloader
 
 # Clé Laravel
 RUN php artisan key:generate --force || true
-
-# Migrations auto
-RUN php artisan migrate --force || true
 
 EXPOSE 80
 CMD ["apache2-foreground"]
