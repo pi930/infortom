@@ -48,11 +48,12 @@ class PanierController extends Controller
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
+        // Price IDs dans Render
         $stripeProducts = [
-            'blog'        => 'price_1SuuaGCYZgiwB9PQfSslYb5R',
-            'entreprise'  => 'price_1SuuUJCYZgiwB9PQlSUwa7mH',
-            'commercial'  => 'price_1SuuUJCYZgiwB9PQlSUwa7mH',
-            'deplacement' => 'price_1SuuiPCYZgiwB9PQ99m2TEfp',
+            'blog'        => env('STRIPE_PRICE_BLOG'),
+            'entreprise'  => env('STRIPE_PRICE_ENTREPRISE'),
+            'commercial'  => env('STRIPE_PRICE_COMMERCIAL'),
+            'deplacement' => env('STRIPE_PRICE_DEPLACEMENT'),
         ];
 
         $service = session('panier_service');
@@ -70,16 +71,20 @@ class PanierController extends Controller
             ]],
             'mode' => 'payment',
 
-            // 🔥 La seule bonne version
+            // Stripe renvoie session_id
             'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
-
             'cancel_url' => route('panier.show'),
-             'metadata' => [ 'devis_id' => session('devis_id'), 
-                ],
-            ]);
+
+            // Métadonnées Stripe → FINI les sessions Laravel
+            'metadata' => [
+                'devis_id' => session('devis_id'),
+            ],
+        ]);
 
         return redirect($session->url);
     }
+}
+
 }
 
 
