@@ -54,13 +54,11 @@ class PaiementController extends Controller
 
     $session = Session::retrieve($sessionId);
 
-    // Ici tu peux vérifier le paiement
     if ($session->payment_status !== 'paid') {
         return redirect()->route('user.dashboard')->with('error', 'Paiement non confirmé.');
     }
 
-    // Récupérer le devis lié au panier
-    $devisId = session('devis_id');
+    $devisId = $session->metadata->devis_id;
 
     if ($devisId) {
         $devis = Devis::find($devisId);
@@ -70,16 +68,8 @@ class PaiementController extends Controller
         }
     }
 
-    // Vider le panier
-    session()->forget([
-        'panier_service',
-        'panier_date',
-        'panier_heure',
-        'panier_total',
-        'devis_id',
-    ]);
-
     return redirect()->route('user.dashboard')->with('success', 'Paiement effectué avec succès.');
 }
+
 }
 

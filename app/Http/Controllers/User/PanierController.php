@@ -50,7 +50,7 @@ class PanierController extends Controller
 
         $stripeProducts = [
             'blog'        => 'price_1SuuaGCYZgiwB9PQfSslYb5R',
-            'entreprise'  => 'price_1SuuSOCYZgiwB9PQZVqimAt0',
+            'entreprise'  => 'price_1SuuUJCYZgiwB9PQlSUwa7mH',
             'commercial'  => 'price_1SuuUJCYZgiwB9PQlSUwa7mH',
             'deplacement' => 'price_1SuuiPCYZgiwB9PQ99m2TEfp',
         ];
@@ -74,7 +74,9 @@ class PanierController extends Controller
             'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
 
             'cancel_url' => route('panier.show'),
-        ]);
+             'metadata' => [ 'devis_id' => session('devis_id'), 
+                ],
+            ]);
 
         return redirect($session->url);
     }
