@@ -24,5 +24,8 @@ RUN apt-get update && apt-get install -y debian-keyring debian-archive-keyring c
 COPY Caddyfile /etc/caddy/Caddyfile
 
 EXPOSE 80
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile"]
+CMD ["/start.sh"]
+
