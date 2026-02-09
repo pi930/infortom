@@ -26,6 +26,6 @@ COPY Caddyfile /etc/caddy/Caddyfile
 EXPOSE 80
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
-
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 CMD ["/start.sh"]
 
