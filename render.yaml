@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: infortom
+    name: infortom-1
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
