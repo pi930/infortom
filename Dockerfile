@@ -1,39 +1,23 @@
-FROM php:8.3-apache
+FROM php:8.3-fpm
 
-# Extensions PHP
+# Extensions
 RUN apt-get update && apt-get install -y \
-    libzip-dev unzip sqlite3 libsqlite3-dev libpq-dev \
-    && docker-php-ext-install pdo pdo_mysql pdo_sqlite pdo_pgsql zip
-
-# Active mod_rewrite
-RUN a2enmod rewrite
-
-# Copie du projet
-COPY . /var/www/html
-WORKDIR /var/www/html
-
-# Remplace le VirtualHost par défaut
-RUN printf "<VirtualHost *:80>\n\
-    DocumentRoot /var/www/html/public\n\
-    <Directory /var/www/html/public>\n\
-        AllowOverride All\n\
-        Require all granted\n\
-    </Directory>\n\
-</VirtualHost>\n" \
-    > /etc/apache2/sites-available/000-default.conf
+    libpq-dev \
+    unzip \
+    git \
+    && docker-php-ext-install pdo pdo_pgsql
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+COPY . .
+
 RUN composer install --no-dev --optimize-autoloader
 
-# Clé Laravel
-RUN php artisan key:generate --force || true
+# IMPORTANT : NE PAS faire config:cache ici
+# IMPORTANT : NE PAS faire migrate ici
 
-# Migrations auto
-RUN php artisan migrate --force || true
-RUN chown -R www-data:www-data storage bootstrap/cache
-RUN chmod -R 777 storage bootstrap/cache
+CMD ["php-fpm"]
 
-
-EXPOSE 80
-CMD ["apache2-foreground"]
