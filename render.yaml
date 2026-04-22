@@ -4,13 +4,17 @@ services:
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
+    disk:
+      name: storage
+      mountPath: /var/www/html/storage
+      sizeGB: 1
     envVars:
       - key: APP_KEY
         sync: false
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
-        value: true
+        value: false
       - key: APP_URL
         value: https://infortom-1.onrender.com
       - key: DB_CONNECTION
@@ -19,6 +23,8 @@ services:
         fromDatabase:
           name: infortom-db-2
           property: connectionString
+      - key: DB_SSLMODE
+        value: require
       - key: STRIPE_KEY
         sync: false
       - key: STRIPE_SECRET
@@ -27,3 +33,4 @@ services:
 databases:
   - name: infortom-db-2
     plan: free
+
