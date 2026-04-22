@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
+    postgresql-client \
     && docker-php-ext-install pdo pdo_pgsql
 
 # Install Composer
