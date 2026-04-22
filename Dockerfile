@@ -21,11 +21,6 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Laravel optimizations
-RUN php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache || true
-
 # Install Caddy
 RUN apt-get update && apt-get install -y debian-keyring debian-archive-keyring curl && \
     curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg && \
