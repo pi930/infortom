@@ -1,23 +1,37 @@
 @extends('layouts.app')
 
 @section('content')
-<h2>Devis #{{ $devis->id }}</h2>
+<div class="container">
 
-<p><strong>Prestations :</strong> {{ implode(', ', $devis->items) }}</p>
-<p><strong>Total TTC :</strong> {{ $devis->total_ttc }} €</p>
+    <h2>Devis #{{ $devis->id }}</h2>
 
-@if($devis->date)
-<p><strong>Date :</strong> {{ $devis->date }}</p>
-@endif
+    <p><strong>Total TTC :</strong> {{ $devis->total_ttc }} €</p>
 
-@if($devis->heure)
-<p><strong>Heure :</strong> {{ $devis->heure }}</p>
-@endif
+    <h4>Prestations</h4>
 
-<a href="{{ route('panier.fromDevis', $devis->id) }}"
-   style="background:#4CAF50; color:white; padding:10px 20px; border-radius:5px; text-decoration:none;">
-    Ajouter au panier / Procéder au paiement
-</a>
+    @php
+    $labels = [
+        'deplacement' => 'Déplacement / Dépannage — 60 €',
+        'ssd' => 'Disque dur SSD — 60 €',
+        'carte_son' => 'Carte son — 60 €',
+        'carte_reseau' => 'Carte réseau — 60 €',
+        'blog' => 'Site vitrine / Blog — 250 €',
+        'entreprise' => 'Site d\'entreprise — 500 €',
+        'commercial' => 'Site commercial — 1000 €',
+        'active_directory' => 'Serveur Active Directory — 1000 €',
+    ];
+    @endphp
+
+    <ul>
+        @foreach($devis->items as $item)
+            <li>{{ $labels[$item] ?? $item }}</li>
+        @endforeach
+    </ul>
+
+    <a href="{{ route('user.dashboard') }}" class="btn btn-secondary mt-3">Retour</a>
+
+</div>
 @endsection
+
 
 

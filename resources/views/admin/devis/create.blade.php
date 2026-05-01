@@ -74,6 +74,15 @@
                 Site commercial — 1000 €
             </label>
         </div>
+        <h4 class="mt-4">Réseau / Active Directory</h4>
+
+<div class="form-check mb-4">
+    <input class="form-check-input" type="checkbox" name="items[]" value="active_directory" id="active_directory">
+    <label class="form-check-label" for="active_directory">
+        Mise en place serveur Active Directory — 1000 €
+    </label>
+</div>
+
 
         <button type="submit" class="btn btn-primary mt-4">Générer le devis</button>
 

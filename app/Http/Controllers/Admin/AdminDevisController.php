@@ -25,6 +25,7 @@ class AdminDevisController extends Controller
             'blog' => 250,
             'entreprise' => 500,
             'commercial' => 1000,
+            'active_directory' => 1000, 
         ];
 
         // Récupération des éléments cochés
@@ -56,5 +57,28 @@ class AdminDevisController extends Controller
     public function show(Devis $devis)
     {
         return view('admin.devis.show', compact('devis'));
+    }
+     public function index()
+{
+    $users = User::with('coordonnee')->orderBy('created_at', 'desc')->get();
+    return view('admin.users.index', compact('users'));
+}
+
+
+    public function settings()
+    {
+        return view('admin.users.settings');
+    }
+
+    public function updateSettings(Request $request)
+    {
+        $user = auth()->user();
+
+        $user->update([
+            'name'  => $request->name,
+            'email' => $request->email,
+        ]);
+
+        return back()->with('success', 'Paramètres mis à jour.');
     }
 }

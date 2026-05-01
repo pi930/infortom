@@ -49,6 +49,11 @@ public function messages()
 {
     return $this->hasMany(Message::class);
 }
+public function coordonnee()
+{
+    return $this->hasOne(\App\Models\Coordonnee::class);
+}
+
 
 
 }

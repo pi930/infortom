@@ -29,62 +29,37 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
-Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
+Route::middleware(['auth', 'isadmin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+        // Dashboard
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+            ->name('dashboard');
 
-    Route::get('/users', function () {
-        return 'Liste des utilisateurs (à faire)';
-    })->name('admin.users.index');
+        // Devis
+        Route::get('/devis/create', [AdminDevisController::class, 'create'])->name('devis.create');
+        Route::post('/devis/store', [AdminDevisController::class, 'store'])->name('devis.store');
+        Route::get('/devis/{devis}', [AdminDevisController::class, 'show'])->name('devis.show');
 
-    Route::get('/settings', function () {
-        return 'Paramètres admin (à faire)';
-    })->name('admin.settings');
+        // Rendez-vous
+        Route::get('/rendezvous', [RendezVousController::class, 'index'])->name('rendezvous.index');
+        Route::post('/rendezvous', [RendezVousController::class, 'store'])->name('rendezvous.store');
+        Route::delete('/rendezvous/{id}', [RendezVousController::class, 'destroy'])->name('rendezvous.destroy');
 
-});
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'index']) ->middleware(['auth', 'isadmin']) ->name('admin.dashboard');
-Route::middleware(['auth'])->group(function () {
+        // Messages
+        Route::get('/messages/{id}/repondre', [AdminMessageController::class, 'repondre'])->name('messages.repondre');
+        Route::post('/messages/{id}/repondre', [AdminMessageController::class, 'envoyerReponse'])->name('messages.envoyerReponse');
 
-    Route::get('/profil', [UserProfileController::class, 'profile'])->name('user.profile');
-    Route::get('/profil/edit', [UserProfileController::class, 'edit'])->name('user.edit');
-    Route::post('/profil/update', [UserProfileController::class, 'update'])->name('user.update');
+        // Utilisateurs
+        Route::get('/utilisateurs', [AdminDevisController::class, 'index'])
+    ->name('users.index');
 
-});
-Route::middleware(['auth', 'isadmin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/rendezvous', [App\Http\Controllers\Admin\RendezVousController::class, 'index'])->name('rendezvous.index');
-    Route::post('/rendezvous', [App\Http\Controllers\Admin\RendezVousController::class, 'store'])->name('rendezvous.store');
-    Route::delete('/rendezvous/{id}', [App\Http\Controllers\Admin\RendezVousController::class, 'destroy'])->name('rendezvous.destroy');
-});
-
-
-
-// ADMIN
-Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
-    Route::get('/devis/create', [AdminDevisController::class, 'create'])->name('admin.devis.create');
-    Route::post('/devis/store', [AdminDevisController::class, 'store'])->name('admin.devis.store');
-    Route::get('/devis/{devis}', [AdminDevisController::class, 'show'])->name('admin.devis.show');
-});
-
-// USER
-Route::middleware(['auth'])->group(function () {
-    Route::get('/mon-devis/{devis}', [UserDevisController::class, 'show'])->name('user.devis.show');
-});
-
-// -----------------------------
-// ADMIN (protégé par isadmin)
-// -----------------------------
-Route::middleware(['auth', 'isadmin'])->group(function () {
-
-
-    // Répondre aux messages
-    Route::get('/admin/messages/{id}/repondre', [AdminMessageController::class, 'repondre'])
-        ->name('admin.messages.repondre');
-
-    Route::post('/admin/messages/{id}/repondre', [AdminMessageController::class, 'envoyerReponse'])
-        ->name('admin.messages.envoyerReponse');
-});
+        // Paramètres
+        Route::get('/parametres', [AdminDevisController::class, 'settings'])->name('user.settings');
+        Route::post('/parametres', [AdminDevisController::class, 'updateSettings'])->name('user.settings.update');
+    });
 
 // -----------------------------
 // USER (protégé par auth)
@@ -115,7 +90,8 @@ Route::middleware(['auth'])->group(function () {
         ->name('user.rendezvous.destroy');
 
         Route::get('/panier', [PanierController::class, 'show'])->name('panier.show');
-        
+         Route::get('/user/devis/{devis}', [\App\Http\Controllers\User\UserDevisController::class, 'show'])
+        ->name('user.devis.show');
 });   
       
 Route::post('/devis/accepter', [DevisController::class, 'accepter'])

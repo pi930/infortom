@@ -47,7 +47,7 @@
         <a href="{{ route('admin.dashboard') }}">Dashboard</a>
         <a href="{{ route('admin.devis.create') }}">Créer un devis</a>
         <a href="{{ route('admin.users.index') }}">Utilisateurs</a>
-        <a href="{{ route('admin.settings') }}">Paramètres</a>
+        <a href="{{ route('admin.user.settings') }}">Paramètres</a>
 
         <hr style="border-color: rgba(255,255,255,0.2)">
 

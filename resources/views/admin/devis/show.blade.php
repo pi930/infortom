@@ -10,13 +10,26 @@
 
     <hr>
 
-    <h4>Éléments sélectionnés</h4>
+    @php
+$labels = [
+    'deplacement' => 'Déplacement / Dépannage — 60 €',
+    'ssd' => 'Disque dur SSD — 60 €',
+    'carte_son' => 'Carte son — 60 €',
+    'carte_reseau' => 'Carte réseau — 60 €',
+    'blog' => 'Site vitrine / Blog — 250 €',
+    'entreprise' => 'Site d\'entreprise — 500 €',
+    'commercial' => 'Site commercial — 1000 €',
+    'active_directory' => 'Serveur Active Directory — 1000 €',
+];
+@endphp
 
-    <ul>
-        @foreach($devis->items as $item)
-            <li>{{ ucfirst(str_replace('_', ' ', $item)) }}</li>
-        @endforeach
-    </ul>
+<h4>Prestations sélectionnées</h4>
+<ul>
+@foreach($devis->items as $item)
+    <li>{{ $labels[$item] ?? $item }}</li>
+@endforeach
+</ul>
+
 
     <h3>Total TTC : {{ $devis->total_ttc }} €</h3>
 
