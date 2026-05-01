@@ -12,7 +12,7 @@
         <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 25px;">
             <h3 style="font-size: 22px; margin-bottom: 10px;">Création de sites web</h3>
             <p style="color: #555;">
-                J’ai réalisé deux sites web complets, incluant la conception, le développement,
+                J’ai réalisé quatre sites web complets, incluant la conception, le développement,
                 l’intégration et la mise en ligne.  
                 Ces projets m’ont permis de maîtriser la structure d’un site moderne, la gestion
                 des pages, l’ergonomie et l’optimisation.
@@ -54,6 +54,17 @@ thomaservice.onrender.com
                 utilisateur et optimisation de matériel.
             </p>
         </div>
+        <!-- Réalisation de serveur Active Directory -->
+<div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 25px;">
+    <h3 style="font-size: 22px; margin-bottom: 10px;">Réalisation de serveur Active Directory</h3>
+    <p style="color: #555;">
+        Mise en place complète d’un environnement Active Directory professionnel : installation du rôle AD DS,
+        configuration DNS, création d’unités d’organisation (OU), gestion des utilisateurs et groupes,
+        jonction de postes au domaine, déploiement de stratégies GPO et sécurisation du serveur.
+        Une compétence essentielle pour les infrastructures d’entreprise.
+    </p>
+</div>
+
 
     </div>
 

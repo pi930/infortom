@@ -43,6 +43,16 @@
                 Paiement en ligne, gestion des produits, commandes et clients.
             </p>
         </div>
+        <!-- Réalisation de serveur Active Directory -->
+<div style="width: 300px; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <h3 style="font-size: 22px; margin-bottom: 10px;">Réalisation de serveur Active Directory</h3>
+    <p style="color: #555;">
+        Mise en place complète d’un serveur Active Directory professionnel : installation AD DS,
+        configuration DNS, création d’unités d’organisation, gestion des utilisateurs et groupes,
+        jonction des postes au domaine et déploiement de stratégies GPO.
+    </p>
+</div>
+
 
     </div>
 
