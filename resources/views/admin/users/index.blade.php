@@ -10,7 +10,7 @@
             <tr>
                 <th>Nom</th>
                 <th>Email</th>
-                <th>Téléphone</th>
+                <th>Coordonnées</th>
                 <th>Date de création</th>
             </tr>
         </thead>
@@ -20,7 +20,18 @@
                 <tr>
                     <td>{{ $user->name ?? '—' }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->coordonnee->telephone ?? '—' }}</td>
+
+                    <td>
+                        @if($user->coordonnee)
+                            <strong>Téléphone :</strong> {{ $user->coordonnee->telephone ?? '—' }}<br>
+                            <strong>Rue :</strong> {{ $user->coordonnee->rue ?? '—' }}<br>
+                            <strong>Code postal :</strong> {{ $user->coordonnee->code_postal ?? '—' }}<br>
+                            <strong>Ville :</strong> {{ $user->coordonnee->ville ?? '—' }}<br>
+                        @else
+                            —
+                        @endif
+                    </td>
+
                     <td>{{ $user->created_at->format('d/m/Y') }}</td>
                 </tr>
             @endforeach
@@ -29,5 +40,3 @@
 
 </div>
 @endsection
-
-

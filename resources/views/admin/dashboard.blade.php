@@ -12,15 +12,36 @@
     @foreach($messages as $msg)
         <div style="background: white; padding: 15px; margin-bottom: 15px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
 
+            {{-- Infos utilisateur --}}
             <strong>{{ $msg->name }} ({{ $msg->email }})</strong><br>
             <strong>Sujet :</strong> {{ $msg->subject }}<br>
 
-            <strong>Message :</strong>
-            <p>{{ $msg->message }}</p>
+            {{-- Message utilisateur --}}
+            <div style="margin-top:10px; padding:10px; background:#fafafa; border-left:4px solid #999; border-radius:6px;">
+                <strong>Message :</strong><br>
+                <p>{{ $msg->message }}</p>
+            </div>
 
             <small>Reçu le : {{ $msg->created_at->format('d/m/Y H:i') }}</small>
 
-            <div style="margin-top: 10px;">
+            {{-- Réponse admin --}}
+            @if($msg->reponse)
+                <div style="margin-top:15px; padding:10px; background:#e9f5ff; border-left:4px solid #007bff; border-radius:6px;">
+                    <strong>Votre réponse (Admin) :</strong><br>
+                    <p>{{ $msg->reponse }}</p>
+                </div>
+            @endif
+
+            {{-- Réponse utilisateur --}}
+            @if($msg->user_reply)
+                <div style="margin-top:15px; padding:10px; background:#f1fff3; border-left:4px solid #28a745; border-radius:6px;">
+                    <strong>Réponse de l’utilisateur :</strong><br>
+                    <p>{{ $msg->user_reply }}</p>
+                </div>
+            @endif
+
+            {{-- Bouton répondre --}}
+            <div style="margin-top: 15px;">
                 <a href="{{ route('admin.messages.repondre', $msg->id) }}" class="btn btn-primary">
                     Répondre
                 </a>
@@ -29,6 +50,7 @@
         </div>
     @endforeach
 @endif
+
 <h3 style="margin-top: 40px; margin-bottom: 20px;">Devis des utilisateurs</h3>
 
 @if($devis->isEmpty())

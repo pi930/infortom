@@ -92,13 +92,30 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/panier', [PanierController::class, 'show'])->name('panier.show');
          Route::get('/user/devis/{devis}', [\App\Http\Controllers\User\UserDevisController::class, 'show'])
         ->name('user.devis.show');
+        Route::post('/messages/{id}/reply', [\App\Http\Controllers\User\UserMessageController::class, 'reply'])
+    ->name('user.messages.reply');
+
 });   
       
 Route::post('/devis/accepter', [DevisController::class, 'accepter'])
     ->middleware('auth')
     ->name('devis.accepter');
     Route::get('/panier/from-devis/{devis}', [PanierController::class, 'fromDevis']) ->middleware('auth') ->name('panier.fromDevis');
+    // Page pour entrer l'email
+Route::get('/password/forgot', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])
+    ->name('password.request');
 
+// Envoi de l'email
+Route::post('/password/email', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+
+// Page pour entrer le nouveau mot de passe
+Route::get('/password/reset/{token}', [\App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])
+    ->name('password.reset');
+
+// Validation du nouveau mot de passe
+Route::post('/password/reset', [\App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])
+    ->name('password.update');
 
 // -----------------------------
 // PAGES PUBLIQUES

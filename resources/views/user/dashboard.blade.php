@@ -29,12 +29,50 @@
 @else
     <ul>
         @foreach($messages as $message)
-            <li>
+            <li style="margin-bottom:20px;">
+
                 <strong>{{ $message->subject }}</strong><br>
                 {{ $message->message }}<br>
 
+                {{-- Réponse admin --}}
                 @if($message->reponse)
-                    <em>Réponse de l’admin : {{ $message->reponse }}</em>
+                    <div style="margin-top:10px; padding:10px; background:#eef5ff; border-left:4px solid #3f51b5;">
+                        <strong>Réponse de l’admin :</strong><br>
+                        {{ $message->reponse }}
+                    </div>
+
+                    {{-- Bouton pour afficher le formulaire --}}
+                    <button onclick="toggleReplyForm({{ $message->id }})"
+                            style="margin-top:10px; padding:6px 12px; background:#3f51b5; color:white; border:none; border-radius:5px; cursor:pointer;">
+                        Répondre
+                    </button>
+
+                    {{-- Formulaire caché --}}
+                    <form id="reply-form-{{ $message->id }}"
+                          action="{{ route('user.messages.reply', $message->id) }}"
+                          method="POST"
+                          style="display:none; margin-top:15px; border:1px solid #ddd; padding:15px; border-radius:8px; background:#f9f9f9;">
+                        
+                        @csrf
+
+                        <label style="font-weight:bold;">Votre réponse :</label>
+                        <textarea name="reply"
+                                  required
+                                  style="width:100%; height:90px; padding:10px; margin-top:5px; border-radius:6px; border:1px solid #ccc;"></textarea>
+
+                        <button type="submit"
+                                style="margin-top:10px; padding:8px 15px; background:#28a745; color:white; border:none; border-radius:5px;">
+                            Envoyer la réponse
+                        </button>
+                    </form>
+                @endif
+
+                {{-- Réponse utilisateur (si elle existe) --}}
+                @if($message->user_reply)
+                    <div style="margin-top:10px; padding:10px; background:#e8f5e9; border-left:4px solid #28a745;">
+                        <strong>Votre réponse :</strong><br>
+                        {{ $message->user_reply }}
+                    </div>
                 @endif
 
                 <hr>
@@ -42,7 +80,6 @@
         @endforeach
     </ul>
 @endif
-
 
 
 {{-- ========================= --}}
@@ -76,6 +113,11 @@
 {{-- ========================= --}}
 {{-- SECTION : RENDEZ-VOUS     --}}
 {{-- ========================= --}}
+@if(!$devisRecu)
+    <p style="color:#b71c1c; font-weight:bold;">
+        Vous devez d'abord recevoir un devis avant de pouvoir réserver un rendez-vous.
+    </p>
+@else
 
 <h3 style="margin-top: 40px;">Votre rendez-vous</h3>
 
@@ -143,7 +185,14 @@
 
         </div>
     @endif
-
 @endif
+@endif
+<script>
+function toggleReplyForm(id) {
+    const form = document.getElementById('reply-form-' + id);
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+
 
 @endsection

@@ -22,6 +22,7 @@ class UserDashboardController extends Controller
         $endOfWeek   = $baseDate->copy()->endOfWeek();
 
         // Génération des propositions automatiques
+        $devisRecu = $user->devis()->exists();
         $propositions = $this->generatePropositions($startOfWeek);
 
         // Rendez-vous de l'utilisateur (basé sur son téléphone)
@@ -30,14 +31,16 @@ class UserDashboardController extends Controller
 
 
         return view('user.dashboard', [
-            'devis'        => $user->devis,
-            'messages'     => $user->messages,
-            'propositions' => $propositions,
-            'myRdv'        => $myRdv,
-            'startOfWeek'  => $startOfWeek,
-            'endOfWeek'    => $endOfWeek,
-            'weekOffset'   => $weekOffset,
-        ]);
+    'devis'        => $user->devis,
+    'messages'     => $user->messages,
+    'propositions' => $propositions,
+    'myRdv'        => $myRdv,
+    'startOfWeek'  => $startOfWeek,
+    'endOfWeek'    => $endOfWeek,
+    'weekOffset'   => $weekOffset,
+    'devisRecu'    => $devisRecu, // ← ajouté ici
+]);
+
     }
 
  private function generatePropositions(Carbon $startOfWeek)

@@ -37,10 +37,17 @@
             </p>
             <div style="margin-bottom: 30px;">
 
-            <a href="{{ route('contact') }}"
-               style="padding: 12px 25px; background: #007bff; color: white; border-radius: 6px; text-decoration: none; font-size: 18px;">
-                Demander un devis
-            </a>
+            @auth
+    <a href="{{ route('contact') }}"
+       style="padding: 12px 25px; background: #007bff; color: white; border-radius: 6px; text-decoration: none; font-size: 18px;">
+        Demander un devis
+    </a>
+@else
+    <a href="{{ route('login') }}"
+       style="padding: 12px 25px; background: #ff5722; color: white; border-radius: 6px; text-decoration: none; font-size: 18px;">
+        Connectez-vous pour demander un devis
+    </a>
+@endauth
         </div>
     </section>
 
