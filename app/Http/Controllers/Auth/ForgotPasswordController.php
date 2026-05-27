@@ -31,4 +31,3 @@ class ForgotPasswordController extends Controller
             : back()->withErrors(['email' => 'Impossible d\'envoyer le lien à cette adresse.']);
     }
 }
-

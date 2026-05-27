@@ -53,6 +53,11 @@ public function coordonnee()
 {
     return $this->hasOne(\App\Models\Coordonnee::class);
 }
+public function sendPasswordResetNotification($token)
+{
+    $this->notify(new \App\Notifications\ResetPasswordNotification($token));
+}
+
 
 
 
