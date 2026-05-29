@@ -116,6 +116,10 @@ Route::get('/password/reset/{token}', [\App\Http\Controllers\Auth\ResetPasswordC
 // Validation du nouveau mot de passe
 Route::post('/password/reset', [\App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])
     ->name('password.update');
+    Route::get('/debug-mail', function () {
+    return env('MAIL_HOST');
+});
+
 
 // -----------------------------
 // PAGES PUBLIQUES
