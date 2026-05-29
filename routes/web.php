@@ -17,6 +17,7 @@ use App\Http\Controllers\User\PanierController;
 use App\Http\Controllers\DevisController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use Illuminate\Support\Facades\Mail;
 
 
 // -----------------------------
@@ -118,6 +119,15 @@ Route::post('/password/reset', [\App\Http\Controllers\Auth\ResetPasswordControll
     ->name('password.update');
     Route::get('/debug-mail', function () {
     return env('MAIL_HOST');
+});
+
+Route::get('/test-mail', function () {
+    Mail::raw('Test HTTP → Brevo', function ($m) {
+        $m->to('t.pierrard.131.198@outlook.fr')
+          ->subject('Test HTTP Brevo');
+    });
+
+    return 'OK';
 });
 
 
