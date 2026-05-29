@@ -129,6 +129,10 @@ Route::get('/test-mail', function () {
 
     return 'OK';
 });
+Route::get('/whoami', function () {
+    return get_class(auth()->getProvider()->createModel());
+});
+
 
 
 // -----------------------------
