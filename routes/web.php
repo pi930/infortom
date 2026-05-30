@@ -138,6 +138,17 @@ Route::get('/test-mail', function () {
     });
     return 'Email envoyé';
 });
+Route::get('/debug-mail', function () {
+    return [
+        'MAIL_MAILER' => config('mail.default'),
+        'MAIL_HOST' => config('mail.mailers.smtp.host'),
+        'MAIL_PORT' => config('mail.mailers.smtp.port'),
+        'MAIL_USERNAME' => config('mail.mailers.smtp.username'),
+        'MAIL_PASSWORD_END' => substr(config('mail.mailers.smtp.password'), -6),
+        'FROM' => config('mail.from'),
+    ];
+});
+
 
 
 
