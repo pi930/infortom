@@ -134,11 +134,16 @@ Route::get('/test-mail', function () {
 Route::get('/whoami', function () {
     return get_class(auth()->getProvider()->createModel());
 });
+
 Route::get('/test-mail', function () {
-    \Mail::raw('Test SMTP OK', function ($m) {
-        $m->to('tonadresseperso@gmail.com')->subject('Test SMTP Brevo');
-    });
-    return 'Email envoyé';
+    try {
+        Mail::raw('Test SMTP OK', function ($m) {
+            $m->to('thomaspierrard1980@gmail.com')->subject('Test SMTP Brevo');
+        });
+        return 'Email envoyé';
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
 });
 Route::get('/debug-mail', function () {
     return [
