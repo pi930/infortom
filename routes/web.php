@@ -9,8 +9,10 @@ use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\Admin\AdminMessageController;
 use App\Http\Controllers\Admin\AdminDevisController;
 use App\Http\Controllers\User\UserDevisController;
+use App\Http\Controllers\User\UserRendezVousController;
 use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\Admin\RendezVousController;
+use App\Http\Controllers\User\UserMessageController;
+use App\Http\Controllers\Admin\RendezVousController as AdminRendezVousController;
 use App\Models\Devis;
 use App\Models\User;
 use App\Http\Controllers\User\PanierController;
@@ -148,6 +150,41 @@ Route::get('/debug-mail', function () {
         'FROM' => config('mail.from'),
     ];
 });
+Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
+
+    // Tableau de bord utilisateur
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])
+        ->name('dashboard');
+
+    // Rendez-vous
+    Route::get('/rendezvous', [UserRendezVousController::class, 'index'])
+        ->name('rendezvous.index');
+
+    Route::post('/rendezvous/select', [UserRendezVousController::class, 'select'])
+        ->name('rendezvous.select');
+
+    Route::delete('/rendezvous/{id}', [UserRendezVousController::class, 'destroy'])
+        ->name('rendezvous.delete');
+
+    // Messages utilisateur
+    Route::get('/messages', [UserMessageController::class, 'index'])
+        ->name('messages.index');
+
+    Route::get('/messages/{message}', [UserMessageController::class, 'show'])
+        ->name('messages.show');
+
+    Route::post('/messages/{id}/reply', [UserMessageController::class, 'reply'])
+        ->name('messages.reply');
+
+    // Devis utilisateur
+    Route::get('/devis/{devis}', [UserDevisController::class, 'show'])
+        ->name('devis.show');
+    Route::get('/devis', function () {
+    return view('user.devis.index');
+})->name('devis.index');
+    
+});
+
 
 
 
@@ -172,4 +209,68 @@ Route::post('/paiement/checkout', [PaiementController::class, 'checkout'])
 Route::get('/paiement/success', [PaiementController::class, 'success'])
     ->middleware('auth')
     ->name('paiement.success');
+    
+    Route::middleware(['auth', 'isadmin'])->prefix('admin')->name('admin.')->group(function () {
+
+    // Tableau de bord admin
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+        ->name('dashboard');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Messages Admin
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/messages', [AdminMessageController::class, 'index'])
+        ->name('messages.index');
+
+    Route::get('/messages/{id}/repondre', [AdminMessageController::class, 'repondre'])
+        ->name('messages.repondre');
+
+    Route::post('/messages/{id}/envoyer', [AdminMessageController::class, 'envoyerReponse'])
+        ->name('messages.envoyer');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Devis Admin
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/devis/create', [AdminDevisController::class, 'create'])
+        ->name('devis.create');
+
+    Route::post('/devis/store', [AdminDevisController::class, 'store'])
+        ->name('devis.store');
+
+    Route::get('/devis/{devis}', [AdminDevisController::class, 'show'])
+        ->name('devis.show');
+
+    Route::get('/users', [AdminDevisController::class, 'index'])
+        ->name('users.index');
+
+    Route::get('/settings', [AdminDevisController::class, 'settings'])
+        ->name('settings');
+
+    Route::post('/settings/update', [AdminDevisController::class, 'updateSettings'])
+        ->name('settings.update');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rendez-vous Admin
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/rendezvous', [AdminRendezVousController::class, 'index'])
+        ->name('rendezvous.index');
+
+    Route::post('/rendezvous/store', [AdminRendezVousController::class, 'store'])
+        ->name('rendezvous.store');
+
+    Route::delete('/rendezvous/{id}', [AdminRendezVousController::class, 'destroy'])
+        ->name('rendezvous.destroy');
+
+});
 

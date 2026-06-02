@@ -26,7 +26,11 @@ class AdminDevisController extends Controller
             'entreprise' => 500,
             'commercial' => 1000,
             'active_directory' => 1000, 
-        ];
+        
+        'windows_server_2025' => 1200,
+    'hebergement' => 20,
+    'email' => 5,
+    ];
 
         // Récupération des éléments cochés
         $selected = $request->items ?? [];

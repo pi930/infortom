@@ -12,7 +12,7 @@ class AdminMessageController extends Controller
     public function index()
     {
         $messages = Message::latest()->get();
-        return view('admin.dashboard', compact('messages'));
+        return view('admin.messages.index', compact('messages'));
     }
 
     // Formulaire pour répondre à un message
@@ -34,8 +34,8 @@ class AdminMessageController extends Controller
         // Enregistrer la réponse
         $message->reponse = $request->reponse;
         $message->save();
+        return view('admin.messages.repondre', compact('message'));
 
-        return redirect()->route('admin.dashboard')->with('success', 'Réponse envoyée');
     }
 }
 

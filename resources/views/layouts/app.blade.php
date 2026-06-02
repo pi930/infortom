@@ -69,25 +69,29 @@
     <h1>Infortom</h1>
 
     <nav>
-        <a href="{{ route('panier.show') }}">
-    Panier 
-    @if(session('panier_total'))
-        ({{ session('panier_total') }} €)
-    @endif
-</a>
+    <a href="{{ route('user.devis.index') }}">📄 Devis</a>
+    <a href="{{ route('user.rendezvous.index') }}">📅 Rendez-vous</a>
+    <a href="{{ route('user.messages.index') }}">💬 Messages</a>
 
-        <a href="{{ route('home') }}">Accueil</a>
-        <a href="{{ route('services') }}">Services</a>
-        <a href="{{ route('competences') }}">Compétences</a>
-        <a href="{{ route('contact') }}">Contact</a>
+    <a href="{{ route('panier.show') }}">
+        Panier 
+        @if(session('panier_total'))
+            ({{ session('panier_total') }} €)
+        @endif
+    </a>
 
-        @auth
-        <form method="POST" action="{{ route('logout') }}" style="display:inline;">
-            @csrf
-            <button type="submit" class="logout-btn">Déconnexion</button>
-        </form>
-        @endauth
-    </nav>
+    <a href="{{ route('home') }}">Accueil</a>
+    <a href="{{ route('services') }}">Services</a>
+    <a href="{{ route('competences') }}">Compétences</a>
+    <a href="{{ route('contact') }}">Contact</a>
+
+    @auth
+    <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+        @csrf
+        <button type="submit" class="logout-btn">Déconnexion</button>
+    </form>
+    @endauth
+</nav>
 </header>
 
 <main>

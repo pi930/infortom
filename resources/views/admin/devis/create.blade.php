@@ -82,6 +82,29 @@
         Mise en place serveur Active Directory — 1000 €
     </label>
 </div>
+<h4 class="mt-4">Logiciels</h4>
+
+<div class="form-check mb-2">
+    <input class="form-check-input" type="checkbox" name="items[]" value="windows_server_2025" id="windows_server_2025">
+    <label class="form-check-label" for="windows_server_2025">
+        Windows Server 2025 — 1200 €
+    </label>
+</div>
+
+<div class="form-check mb-2">
+    <input class="form-check-input" type="checkbox" name="items[]" value="hebergement" id="hebergement">
+    <label class="form-check-label" for="hebergement">
+        Hébergement — 20 €
+    </label>
+</div>
+
+<div class="form-check mb-4">
+    <input class="form-check-input" type="checkbox" name="items[]" value="email" id="email">
+    <label class="form-check-label" for="email">
+        Email — 5 €
+    </label>
+</div>
+
 
 
         <button type="submit" class="btn btn-primary mt-4">Générer le devis</button>
