@@ -32,6 +32,16 @@ $labels = [
 
 
     <h3>Total TTC : {{ $devis->total_ttc }} €</h3>
+<p><strong>Total HT :</strong> {{ $devis->total_ht }} €</p>
+<p><strong>TVA (20%) :</strong> {{ $devis->tva }} €</p>
+<p><strong>Total TTC :</strong> {{ $devis->total_ttc }} €</p>
+
+@if($devis->paiement_type === 'acompte')
+    <p style="color:orange; font-weight:bold;">
+        Acompte payé : 200 €<br>
+        Reste à payer : {{ $devis->total_ttc - 200 }} €
+    </p>
+@endif
 
 </div>
 @endsection

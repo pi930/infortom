@@ -9,12 +9,16 @@ use App\Models\User;
 class Devis extends Model
 {
     use HasFactory;
-
-    protected $fillable = [
+     protected $fillable = [
     'client_name',
     'client_email',
     'items',
+    'total_ht',
+    'tva',
     'total_ttc',
+    'acompte_possible',
+    'paiement_type',
+    'paiement_date',
     'user_id',
     'date',
     'heure',

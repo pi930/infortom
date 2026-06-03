@@ -207,7 +207,18 @@ Route::get('/competences', [HomeController::class, 'competences'])->name('compet
 Route::middleware(['auth'])->group(function () {
     Route::get('/contact', [ContactController::class, 'index'])->name('contact');
     Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+    Route::get('/paiement/total/{devis}', [PaiementController::class, 'checkoutTotal'])->name('paiement.total');
+Route::get('/paiement/acompte/{devis}', [PaiementController::class, 'checkoutAcompte'])->name('paiement.acompte');
+;
 });
+Route::get('/paiement/reste/{devis}', [PaiementController::class, 'checkoutReste'])
+    ->middleware('auth')
+    ->name('paiement.reste');
+
+Route::get('/admin/paiements', [AdminPaiementController::class, 'index'])
+    ->middleware('auth')
+    ->name('admin.paiements.index');
+
 
 Route::post('/paiement/checkout', [PaiementController::class, 'checkout'])
     ->middleware('auth')

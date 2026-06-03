@@ -35,25 +35,41 @@ class AdminDevisController extends Controller
         // Récupération des éléments cochés
         $selected = $request->items ?? [];
 
-        // Calcul du total
-        $total = 0;
-        foreach ($selected as $item) {
-            if (isset($prices[$item])) {
-                $total += $prices[$item];
-            }
-        }
+        
+        // Calcul du total HT
+$total_ht = 0;
+foreach ($selected as $item) {
+    if (isset($prices[$item])) {
+        $total_ht += $prices[$item];
+    }
+}
+
+// TVA 20 %
+$tva = $total_ht * 0.20;
+
+// Total TTC
+$total_ttc = $total_ht + $tva;
+
+// Déterminer si acompte possible
+$acompte_possible = $total_ht > 500;
+
+        
 
         // Trouver l'utilisateur correspondant à l'email
         $user = User::where('email', $request->client_email)->first();
 
         // Création du devis
-        $devis = Devis::create([
-            'client_name' => $request->client_name,
-            'client_email' => $request->client_email,
-            'items' => $selected,
-            'total_ttc' => $total,
-            'user_id' => $user->id ?? null,
-        ]);
+       $devis = Devis::create([
+    'client_name' => $request->client_name,
+    'client_email' => $request->client_email,
+    'items' => $selected,
+    'total_ht' => $total_ht,
+    'tva' => $tva,
+    'total_ttc' => $total_ttc,
+    'acompte_possible' => $acompte_possible,
+    'user_id' => $user->id ?? null,
+]);
+
 
         return redirect()->route('admin.devis.show', $devis->id);
     }
