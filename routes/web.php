@@ -20,6 +20,8 @@ use App\Http\Controllers\DevisController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\SupportController;
+
 
 
 // -----------------------------
@@ -214,6 +216,9 @@ Route::post('/paiement/checkout', [PaiementController::class, 'checkout'])
 Route::get('/paiement/success', [PaiementController::class, 'success'])
     ->middleware('auth')
     ->name('paiement.success');
+    Route::get('/support', [SupportController::class, 'index'])->name('support.form');
+Route::post('/support', [SupportController::class, 'send'])->name('support.send');
+
     
     Route::middleware(['auth', 'isadmin'])->prefix('admin')->name('admin.')->group(function () {
 
