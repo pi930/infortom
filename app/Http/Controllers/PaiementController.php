@@ -67,18 +67,14 @@ public function checkoutAcompte(Devis $devis)
 
 public function checkoutReste(Devis $devis)
 {
-    // Vérifier que l'acompte a été payé
     if ($devis->paiement_type !== 'acompte') {
         return back()->with('error', 'Le reste n’est payable qu’après acompte.');
     }
 
-    // Calcul du reste à payer
     $reste = ($devis->total_ttc - 200) * 100;
 
-    // Clé Stripe
     \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
-    // Création de la session Stripe
     $session = \Stripe\Checkout\Session::create([
         'payment_method_types' => ['card'],
         'line_items' => [[
@@ -96,8 +92,15 @@ public function checkoutReste(Devis $devis)
         'cancel_url' => route('paiement.cancel'),
     ]);
 
+    // 🔥 IMPORTANT : enregistrer le paiement du reste
+    session([
+        'devis_id' => $devis->id,
+        'paiement_type' => 'reste'
+    ]);
+
     return redirect($session->url);
 }
+
 
 
     public function success()

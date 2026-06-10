@@ -253,6 +253,14 @@ Route::get('/admin/paiements', [AdminPaiementController::class, 'index'])
 Route::post('/paiement/checkout', [PaiementController::class, 'checkout'])
     ->middleware('auth')
     ->name('paiement.checkout');
+    // Paiement : annulation
+Route::get('/paiement/cancel', [App\Http\Controllers\PaiementController::class, 'cancel'])
+    ->name('paiement.cancel');
+
+// Paiement : succès
+Route::get('/paiement/success', [App\Http\Controllers\PaiementController::class, 'success'])
+    ->name('paiement.success');
+
 
 Route::get('/paiement/success', [PaiementController::class, 'success'])
     ->middleware('auth')

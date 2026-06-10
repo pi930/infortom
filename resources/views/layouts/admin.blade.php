@@ -41,25 +41,29 @@
 
 <body>
 
-    <div class="sidebar">
-        <h4 class="text-center mb-4">Admin Infortom</h4>
+<div class="sidebar">
+    <h4 class="text-center mb-4">Admin Infortom</h4>
 
-        <a href="{{ route('admin.dashboard') }}">📊 Tableau de bord</a>
-        <a href="{{ route('admin.devis.create') }}">📝 Créer un devis</a>
-        <a href="{{ route('admin.devis.index') }}">📄 Liste des devis</a>
-        <a href="{{ route('admin.messages.index') }}">✉️ Messages</a>
-        <a href="{{ route('admin.paiements.index') }}">💳 Paiements</a>
-        <a href="{{ route('admin.rendezvous.index') }}">📅 Rendez-vous</a>
-        <a href="{{ route('admin.users.settings') }}">⚙️ Paramètres</a>
+    <a href="{{ route('admin.dashboard') }}">📊 Tableau de bord</a>
+    <a href="{{ route('admin.devis.create') }}">📝 Créer un devis</a>
+    <a href="{{ route('admin.devis.index') }}">📄 Liste des devis</a>
+    <a href="{{ route('admin.messages.index') }}">✉️ Messages</a>
+    <a href="{{ route('admin.paiements.index') }}">💳 Paiements</a>
+    <a href="{{ route('admin.rendezvous.index') }}">📅 Rendez-vous</a>
 
-        <!-- 🔐 Bouton Déconnexion -->
-        <form action="{{ route('logout') }}" method="POST" class="mt-4 text-center">
-            @csrf
-            <button class="btn btn-danger w-75">
-                🔓 Déconnexion
-            </button>
-        </form>
-    </div>
+    <!-- 🔥 Nouveau lien Utilisateurs -->
+    <a href="{{ route('admin.users.index') }}">👥 Utilisateurs</a>
+
+    <a href="{{ route('admin.users.settings') }}">⚙️ Paramètres</a>
+
+    <form action="{{ route('logout') }}" method="POST" class="mt-4 text-center">
+        @csrf
+        <button class="btn btn-danger w-75">
+            🔓 Déconnexion
+        </button>
+    </form>
+</div>
+
 
     <div class="content">
         <h2 class="mb-4">@yield('title')</h2>
