@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('title', 'Paramètres du compte')
+
 @section('content')
 <div class="container">
 
@@ -25,4 +27,5 @@
 
 </div>
 @endsection
+
 

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 
@@ -92,6 +92,14 @@
         </tbody>
     </table>
 @endif
+<tr>
+    <td>
+        <a href="{{ route('admin.paiements.index') }}" class="btn btn-warning">
+            Gestion des paiements
+        </a>
+    </td>
+</tr>
+
 
 <li><a href="{{ route('admin.devis.create') }}">Créer un devis</a></li>
 <tr>

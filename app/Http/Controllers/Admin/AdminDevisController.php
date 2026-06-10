@@ -80,8 +80,8 @@ $acompte_possible = $total_ht > 500;
     }
      public function index()
 {
-    $users = User::with('coordonnee')->orderBy('created_at', 'desc')->get();
-    return view('admin.users.index', compact('users'));
+    $devis = Devis::orderBy('created_at', 'desc')->get();
+    return view('admin.devis.index', compact('devis'));
 }
 
 

@@ -28,7 +28,12 @@ class Devis extends Model
 
     protected $casts = [
         'items' => 'array',
+        'paiement_date' => 'datetime',
     ];
+
+
+
+
 
     public function user()
     {
