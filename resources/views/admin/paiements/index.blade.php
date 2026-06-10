@@ -24,13 +24,21 @@
                     <td style="padding:10px;">#{{ $p->id }}</td>
                     <td style="padding:10px;">{{ $p->client_name }}<br><small>{{ $p->client_email }}</small></td>
                     <td style="padding:10px;">{{ $p->total_ttc }} €</td>
-                    <td style="padding:10px;">
-                        @if($p->paiement_type === 'total')
-                            <span style="color:green; font-weight:bold;">Total</span>
-                        @else
-                            <span style="color:orange; font-weight:bold;">Acompte</span>
-                        @endif
-                    </td>
+                   <td style="padding:10px;">
+    @if($p->paiement_type === 'total')
+        <span style="color:green; font-weight:bold;">Total</span>
+
+    @elseif($p->paiement_type === 'acompte')
+        <span style="color:orange; font-weight:bold;">Acompte</span>
+
+    @elseif($p->paiement_type === 'reste')
+        <span style="color:blue; font-weight:bold;">Reste payé</span>
+
+    @else
+        <span style="color:gray;">Inconnu</span>
+    @endif
+</td>
+
                     <td style="padding:10px;">{{ $p->paiement_date->format('d/m/Y H:i') }}</td>
                     <td style="padding:10px;">
                         <a href="{{ route('admin.devis.show', $p->id) }}" 
