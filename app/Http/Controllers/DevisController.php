@@ -14,6 +14,18 @@ class DevisController extends Controller
             return redirect()->route('user.dashboard')->with('error', 'Aucun devis en cours.');
         }
 
+        // Détection automatique du type de service
+        $service = session('panier_service');
+        $service_type = null;
+
+        if (in_array($service, ['hebergement', 'email', 'blog'])) {
+            $service_type = 'site';
+        }
+
+        if (in_array($service, ['active_directory', 'windows_server_2025'])) {
+            $service_type = 'ad';
+        }
+
         // Enregistrer le devis
         $devis = Devis::create([
             'user_id'      => auth()->id(),
@@ -24,6 +36,9 @@ class DevisController extends Controller
             'date'         => session('panier_date'),
             'heure'        => session('panier_heure'),
             'statut'       => 'accepté',
+
+            // ⭐⭐ LIGNE CRUCIALE ⭐⭐
+            'service_type' => $service_type,
         ]);
 
         // Vider le panier
@@ -35,7 +50,5 @@ class DevisController extends Controller
         ]);
 
         return redirect()->route('user.dashboard')->with('success', 'Devis accepté avec succès.');
-
+    }
 }
-}
-
