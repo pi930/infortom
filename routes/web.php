@@ -15,6 +15,8 @@ use App\Http\Controllers\User\UserMessageController;
 use App\Http\Controllers\Admin\AdminPaiementController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\RendezVousController as AdminRendezVousController;
+use App\Http\Controllers\Admin\AdminFactureController;
+use App\Http\Controllers\Admin\AdminServiceConfigController;
 use App\Models\Devis;
 use App\Models\User;
 use App\Http\Controllers\User\PanierController;
@@ -92,8 +94,20 @@ Route::post('/settings/update', [App\Http\Controllers\Admin\AdminUserController:
 // LISTE DES UTILISATEURS
 Route::get('/users', [App\Http\Controllers\Admin\AdminUserController::class, 'index'])
     ->name('admin.users.index');
+    Route::get('/facture/{devis}', [AdminFactureController::class, 'show'])
+    ->name('admin.facture.show');
+    Route::get('/facture/download/{devis}', [AdminFactureController::class, 'download'])
+    ->name('admin.facture.download');
+    // Formulaire de configuration du service
+    
+    Route::get('/service-config/{devis}', [AdminServiceConfigController::class, 'form'])
+        ->name('admin.service.config.form');
 
+    Route::post('/service-config/{devis}', [AdminServiceConfigController::class, 'store'])
+        ->name('admin.service.config.store');
+    
 });
+
 
 
 // -----------------------------
@@ -104,11 +118,28 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/dashboard', [UserDashboardController::class, 'index'])
         ->name('user.dashboard');
 });
-/*
-|--------------------------------------------------------------------------
-| Routes Utilisateur
-|--------------------------------------------------------------------------
-*/
+Route::view('/confidentialite', 'confidentialite');
+Route::view('/mentions-legales', 'mentions-legales');
+Route::get('/paiement/total/{devis}', [PaiementController::class, 'checkoutTotal'])
+    ->middleware('auth')
+    ->name('paiement.total');
+
+Route::get('/paiement/acompte/{devis}', [PaiementController::class, 'checkoutAcompte'])
+    ->middleware('auth')
+    ->name('paiement.acompte');
+
+Route::get('/paiement/reste/{devis}', [PaiementController::class, 'checkoutReste'])
+    ->middleware('auth')
+    ->name('paiement.reste');
+
+Route::get('/paiement/cancel', [PaiementController::class, 'cancel'])
+    ->name('paiement.cancel');
+
+Route::get('/paiement/success', [PaiementController::class, 'success'])
+    ->name('paiement.success');
+
+Route::get('/support', [SupportController::class, 'index'])->name('support.form');
+Route::post('/support', [SupportController::class, 'send'])->name('support.send');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -226,6 +257,7 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
 
 
 
+
 // -----------------------------
 // PAGES PUBLIQUES
 // -----------------------------
@@ -241,35 +273,10 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/paiement/acompte/{devis}', [PaiementController::class, 'checkoutAcompte'])->name('paiement.acompte');
 ;
 });
-Route::get('/paiement/reste/{devis}', [PaiementController::class, 'checkoutReste'])
-    ->middleware('auth')
-    ->name('paiement.reste');
-
-Route::get('/admin/paiements', [AdminPaiementController::class, 'index'])
-    ->middleware('auth')
-    ->name('admin.paiements.index');
 
 
-Route::post('/paiement/checkout', [PaiementController::class, 'checkout'])
-    ->middleware('auth')
-    ->name('paiement.checkout');
-    // Paiement : annulation
-Route::get('/paiement/cancel', [App\Http\Controllers\PaiementController::class, 'cancel'])
-    ->name('paiement.cancel');
-
-// Paiement : succès
-Route::get('/paiement/success', [App\Http\Controllers\PaiementController::class, 'success'])
-    ->name('paiement.success');
 
 
-Route::get('/paiement/success', [PaiementController::class, 'success'])
-    ->middleware('auth')
-    ->name('paiement.success');
-    Route::get('/support', [SupportController::class, 'index'])->name('support.form');
-Route::post('/support', [SupportController::class, 'send'])->name('support.send');
-Route::get('/admin/paiements', [\App\Http\Controllers\Admin\AdminPaiementController::class, 'index'])
-    ->middleware(['auth', 'isadmin'])
-    ->name('admin.paiements.index');
     
 
 

@@ -37,6 +37,7 @@ class AdminDevisController extends Controller
 
         
         // Calcul du total HT
+// Calcul du total HT
 $total_ht = 0;
 foreach ($selected as $item) {
     if (isset($prices[$item])) {
@@ -44,11 +45,11 @@ foreach ($selected as $item) {
     }
 }
 
-// TVA 20 %
-$tva = $total_ht * 0.20;
+// TVA supprimée
+$tva = 0;
 
-// Total TTC
-$total_ttc = $total_ht + $tva;
+// Total TTC = HT
+$total_ttc = $total_ht;
 
 // Déterminer si acompte possible
 $acompte_possible = $total_ht > 500;

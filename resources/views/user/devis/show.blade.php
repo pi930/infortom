@@ -47,7 +47,25 @@
         Payer le reste ({{ $devis->total_ttc - 200 }} €)
     </a>
 @endif
+{{-- Icône de téléchargement de facture si paiement effectué --}}
+@php
+    $filename = "facture_{$devis->paiement_type}_devis_{$devis->id}.pdf";
+@endphp
 
+@if(in_array($devis->paiement_type, ['total', 'acompte', 'reste']) 
+    && Storage::exists("factures/$filename"))
+    
+    <a href="{{ asset('storage/factures/'.$filename) }}" 
+       style="display:inline-flex; align-items:center; margin-top:20px; 
+              color:#007bff; font-weight:bold; text-decoration:none;">
+        
+        <svg style="width:22px; margin-right:8px;" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M.5 9.9a.5.5 0 0 1 .5-.5h4v-8a.5.5 0 0 1 1 0v8h4a.5.5 0 0 1 .354.854l-4 4a.5.5 0 0 1-.708 0l-4-4A.5.5 0 0 1 .5 9.9z"/>
+        </svg>
+
+        Télécharger la facture
+    </a>
+@endif
 
     <p><strong>Date :</strong> {{ $devis->created_at->format('d/m/Y H:i') }}</p>
 

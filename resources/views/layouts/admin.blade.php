@@ -55,6 +55,8 @@
     <a href="{{ route('admin.users.index') }}">👥 Utilisateurs</a>
 
     <a href="{{ route('admin.users.settings') }}">⚙️ Paramètres</a>
+<a href="{{ route('admin.service.config.form', 1) }}">🛠️ Configurations services</a>
+
 
     <form action="{{ route('logout') }}" method="POST" class="mt-4 text-center">
         @csrf
