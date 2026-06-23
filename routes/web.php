@@ -17,7 +17,6 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\RendezVousController as AdminRendezVousController;
 use App\Http\Controllers\Admin\AdminFactureController;
 use App\Http\Controllers\Admin\AdminServiceConfigController;
-use App\Http\Controllers\User\PanierController;
 use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\DevisController;
 use App\Http\Controllers\PaiementController;
@@ -84,9 +83,6 @@ Route::post('/devis/accepter', [DevisController::class, 'accepter'])
     ->middleware('auth')
     ->name('devis.accepter');
 
-Route::get('/panier/from-devis/{devis}', [PanierController::class, 'fromDevis'])
-    ->middleware('auth')
-    ->name('panier.fromDevis');
 
 // --------------------------------------------------
 // RESET PASSWORD
