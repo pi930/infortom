@@ -14,8 +14,13 @@ class AdminServiceConfigController extends Controller
     public function form(Devis $devis)
 {
     $service = $devis->service_type;
-    return view('admin.service.config', compact('devis', 'service'));
+
+    // Charger la config existante si elle existe
+    $config = ServiceConfig::where('devis_id', $devis->id)->first();
+
+    return view('admin.service.config', compact('devis', 'service', 'config'));
 }
+
 public function store(Request $request, Devis $devis)
 
     {
