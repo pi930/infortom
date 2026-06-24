@@ -70,7 +70,7 @@
                             Voir la facture
                         </a>
                         <br>
-                        <a href="{{ route('admin.service.config.form', $p->id) }}">
+                        <a href="{{ route('admin.service.config.form', $p->devis_id) }}">
     🛠️ Configurer le service
 </a>
 
