@@ -162,3 +162,10 @@ Route::middleware(['auth'])->group(function () {
 // Support
 Route::get('/support', [SupportController::class, 'index'])->name('support.form');
 Route::post('/support', [SupportController::class, 'send'])->name('support.send');
+Route::get('/confidentialite', function () {
+    return view('confidentialite');
+})->name('confidentialite');
+
+Route::get('/mentions-legales', function () {
+    return view('mentions-legales');
+})->name('mentions-legales');
