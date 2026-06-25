@@ -14,7 +14,7 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
- public function register(Request $request)
+public function register(Request $request)
 {
     $request->validate([
         'name'         => 'required|string|max:255',
@@ -26,7 +26,8 @@ class RegisterController extends Controller
         'postal_code'  => 'nullable|string',
     ]);
 
-    User::create([
+    // ✔ Création unique de l'utilisateur
+    $user = User::create([
         'name'        => $request->name,
         'email'       => $request->email,
         'password'    => Hash::make($request->password),
@@ -37,8 +38,18 @@ class RegisterController extends Controller
         'role'        => 'user',
     ]);
 
+    // ✔ Création automatique des coordonnées
+    $user->coordonnee()->create([
+        'nom'         => $request->name,
+        'rue'         => $request->address,
+        'code_postal' => $request->postal_code,
+        'ville'       => $request->city,
+        'telephone'   => $request->phone,
+    ]);
+
     return redirect()->route('login')->with('success', 'Compte créé avec succès.');
 }
+
 
 
 }

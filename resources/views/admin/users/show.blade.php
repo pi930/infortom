@@ -16,9 +16,6 @@
     <p><strong>Adresse :</strong> {{ $coordonnees->rue }}, {{ $coordonnees->code_postal }} {{ $coordonnees->ville }}</p>
     <p><strong>Téléphone :</strong> {{ $coordonnees->telephone }}</p>
 
-    <a href="{{ route('admin.user.password.edit', $user->id) }}" class="btn btn-warning">
-        Modifier le mot de passe
-    </a>
 @else
     <p>Aucune coordonnée enregistrée.</p>
 @endif
