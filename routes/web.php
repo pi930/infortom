@@ -74,6 +74,13 @@ Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
     Route::post('/service-config/{devis}', [AdminServiceConfigController::class, 'store'])->name('admin.service.config.store');
 });
 Route::post('/stripe/webhook', [\App\Http\Controllers\StripeWebhookController::class, 'handle']);
+Route::get('/admin/users/{user}/show', [AdminUserController::class, 'show'])
+    ->name('admin.user.show');
+Route::delete('/admin/rendezvous/{id}', [RendezVousController::class, 'destroy'])
+    ->name('admin.rendezvous.delete');
+
+Route::delete('/admin/devis/{id}', [AdminDevisController::class, 'destroy'])
+    ->name('admin.devis.delete');
 
 
 // --------------------------------------------------

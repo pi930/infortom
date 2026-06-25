@@ -75,7 +75,10 @@
                     <td>{{ $d->id }}</td>
                     <td>{{ $d->client_name }}</td>
                     <td>{{ $d->client_email }}</td>
-                    <td>{{ implode(', ', $d->items) }}</td>
+                    <td>
+    {{ implode(', ', is_array($d->items) ? $d->items : json_decode($d->items, true)) }}
+</td>
+
                     <td>{{ $d->total_ttc }} €</td>
                     <td>
                         @if($d->statut === 'payé')

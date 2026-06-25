@@ -14,6 +14,7 @@
                 <th>Email</th>
                 <th>Coordonnées</th>
                 <th>Date de création</th>
+                <th>Actions</th>
             </tr>
         </thead>
 
@@ -35,6 +36,12 @@
                     </td>
 
                     <td>{{ $user->created_at->format('d/m/Y') }}</td>
+
+                    <td>
+                        <a href="{{ route('admin.user.show', $user->id) }}" class="btn btn-info btn-sm">
+                            Voir
+                        </a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>

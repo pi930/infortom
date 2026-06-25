@@ -44,6 +44,30 @@ class AdminUserController extends Controller
 
         return back()->with('success', 'Paramètres mis à jour.');
     }
+    public function show(User $user)
+{
+    $coordonnees = $user->coordonnee;
+    $messages = $user->messages ?? collect();
+    $rendezvous = $user->rendezvous ?? collect();
+    $devis = $user->devis ?? collect();
+
+    $serviceConfig = null;
+    if ($devis->count() > 0) {
+        $serviceConfig = \App\Models\ServiceConfig::whereIn('devis_id', $devis->pluck('id'))->first();
+    }
+
+    return view('admin.users.show', compact(
+        'user',
+        'coordonnees',
+        'messages',
+        'rendezvous',
+        'devis',
+        'serviceConfig'
+    ));
+}
+
+
+
 }
 
 

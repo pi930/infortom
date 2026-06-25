@@ -52,17 +52,31 @@ class AdminDevisController extends Controller
     $acompte_possible = $total_ht > 500;
 
     // Détection automatique du type de service
-    $service_type = null;
+   // Détection automatique du type de service
+// Détection automatique du type de service
+$service_type = null;
 
-    // Services SITE
-    if (in_array('hebergement', $selected) || in_array('email', $selected) || in_array('blog', $selected)) {
-        $service_type = 'site';
-    }
+// Services SITE
+$site_items = ['hebergement', 'email', 'blog'];
 
-    // Services Active Directory
-    if (in_array('active_directory', $selected) || in_array('windows_server_2025', $selected)) {
-        $service_type = 'ad';
-    }
+// Services Active Directory
+$ad_items = ['active_directory', 'windows_server_2025'];
+
+// Si un item SITE est présent → service = site
+if (count(array_intersect($selected, $site_items)) > 0) {
+    $service_type = 'site';
+}
+
+// Si un item AD est présent → service = ad (prioritaire)
+if (count(array_intersect($selected, $ad_items)) > 0) {
+    $service_type = 'ad';
+}
+
+// Si aucun service détecté → service standard
+if (!$service_type) {
+    $service_type = 'standard';
+}
+
 
     // Trouver l'utilisateur correspondant à l'email
     $user = User::where('email', $request->client_email)->first();
@@ -111,4 +125,10 @@ class AdminDevisController extends Controller
 
         return back()->with('success', 'Paramètres mis à jour.');
     }
+    public function destroy($id)
+{
+    Devis::findOrFail($id)->delete();
+    return back()->with('success', 'Devis supprimé.');
+}
+
 }

@@ -57,6 +57,11 @@ public function sendPasswordResetNotification($token)
 {
     $this->notify(new \App\Notifications\ResetPasswordNotification($token));
 }
+public function rendezvous()
+{
+    return $this->hasMany(\App\Models\RendezVous::class);
+}
+
 
 
 

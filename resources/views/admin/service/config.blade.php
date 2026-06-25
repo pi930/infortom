@@ -100,7 +100,14 @@
         <button type="button" class="btn btn-secondary mb-4" onclick="addAdEmail()">+ Ajouter une adresse email</button>
     @endif
 
-    <button type="submit" class="btn btn-primary mt-3">Envoyer au client</button>
+    <button type="submit" name="action" value="save" class="btn btn-secondary mt-3">
+    Enregistrer
+</button>
+
+<button type="submit" name="action" value="send" class="btn btn-primary mt-3">
+    Envoyer au client
+</button>
+
 </form>
 
 
