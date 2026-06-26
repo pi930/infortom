@@ -6,6 +6,12 @@
     <title>Infortom</title>
 
     <style>
+        .header-logo {
+    height: 55px;
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -34,6 +40,16 @@
             font-size: 16px;
             font-weight: bold;
         }
+        .logo-wrapper {
+    background: white;          /* contour blanc */
+    padding: 6px;               /* espace entre logo et contour */
+    border-radius: 6px;         /* angles doux */
+    margin-right: 20px;         /* espace avec le menu */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
         nav a:hover {
             text-decoration: underline;
@@ -66,26 +82,33 @@
 <body>
 
 <header>
-    <h1>Infortom</h1>
+    <div style="display: flex; align-items: center;">
+        <div class="logo-wrapper">
+    <img src="{{ asset('images/infortom-logo.png') }}"
+         alt="Logo Infortom"
+         class="header-logo">
+</div>
+    </div>
 
     <nav>
-    <a href="{{ route('user.devis.index') }}">📄 Devis</a>
-    <a href="{{ route('user.rendezvous.index') }}">📅 Rendez-vous</a>
-    <a href="{{ route('user.messages.index') }}">💬 Messages</a>
+        <a href="{{ route('user.devis.index') }}">📄 Devis</a>
+        <a href="{{ route('user.rendezvous.index') }}">📅 Rendez-vous</a>
+        <a href="{{ route('user.messages.index') }}">💬 Messages</a>
 
-    <a href="{{ route('home') }}">Accueil</a>
-    <a href="{{ route('services') }}">Services</a>
-    <a href="{{ route('competences') }}">Compétences</a>
-    <a href="{{ route('contact') }}">Contact</a>
+        <a href="{{ route('home') }}">Accueil</a>
+        <a href="{{ route('services') }}">Services</a>
+        <a href="{{ route('competences') }}">Compétences</a>
+        <a href="{{ route('contact') }}">Contact</a>
 
-    @auth
-    <form method="POST" action="{{ route('logout') }}" style="display:inline;">
-        @csrf
-        <button type="submit" class="logout-btn">Déconnexion</button>
-    </form>
-    @endauth
-</nav>
+        @auth
+        <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+            @csrf
+            <button type="submit" class="logout-btn">Déconnexion</button>
+        </form>
+        @endauth
+    </nav>
 </header>
+
 
 <main>
     @yield('content')

@@ -27,6 +27,7 @@
 
     /* --- Responsive smartphone --- */
     @media (max-width: 600px) {
+        
 
         .hero {
             padding: 30px 10px !important;
