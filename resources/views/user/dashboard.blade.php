@@ -2,11 +2,41 @@
 
 @section('content')
 
-    <h2 style="text-align: center; font-size: 32px; margin-bottom: 40px;">
-        Mes Compétences
-    </h2>
+<style>
+.dashboard-background {
+    background-image: url('{{ asset('images/home-background.jpg') }}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 40px 0;
+    position: relative;
+}
 
-    <div style="max-width: 900px; margin: auto;">
+/* Voile sombre */
+.dashboard-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.35);
+    z-index: 1;
+}
+
+/* Contenu au-dessus du voile */
+.dashboard-background > .container {
+    position: relative;
+    z-index: 2;
+}
+</style>
+
+<div class="dashboard-background">
+    <div class="container" style="max-width: 900px; margin: auto;">
+
+        <h2 style="text-align: center; font-size: 32px; margin-bottom: 40px;">
+            Mes Compétences
+        </h2>
 
         <!-- Création de sites web -->
         <div style="background: white; padding: 25px; border-radius: 8px; 
@@ -14,9 +44,7 @@
             <h3 style="font-size: 22px; margin-bottom: 10px;">Création de sites web</h3>
             <p style="color: #555;">
                 J’ai réalisé quatre sites web complets, incluant la conception, le développement,
-                l’intégration et la mise en ligne.  
-                Ces projets m’ont permis de maîtriser la structure d’un site moderne, la gestion
-                des pages, l’ergonomie et l’optimisation.
+                l’intégration et la mise en ligne.
             </p>
 
             <!-- LEXPERTIMMO -->
@@ -83,21 +111,22 @@
         </div>
 
     </div>
+</div>
 
-    <!-- Bandeau noir -->
-    <footer style="background:black; color:white; text-align:center; padding:20px; margin-top:50px;">
-        <a href="/support" style="color:white; text-decoration:underline; margin-right:20px;">
-            Contactez le support
-        </a>
+<!-- Bandeau noir -->
+<footer style="background:black; color:white; text-align:center; padding:20px; margin-top:50px;">
+    <a href="/support" style="color:white; text-decoration:underline; margin-right:20px;">
+        Contactez le support
+    </a>
 
-        <a href="/confidentialite" style="color:white; text-decoration:underline; margin-right:20px;">
-            Déclaration de confidentialité
-        </a>
+    <a href="/confidentialite" style="color:white; text-decoration:underline; margin-right:20px;">
+        Déclaration de confidentialité
+    </a>
 
-        <a href="/mentions-legales" style="color:white; text-decoration:underline;">
-            Informations légales
-        </a>
-    </footer>
+    <a href="/mentions-legales" style="color:white; text-decoration:underline;">
+        Informations légales
+    </a>
+</footer>
 
 @endsection
 

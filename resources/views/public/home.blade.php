@@ -3,6 +3,33 @@
 @section('content')
 
 <style>
+    .home-background {
+    background-image: url('{{ asset('images/home-background.jpg') }}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 40px 0;
+    position: relative;
+}
+
+/* Voile sombre pour lisibilité */
+.home-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.35); /* Ajuste l’opacité si tu veux */
+    z-index: 1;
+}
+
+/* Contenu au-dessus du voile */
+.home-background > .container {
+    position: relative;
+    z-index: 2;
+}
+
     /* --- Style global compacté --- */
     .compact-section {
         padding: 35px 0 !important;
@@ -93,7 +120,7 @@
 </div>
 
 
-<section class="hero compact-section" style="background: #f5f7fa; margin-top: 10px;">
+<section class="hero compact-section home-background" style="margin-top: 10px;">
     <div class="container" style="max-width: 900px; margin: auto; text-align: center;">
 
         <h1 class="compact-title" style="font-size: 36px; font-weight: bold;">

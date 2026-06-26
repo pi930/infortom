@@ -2,11 +2,41 @@
 
 @section('content')
 
-    <h2 style="text-align: center; font-size: 32px; margin-bottom: 40px;">
-        Mes Compétences
-    </h2>
+<style>
+.competences-background {
+    background-image: url('{{ asset('images/home-background.jpg') }}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 40px 0;
+    position: relative;
+}
 
-    <div style="max-width: 900px; margin: auto;">
+/* Voile sombre */
+.competences-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.35);
+    z-index: 1;
+}
+
+/* Contenu au-dessus du voile */
+.competences-background > .container {
+    position: relative;
+    z-index: 2;
+}
+</style>
+
+<div class="competences-background">
+    <div class="container" style="max-width: 900px; margin: auto;">
+
+        <h2 style="text-align: center; font-size: 32px; margin-bottom: 40px; color:white;">
+            Mes Compétences
+        </h2>
 
         <!-- Création de sites web -->
         <div style="background: white; padding: 25px; border-radius: 8px; 
@@ -14,9 +44,7 @@
             <h3 style="font-size: 22px; margin-bottom: 10px;">Création de sites web</h3>
             <p style="color: #555;">
                 J’ai réalisé quatre sites web complets, incluant la conception, le développement,
-                l’intégration et la mise en ligne.  
-                Ces projets m’ont permis de maîtriser la structure d’un site moderne, la gestion
-                des pages, l’ergonomie et l’optimisation.
+                l’intégration et la mise en ligne.
             </p>
 
             <p style="margin-top: 15px;">
@@ -72,5 +100,6 @@
         </div>
 
     </div>
+</div>
 
-    <!-- Bandeau noir -->
+@endsection
