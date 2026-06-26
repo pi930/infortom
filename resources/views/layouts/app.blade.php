@@ -7,10 +7,10 @@
 
     <style>
         .header-logo {
-    height: 55px;
-    margin-right: 15px;
-    vertical-align: middle;
-}
+            height: 55px;
+            margin-right: 15px;
+            vertical-align: middle;
+        }
 
         body {
             margin: 0;
@@ -20,17 +20,12 @@
 
         /* Bandeau bleu indigo */
         header {
-            background: #3f51b5; /* Indigo */
+            background: #3f51b5;
             padding: 15px 30px;
             color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 24px;
         }
 
         nav a {
@@ -40,22 +35,21 @@
             font-size: 16px;
             font-weight: bold;
         }
-        .logo-wrapper {
-    background: white;          /* contour blanc */
-    padding: 6px;               /* espace entre logo et contour */
-    border-radius: 6px;         /* angles doux */
-    margin-right: 20px;         /* espace avec le menu */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 
         nav a:hover {
             text-decoration: underline;
         }
 
-        /* Style du bouton logout */
+        .logo-wrapper {
+            background: white;
+            padding: 6px;
+            border-radius: 6px;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .logout-btn {
             background: none;
             border: none;
@@ -70,9 +64,36 @@
             text-decoration: underline;
         }
 
-        /* Contenu principal */
+        /* 🌌 Fond global */
+        .global-background {
+            background-image: url('{{ asset('images/home-background.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            min-height: 100vh;
+            padding: 40px 0;
+        }
+
+        /* Voile sombre */
+        .global-background::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.25);
+            z-index: 1;
+        }
+
+        /* Contenu au-dessus */
+        .global-background > main {
+            position: relative;
+            z-index: 2;
+        }
+
         main {
-            padding: 40px;
             max-width: 1100px;
             margin: auto;
         }
@@ -84,10 +105,10 @@
 <header>
     <div style="display: flex; align-items: center;">
         <div class="logo-wrapper">
-    <img src="{{ asset('images/infortom-logo.png') }}"
-         alt="Logo Infortom"
-         class="header-logo">
-</div>
+            <img src="{{ asset('images/infortom-logo.png') }}"
+                 alt="Logo Infortom"
+                 class="header-logo">
+        </div>
     </div>
 
     <nav>
@@ -109,11 +130,11 @@
     </nav>
 </header>
 
-
-<main>
-    @yield('content')
-</main>
+<div class="global-background">
+    <main>
+        @yield('content')
+    </main>
+</div>
 
 </body>
 </html>
-
