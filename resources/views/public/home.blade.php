@@ -102,11 +102,12 @@
             Connexion
         </a>
 
-        <a href="{{ route('register') }}"
-           class="btn-main"
-           style="background: #4caf50; color: white; text-decoration: none;">
-            Inscription
-        </a>
+       <a href="{{ route('register') }}"
+   class="btn-main"
+   style="background: #87CEFA; color: white; text-decoration: none;">
+    Inscription
+</a>
+
     @endguest
 
     @auth
