@@ -4,7 +4,7 @@
 
 <style>
 .dashboard-background {
-    background-image: url('{{ asset('images/home-background.jpg') }}');
+    background-image: url('{{ asset('images/home-background-new.jpg') }}');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -30,6 +30,7 @@
     z-index: 2;
 }
 </style>
+
 
 <div class="dashboard-background">
     <div class="container" style="max-width: 900px; margin: auto;">

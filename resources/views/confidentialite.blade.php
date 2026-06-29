@@ -4,7 +4,7 @@
 
 <style>
 .confidentialite-background {
-    background-image: url('{{ asset('images/home-background.jpg') }}');
+    background-image: url('{{ asset('images/home-background-new.jpg') }}');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -28,6 +28,7 @@
     z-index: 2;
 }
 </style>
+
 
 <div class="confidentialite-background">
     <div class="container" style="max-width:900px; margin:auto; padding:30px; line-height:1.7; background:white; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">

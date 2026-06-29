@@ -4,7 +4,7 @@
 
 <style>
 .devis-show-background {
-    background-image: url('{{ asset('images/home-background.jpg') }}');
+    background-image: url('{{ asset('images/home-background-new.jpg') }}');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -12,7 +12,6 @@
     position: relative;
 }
 
-/* Voile sombre */
 .devis-show-background::before {
     content: "";
     position: absolute;
@@ -24,12 +23,12 @@
     z-index: 1;
 }
 
-/* Contenu au-dessus du voile */
 .devis-show-background > .container {
     position: relative;
     z-index: 2;
 }
 </style>
+
 
 <div class="devis-show-background">
     <div class="container" style="max-width:800px; margin:auto;">

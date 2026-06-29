@@ -4,7 +4,7 @@
 
 <style>
 .login-background {
-    background-image: url('{{ asset('images/home-background.jpg') }}');
+    background-image: url('{{ asset('images/home-background-new.jpg') }}');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
