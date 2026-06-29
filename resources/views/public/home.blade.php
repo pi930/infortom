@@ -128,10 +128,11 @@
             Bienvenue chez Infortom
         </h1>
 
-        <p class="compact-text" style="font-size: 17px; color: #87CEFA;">
+<p class="compact-text" style="font-size: 17px; color: #FFFFFF;">
     Votre partenaire informatique pour le dépannage, l’assistance, le développement web
     et les solutions numériques adaptées à vos besoins.
 </p>
+
 
 
         @auth
