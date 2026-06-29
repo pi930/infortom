@@ -74,6 +74,19 @@
             min-height: 100vh;
             padding: 40px 0;
         }
+        /* Toutes les backgrounds de pages */
+.services-background::before,
+.mentions-background::before,
+.confidentialite-background::before,
+.contact-background::before,
+.devis-background::before,
+.rendezvous-background::before,
+.messages-background::before,
+.login-background::before,
+.register-background::before {
+    background: transparent !important; /* filtre sombre retiré */
+}
+
 
         /* Voile sombre */
         .global-background::before {
@@ -83,7 +96,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.25);
+            background: transparent;
             z-index: 1;
         }
 
