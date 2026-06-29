@@ -66,7 +66,7 @@
 
         /* 🌌 Fond global */
         .global-background {
-            background-image: url('{{ asset('images/layout-image.png') }}');
+            background-image: url('{{ asset('images/layout-image-new.png') }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
