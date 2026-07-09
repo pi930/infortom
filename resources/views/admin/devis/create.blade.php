@@ -104,6 +104,18 @@
         Email — 5 €
     </label>
 </div>
+<h4 class="mt-4">Ajout personnalisé</h4>
+
+<div class="mb-3">
+    <label>Nom personnalisé</label>
+    <input type="text" name="custom_name" class="form-control">
+</div>
+
+<div class="mb-3">
+    <label>Montant personnalisé (€)</label>
+    <input type="number" name="custom_amount" class="form-control" step="0.01">
+</div>
+
 
 
 

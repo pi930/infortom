@@ -36,36 +36,39 @@ class StripeWebhookController extends Controller
 
         // On traite uniquement checkout.session.completed
         if ($event->type === 'checkout.session.completed') {
-            $session = $event->data->object;
+    $session = $event->data->object;
 
-            // Récupération de l'ID du devis passé dans metadata
-            $devisId = $session->metadata->devis_id ?? null;
-            $typePaiement = $session->metadata->type_paiement ?? 'inconnu';
+    $devisId = $session->metadata->devis_id ?? null;
+    $typePaiement = $session->metadata->type_paiement ?? 'inconnu';
 
-            if ($devisId) {
-                $devis = Devis::find($devisId);
+    if ($devisId) {
+        $devis = Devis::find($devisId);
 
-                if ($devis) {
-                    // Mise à jour du devis
-                    $devis->statut_paiement = 'payé';
-                    $devis->save();
+        if ($devis) {
 
-                    // Enregistrement du paiement
-                    Paiement::create([
-                        'devis_id' => $devis->id,
-                        'montant' => $session->amount_total / 100,
-                        'type' => $typePaiement,
-                        'stripe_session_id' => $session->id,
-                    ]);
+            // 🔥 Mise à jour cohérente du devis (identique à PaiementController@success)
+            $devis->statut = 'payé';
+            $devis->paiement_type = $typePaiement;
+            $devis->paiement_date = now();
+            $devis->save();
 
-                    Log::info("Paiement Stripe confirmé pour le devis #{$devis->id}");
-                } else {
-                    Log::error("Devis introuvable pour l'ID : {$devisId}");
-                }
-            } else {
-                Log::error("Aucun devis_id dans metadata Stripe");
-            }
+            // 🔥 Enregistrement du paiement
+            Paiement::create([
+                'devis_id' => $devis->id,
+                'montant' => $session->amount_total / 100,
+                'type' => $typePaiement,
+                'stripe_session_id' => $session->id,
+            ]);
+
+            Log::info("Paiement Stripe confirmé pour le devis #{$devis->id}");
+        } else {
+            Log::error("Devis introuvable pour l'ID : {$devisId}");
         }
+    } else {
+        Log::error("Aucun devis_id dans metadata Stripe");
+    }
+}
+
 
         return response('Webhook handled', 200);
     }

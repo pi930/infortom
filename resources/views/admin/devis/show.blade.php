@@ -30,10 +30,27 @@
 
     <h4>Prestations sélectionnées</h4>
     <ul>
-        @foreach($devis->items as $item)
+    @foreach($devis->items as $item)
+
+        @if(str_starts_with($item, 'custom:'))
+            @php
+                // Format : custom:Nom:Montant
+                $parts = explode(':', $item);
+                $customName = $parts[1] ?? 'Nom personnalisé';
+                $customAmount = $parts[2] ?? 0;
+            @endphp
+
+            <li>
+                <strong>{{ $customName }}</strong> — {{ $customAmount }} €
+            </li>
+
+        @else
             <li>{{ $labels[$item] ?? $item }}</li>
-        @endforeach
-    </ul>
+        @endif
+
+    @endforeach
+</ul>
+
 
     <h3>Total TTC : {{ $devis->total_ttc }} €</h3>
     <p><strong>Total HT :</strong> {{ $devis->total_ht }} €</p>

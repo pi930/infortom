@@ -14,7 +14,7 @@ class AdminDevisController extends Controller
         return view('admin.devis.create');
     }
 
-    public function store(Request $request)
+   public function store(Request $request)
 {
     // Liste des prix
     $prices = [
@@ -42,6 +42,15 @@ class AdminDevisController extends Controller
         }
     }
 
+    // Ajout du montant personnalisé
+    $custom_name = $request->custom_name;
+    $custom_amount = $request->custom_amount;
+
+    if (!empty($custom_amount)) {
+        $total_ht += floatval($custom_amount);
+        $selected[] = "custom:" . $custom_name . ":" . $custom_amount;
+    }
+
     // TVA supprimée
     $tva = 0;
 
@@ -52,31 +61,22 @@ class AdminDevisController extends Controller
     $acompte_possible = $total_ht > 500;
 
     // Détection automatique du type de service
-   // Détection automatique du type de service
-// Détection automatique du type de service
-$service_type = null;
+    $service_type = null;
 
-// Services SITE
-$site_items = ['hebergement', 'email', 'blog'];
+    $site_items = ['hebergement', 'email', 'blog'];
+    $ad_items = ['active_directory', 'windows_server_2025'];
 
-// Services Active Directory
-$ad_items = ['active_directory', 'windows_server_2025'];
+    if (count(array_intersect($selected, $site_items)) > 0) {
+        $service_type = 'site';
+    }
 
-// Si un item SITE est présent → service = site
-if (count(array_intersect($selected, $site_items)) > 0) {
-    $service_type = 'site';
-}
+    if (count(array_intersect($selected, $ad_items)) > 0) {
+        $service_type = 'ad';
+    }
 
-// Si un item AD est présent → service = ad (prioritaire)
-if (count(array_intersect($selected, $ad_items)) > 0) {
-    $service_type = 'ad';
-}
-
-// Si aucun service détecté → service standard
-if (!$service_type) {
-    $service_type = 'standard';
-}
-
+    if (!$service_type) {
+        $service_type = 'standard';
+    }
 
     // Trouver l'utilisateur correspondant à l'email
     $user = User::where('email', $request->client_email)->first();
@@ -91,11 +91,12 @@ if (!$service_type) {
         'total_ttc' => $total_ttc,
         'acompte_possible' => $acompte_possible,
         'user_id' => $user->id ?? null,
-        'service_type' => $service_type, // ← IMPORTANT
+        'service_type' => $service_type,
     ]);
 
     return redirect()->route('admin.devis.show', $devis->id);
 }
+
 
 
     public function show(Devis $devis)
