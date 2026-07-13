@@ -11,4 +11,3 @@ php-fpm &
 
 # Start Caddy in foreground (Render needs this)
 exec caddy run --config /etc/caddy/Caddyfile
-
