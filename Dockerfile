@@ -17,7 +17,8 @@ WORKDIR /var/www/html
 
 # Install PHP dependencies (cached)
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
 
 # Copy application files
 COPY . .
