@@ -39,12 +39,31 @@
 
         <div style="background:white; padding:25px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
 
-            <p><strong>Services :</strong></p>
-            <ul>
-                @foreach($devis->items as $item)
-                    <li>{{ ucfirst(str_replace('_', ' ', $item)) }}</li>
-                @endforeach
-            </ul>
+           <p><strong>Services :</strong></p>
+<ul>
+    @foreach($devis->items as $item)
+
+        {{-- Détection des éléments personnalisés --}}
+        @if(str_starts_with($item, 'custom:'))
+            @php
+                // Format : custom:Nom:Montant
+                $parts = explode(':', $item);
+                $customName = $parts[1] ?? 'Nom personnalisé';
+                $customAmount = $parts[2] ?? 0;
+            @endphp
+
+            <li>
+                <strong>{{ $customName }}</strong> — {{ $customAmount }} €
+            </li>
+
+        @else
+            {{-- Affichage normal des prestations --}}
+            <li>{{ ucfirst(str_replace('_', ' ', $item)) }}</li>
+        @endif
+
+    @endforeach
+</ul>
+
 
             <p><strong>Total HT :</strong> {{ $devis->total_ht }} €</p>
             <p><strong>TVA (20%) :</strong> {{ $devis->tva }} €</p>
