@@ -23,8 +23,7 @@ RUN apt-get update && apt-get install -y debian-keyring debian-archive-keyring c
     apt-get update && apt-get install -y caddy
 
 COPY Caddyfile /etc/caddy/Caddyfile
-
-RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache && \
+RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache
     chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
