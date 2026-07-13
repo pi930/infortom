@@ -3,26 +3,12 @@
 # Fix permissions
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Start PHP-FPM
-php-fpm
+# Run migrations (DB URL already injected by Render)
+php artisan migrate --force || true
 
+# Start PHP-FPM in background
+php-fpm &
 
-# Start Caddy in background
-caddy run --config /etc/caddy/Caddyfile &
+# Start Caddy in foreground (Render needs this)
+exec caddy run --config /etc/caddy/Caddyfile
 
-# Wait for DATABASE_URL to exist
-while [ -z "$DATABASE_URL" ]; do
-    echo "Waiting for Render to inject DATABASE_URL..."
-    sleep 1
-done
-
-echo "DATABASE_URL detected: $DATABASE_URL"
-
-# Wait for database
-until pg_isready -d "$DATABASE_URL"; do
-    echo "Database not ready, retrying..."
-    sleep 2
-done
-
-echo "Database is ready!"
-wait
