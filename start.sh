@@ -1,22 +1,27 @@
-#!/bin/sh
-set -e
+#!/bin/bash
 
-echo "Fixing permissions..."
+# Fix permissions
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-echo "Starting PHP-FPM..."
+# Start PHP-FPM
 php-fpm -D
 
-echo "Waiting for database..."
+# Start Caddy in background
+caddy run --config /etc/caddy/Caddyfile &
+
+# Wait for DATABASE_URL to exist
+while [ -z "$DATABASE_URL" ]; do
+    echo "Waiting for Render to inject DATABASE_URL..."
+    sleep 1
+done
+
+echo "DATABASE_URL detected: $DATABASE_URL"
+
+# Wait for database
 until pg_isready -d "$DATABASE_URL"; do
-  echo "Database not ready, retrying..."
-  sleep 3
+    echo "Database not ready, retrying..."
+    sleep 2
 done
 
 echo "Database is ready!"
-
-echo "Running migrations..."
-php artisan migrate --force || true
-
-echo "Starting Caddy..."
-caddy run --config /etc/caddy/Caddyfile
+wait
