@@ -12,14 +12,11 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Install PHP dependencies (cached)
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# Copy application files
 COPY . .
 
-# Install Caddy
 RUN apt-get update && apt-get install -y debian-keyring debian-archive-keyring curl && \
     curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg && \
     curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list && \
@@ -27,7 +24,6 @@ RUN apt-get update && apt-get install -y debian-keyring debian-archive-keyring c
 
 COPY Caddyfile /etc/caddy/Caddyfile
 
-# Laravel required directories
 RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache && \
     chown -R www-data:www-data /var/www/html
 
