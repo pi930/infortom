@@ -84,20 +84,20 @@ return [
             ]) : [],
         ],
 
-     'pgsql' => [
+    'pgsql' => [
     'driver' => 'pgsql',
     'url' => env('DATABASE_URL'),
-    'host' => null,
-    'port' => null,
-    'database' => null,
-    'username' => null,
-    'password' => null,
+    'host' => parse_url(env('DATABASE_URL'), PHP_URL_HOST),
+    'port' => parse_url(env('DATABASE_URL'), PHP_URL_PORT),
+    'database' => ltrim(parse_url(env('DATABASE_URL'), PHP_URL_PATH), '/'),
+    'username' => parse_url(env('DATABASE_URL'), PHP_URL_USER),
+    'password' => parse_url(env('DATABASE_URL'), PHP_URL_PASS),
     'charset' => 'utf8',
     'prefix' => '',
     'prefix_indexes' => true,
-    'search_path' => 'public',
     'sslmode' => 'require',
 ],
+
 
 
 
