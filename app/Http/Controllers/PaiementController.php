@@ -29,9 +29,11 @@ class PaiementController extends Controller
         'success_url' => route('paiement.success'),
         'cancel_url' => route('user.dashboard'),
         'metadata' => [
+    'site' => 'infortom',
     'devis_id' => $devis->id,
-    'type_paiement' => 'total', // ou 'acompte' ou 'reste'
-],
+    'type_paiement' => 'total',
+],       
+
 
         ]);
 
@@ -64,9 +66,11 @@ public function checkoutAcompte(Devis $devis)
         'success_url' => route('paiement.success'),
         'cancel_url' => route('user.dashboard'),
         'metadata' => [
+    'site' => 'infortom',
     'devis_id' => $devis->id,
     'type_paiement' => 'acompte',
 ],
+
 
 
         ]);
@@ -102,9 +106,11 @@ public function checkoutReste(Devis $devis)
         'success_url' => route('paiement.success'),
         'cancel_url' => route('paiement.cancel'),
         'metadata' => [
+    'site' => 'infortom',
     'devis_id' => $devis->id,
     'type_paiement' => 'reste',
 ],
+
 
         ]);
 
