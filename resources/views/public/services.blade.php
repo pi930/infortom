@@ -47,7 +47,7 @@
                 <h3 style="font-size: 22px; margin-bottom: 10px;">Dépannage informatique</h3>
                 <p style="color: #555;">
                     Intervention rapide pour résoudre vos problèmes matériels et logiciels.
-                    Assistance à domicile ou à distance selon vos besoins.
+                    Assistance à domicile ou à distance selon vos besoins.60 euros
                 </p>
             </div>
 
@@ -57,7 +57,7 @@
                 <h3 style="font-size: 22px; margin-bottom: 10px;">Sites de présentation</h3>
                 <p style="color: #555;">
                     Création de sites vitrines modernes et élégants pour présenter votre activité,
-                    vos services ou votre portfolio.
+                    vos services ou votre portfolio.250 euros
                 </p>
             </div>
 
@@ -67,7 +67,7 @@
                 <h3 style="font-size: 22px; margin-bottom: 10px;">Sites de société</h3>
                 <p style="color: #555;">
                     Développement de sites professionnels pour entreprises, avec pages dédiées,
-                    formulaires, gestion de contenu et design sur mesure.
+                    formulaires, gestion de contenu et design sur mesure.500 euros
                 </p>
             </div>
 
@@ -77,9 +77,19 @@
                 <h3 style="font-size: 22px; margin-bottom: 10px;">Sites de commerce</h3>
                 <p style="color: #555;">
                     Création de boutiques en ligne performantes, sécurisées et faciles à gérer.
-                    Paiement en ligne, gestion des produits, commandes et clients.
+                    Paiement en ligne, gestion des produits, commandes et clients.1000 euros
                 </p>
             </div>
+            <!-- Campagne publicitaire réseaux sociaux -->
+<div style="width: 300px; background: white; padding: 25px; border-radius: 8px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <h3 style="font-size: 22px; margin-bottom: 10px;">Campagne publicitaire réseaux sociaux</h3>
+    <p style="color: #555;">
+        Mise en place et gestion de campagnes publicitaires sur Facebook, Instagram ou TikTok.
+        Optimisation du budget, ciblage précis et suivi des performances.150 euros
+    </p>
+</div>
+
 
             <!-- Active Directory -->
             <div style="width: 300px; background: white; padding: 25px; border-radius: 8px; 
@@ -88,7 +98,7 @@
                 <p style="color: #555;">
                     Mise en place complète d’un serveur Active Directory professionnel : installation AD DS,
                     configuration DNS, création d’unités d’organisation, gestion des utilisateurs et groupes,
-                    jonction des postes au domaine et déploiement de stratégies GPO.
+                    jonction des postes au domaine et déploiement de stratégies GPO.1000 euros 
                 </p>
             </div>
 
