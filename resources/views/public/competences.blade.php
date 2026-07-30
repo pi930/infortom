@@ -57,23 +57,17 @@
             <p style="margin-top: 10px;">
                 <a href="https://champscameibondoux-2.onrender.com" target="_blank" 
                    style="color: #007bff; font-weight: bold;">
-                    https://champscameibondoux-2.onrender.com
+                    https://champscameibondoux.onrender.com
                 </a>
             </p>
 
             <p style="margin-top: 10px;">
                 <a href="https://infortom-1.onrender.com" target="_blank" 
                    style="color: #007bff; font-weight: bold;">
-                    https://infortom-1.onrender.com
+                    https://infortom.onrender.com
                 </a>
             </p>
 
-            <p style="margin-top: 10px;">
-                <a href="https://thomaservice.onrender.com" target="_blank" 
-                   style="color: #007bff; font-weight: bold;">
-                    https://thomaservice.onrender.com
-                </a>
-            </p>
         </div>
 
         <!-- Dépannage informatique -->

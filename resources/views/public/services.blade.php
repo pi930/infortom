@@ -67,7 +67,7 @@
                 <h3 style="font-size: 22px; margin-bottom: 10px;">Sites de société</h3>
                 <p style="color: #555;">
                     Développement de sites professionnels pour entreprises, avec pages dédiées,
-                    formulaires, gestion de contenu et design sur mesure.500 euros
+                    formulaires, gestion de contenu et design sur mesure.500 euros + petits abonnements 
                 </p>
             </div>
 
@@ -77,7 +77,7 @@
                 <h3 style="font-size: 22px; margin-bottom: 10px;">Sites de commerce</h3>
                 <p style="color: #555;">
                     Création de boutiques en ligne performantes, sécurisées et faciles à gérer.
-                    Paiement en ligne, gestion des produits, commandes et clients.1000 euros
+                    Paiement en ligne, gestion des produits, commandes et clients.A partir de 1000 euros
                 </p>
             </div>
             <!-- Campagne publicitaire réseaux sociaux -->
@@ -98,7 +98,7 @@
                 <p style="color: #555;">
                     Mise en place complète d’un serveur Active Directory professionnel : installation AD DS,
                     configuration DNS, création d’unités d’organisation, gestion des utilisateurs et groupes,
-                    jonction des postes au domaine et déploiement de stratégies GPO.1000 euros 
+                    jonction des postes au domaine et déploiement de stratégies GPO.1000 euros + abonnements
                 </p>
             </div>
 

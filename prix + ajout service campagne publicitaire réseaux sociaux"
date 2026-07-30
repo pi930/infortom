@@ -1,0 +1,148 @@
+[1mdiff --git a/resources/views/public/services.blade.php b/resources/views/public/services.blade.php[m
+[1mindex 425fed3..c362e39 100644[m
+[1m--- a/resources/views/public/services.blade.php[m
+[1m+++ b/resources/views/public/services.blade.php[m
+[36m@@ -47,7 +47,7 @@[m
+                 <h3 style="font-size: 22px; margin-bottom: 10px;">Dépannage informatique</h3>[m
+                 <p style="color: #555;">[m
+                     Intervention rapide pour résoudre vos problèmes matériels et logiciels.[m
+[31m-                    Assistance à domicile ou à distance selon vos besoins.[m
+[32m+[m[32m                    Assistance à domicile ou à distance selon vos besoins.60 euros[m
+                 </p>[m
+             </div>[m
+ [m
+[36m@@ -57,7 +57,7 @@[m
+                 <h3 style="font-size: 22px; margin-bottom: 10px;">Sites de présentation</h3>[m
+                 <p style="color: #555;">[m
+                     Création de sites vitrines modernes et élégants pour présenter votre activité,[m
+[31m-                    vos services ou votre portfolio.[m
+[32m+[m[32m                    vos services ou votre portfolio.250 euros[m
+                 </p>[m
+             </div>[m
+ [m
+[36m@@ -67,7 +67,7 @@[m
+                 <h3 style="font-size: 22px; margin-bottom: 10px;">Sites de société</h3>[m
+                 <p style="color: #555;">[m
+                     Développement de sites professionnels pour entreprises, avec pages dédiées,[m
+[31m-                    formulaires, gestion de contenu et design sur mesure.[m
+[32m+[m[32m                    formulaires, gestion de contenu et design sur mesure.500 euros[m
+                 </p>[m
+             </div>[m
+ [m
+[36m@@ -77,9 +77,19 @@[m
+                 <h3 style="font-size: 22px; margin-bottom: 10px;">Sites de commerce</h3>[m
+                 <p style="color: #555;">[m
+                     Création de boutiques en ligne performantes, sécurisées et faciles à gérer.[m
+[31m-                    Paiement en ligne, gestion des produits, commandes et clients.[m
+[32m+[m[32m                    Paiement en ligne, gestion des produits, commandes et clients.1000 euros[m
+                 </p>[m
+             </div>[m
+[32m+[m[32m            <!-- Campagne publicitaire réseaux sociaux -->[m
+[32m+[m[32m<div style="width: 300px; background: white; padding: 25px; border-radius: 8px;[m[41m [m
+[32m+[m[32m            box-shadow: 0 2px 8px rgba(0,0,0,0.1);">[m
+[32m+[m[32m    <h3 style="font-size: 22px; margin-bottom: 10px;">Campagne publicitaire réseaux sociaux</h3>[m
+[32m+[m[32m    <p style="color: #555;">[m
+[32m+[m[32m        Mise en place et gestion de campagnes publicitaires sur Facebook, Instagram ou TikTok.[m
+[32m+[m[32m        Optimisation du budget, ciblage précis et suivi des performances.150 euros[m
+[32m+[m[32m    </p>[m
+[32m+[m[32m</div>[m
+[32m+[m
+ [m
+             <!-- Active Directory -->[m
+             <div style="width: 300px; background: white; padding: 25px; border-radius: 8px; [m
+[36m@@ -88,7 +98,7 @@[m
+                 <p style="color: #555;">[m
+                     Mise en place complète d’un serveur Active Directory professionnel : installation AD DS,[m
+                     configuration DNS, création d’unités d’organisation, gestion des utilisateurs et groupes,[m
+[31m-                    jonction des postes au domaine et déploiement de stratégies GPO.[m
+[32m+[m[32m                    jonction des postes au domaine et déploiement de stratégies GPO.1000 euros[m[41m [m
+                 </p>[m
+             </div>[m
+ [m
+[1mdiff --git a/resources/views/user/rendezvous/index.blade.php b/resources/views/user/rendezvous/index.blade.php[m
+[1mindex e358e73..b053786 100644[m
+[1m--- a/resources/views/user/rendezvous/index.blade.php[m
+[1m+++ b/resources/views/user/rendezvous/index.blade.php[m
+[36m@@ -36,53 +36,43 @@[m
+     <div class="container" style="max-width:800px; margin:auto;">[m
+ [m
+         <h2 style="text-align:center; font-size:28px; margin-bottom:30px; color:white;">[m
+[31m-            Mes Rendez-vous[m
+[32m+[m[32m            Demandez un rendez-vous téléphonique[m
+         </h2>[m
+ [m
+[31m-        {{-- 1. L'utilisateur n'a pas encore reçu de devis --}}[m
+[31m-        @if(!$devisRecu)[m
+[31m-            <div style="background:#ffecec; padding:20px; border-left:5px solid #ff4d4d; border-radius:6px;">[m
+[31m-                <strong>Demandez un devis pour pouvoir prendre un rendez-vous.</strong>[m
+[32m+[m[32m        {{-- Si l'utilisateur a déjà un rendez-vous --}}[m
+[32m+[m[32m        @if($myRdv)[m
+[32m+[m[32m            <div style="background:#e8f7e8; padding:20px; border-left:5px solid #28a745; border-radius:6px;">[m
+[32m+[m[32m                <h3 style="margin-bottom:10px;">Votre rendez-vous</h3>[m
+[32m+[m[32m                <p><strong>Date :</strong> {{ $myRdv->date->format('d/m/Y') }}</p>[m
+[32m+[m[32m                <p><strong>Heure :</strong> {{ $myRdv->date->format('H:i') }}</p>[m
+[32m+[m
+[32m+[m[32m                <form action="{{ route('user.rendezvous.delete', $myRdv->id) }}" method="POST" style="margin-top:15px;">[m
+[32m+[m[32m                    @csrf[m
+[32m+[m[32m                    @method('DELETE')[m
+[32m+[m[32m                    <button style="background:#dc3545; color:white; padding:10px 15px; border:none; border-radius:5px;">[m
+[32m+[m[32m                        Supprimer le rendez-vous[m
+[32m+[m[32m                    </button>[m
+[32m+[m[32m                </form>[m
+             </div>[m
+ [m
+[32m+[m[32m        {{-- Sinon afficher les créneaux disponibles --}}[m
+         @else[m
+[32m+[m[32m            <h3 style="margin-bottom:20px; color:white;">Créneaux disponibles</h3>[m
+ [m
+[31m-            {{-- 2. L'utilisateur a déjà un rendez-vous --}}[m
+[31m-            @if($myRdv)[m
+[31m-                <div style="background:#e8f7e8; padding:20px; border-left:5px solid #28a745; border-radius:6px;">[m
+[31m-                    <h3 style="margin-bottom:10px;">Votre rendez-vous</h3>[m
+[31m-                    <p><strong>Date :</strong> {{ $myRdv->date->format('d/m/Y') }}</p>[m
+[31m-                    <p><strong>Heure :</strong> {{ $myRdv->date->format('H:i') }}</p>[m
+[31m-[m
+[31m-                    <form action="{{ route('user.rendezvous.delete', $myRdv->id) }}" method="POST" style="margin-top:15px;">[m
+[31m-                        @csrf[m
+[31m-                        @method('DELETE')[m
+[31m-                        <button style="background:#dc3545; color:white; padding:10px 15px; border:none; border-radius:5px;">[m
+[31m-                            Supprimer le rendez-vous[m
+[31m-                        </button>[m
+[31m-                    </form>[m
+[31m-                </div>[m
+[31m-[m
+[31m-            {{-- 3. L'utilisateur n'a pas encore de rendez-vous → afficher les créneaux --}}[m
+[31m-            @else[m
+[31m-                <h3 style="margin-bottom:20px; color:white;">Créneaux disponibles</h3>[m
+[31m-[m
+[31m-                @foreach($propositions as $slot)[m
+[31m-                    <form action="{{ route('user.rendezvous.select') }}" method="POST" style="margin-bottom:15px;">[m
+[31m-                        @csrf[m
+[31m-                        <input type="hidden" name="date" value="{{ $slot }}">[m
+[32m+[m[32m            @foreach($propositions as $slot)[m
+[32m+[m[32m                <form action="{{ route('user.rendezvous.select') }}" method="POST" style="margin-bottom:15px;">[m
+[32m+[m[32m                    @csrf[m
+[32m+[m[32m                    <input type="hidden" name="date" value="{{ $slot }}">[m
+ [m
+[31m-                        <div style="background:white; padding:15px; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.1); display:flex; justify-content:space-between; align-items:center;">[m
+[31m-                            <span>{{ $slot->format('d/m/Y H:i') }}</span>[m
+[31m-[m
+[31m-                            <button style="background:#007bff; color:white; padding:8px 12px; border:none; border-radius:5px;">[m
+[31m-                                Réserver[m
+[31m-                            </button>[m
+[31m-                        </div>[m
+[31m-                    </form>[m
+[31m-                @endforeach[m
+[31m-            @endif[m
+[32m+[m[32m                    <div style="background:white; padding:15px; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.1); display:flex; justify-content:space-between; align-items:center;">[m
+[32m+[m[32m                        <span>{{ $slot->format('d/m/Y H:i') }}</span>[m
+ [m
+[32m+[m[32m                        <button style="background:#007bff; color:white; padding:8px 12px; border:none; border-radius:5px;">[m
+[32m+[m[32m                            Réserver[m
+[32m+[m[32m                        </button>[m
+[32m+[m[32m                    </div>[m
+[32m+[m[32m                </form>[m
+[32m+[m[32m            @endforeach[m
+         @endif[m
+ [m
+     </div>[m
