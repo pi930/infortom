@@ -64,7 +64,7 @@
                      style="width:120px; height:auto; border-radius:6px;">
                 <a href="https://champscameibondoux.onrender.com" target="_blank" 
                    style="color:#007bff; font-weight:bold;">
-                    https://champscameibondoux-2.onrender.com
+                    https://champscameibondoux.onrender.com
                 </a>
             </div>
 
@@ -74,7 +74,7 @@
                      style="width:120px; height:auto; border-radius:6px;">
                 <a href="https://aliciahomeservice.onrender.com" target="_blank" 
                    style="color:#007bff; font-weight:bold;">
-                    https://thomaservice.onrender.com
+                    https://taliciahomeservice.onrender.com
                 </a>
             </div>
 
@@ -82,7 +82,7 @@
             <div style="display:flex; align-items:center; gap:15px; margin-top:20px;">
                 <a href="https://infortom.onrender.com" target="_blank" 
                    style="color:#007bff; font-weight:bold;">
-                    https://infortom-1.onrender.com
+                    https://infortom.onrender.com
                 </a>
             </div>
 
