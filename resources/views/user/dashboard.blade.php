@@ -62,7 +62,7 @@
             <div style="display:flex; align-items:center; gap:15px; margin-top:20px;">
                 <img src="/images/photo1.jpg" alt="ChampsCamelBonDoux" 
                      style="width:120px; height:auto; border-radius:6px;">
-                <a href="https://champscameibondoux-2.onrender.com" target="_blank" 
+                <a href="https://champscameibondoux.onrender.com" target="_blank" 
                    style="color:#007bff; font-weight:bold;">
                     https://champscameibondoux-2.onrender.com
                 </a>
@@ -72,7 +72,7 @@
             <div style="display:flex; align-items:center; gap:15px; margin-top:20px;">
                 <img src="/images/photo2.jpg" alt="Thomaservice" 
                      style="width:120px; height:auto; border-radius:6px;">
-                <a href="https://thomaservice.onrender.com" target="_blank" 
+                <a href="https://aliciahomeservice.onrender.com" target="_blank" 
                    style="color:#007bff; font-weight:bold;">
                     https://thomaservice.onrender.com
                 </a>
@@ -80,7 +80,7 @@
 
             <!-- Infortom -->
             <div style="display:flex; align-items:center; gap:15px; margin-top:20px;">
-                <a href="https://infortom-1.onrender.com" target="_blank" 
+                <a href="https://infortom.onrender.com" target="_blank" 
                    style="color:#007bff; font-weight:bold;">
                     https://infortom-1.onrender.com
                 </a>
