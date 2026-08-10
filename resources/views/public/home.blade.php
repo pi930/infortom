@@ -136,19 +136,21 @@
 
 
 
-        @auth
-            <a href="{{ route('contact') }}"
-               class="btn-main"
-               style="background: #007bff; color: white; text-decoration: none;">
-                Demander un devis
-            </a>
-        @else
-            <a href="{{ route('login') }}"
-               class="btn-main"
-               style="background: #ff5722; color: white; text-decoration: none;">
-                Connectez-vous pour demander un devis
-            </a>
-        @endauth
+       @auth
+    <a href="{{ route('contact') }}"
+       class="btn-main"
+       style="background: #007bff; color: white; text-decoration: none;">
+        Demander des renseignements / Commencer un projet
+    </a>
+@else
+    <a href="{{ route('register') }}"
+       class="btn-main"
+       style="background: #007bff; color: white; text-decoration: none;">
+        Inscrivez‑vous pour demander des renseignements ou commencer un processus de création
+    </a>
+@endauth
+
+
 
     </div>
 </section>
@@ -171,5 +173,32 @@
         </div>
     </div>
 </section>
+<div style="
+position: fixed;
+bottom: 20px;
+right: 20px;
+background:#1e3a8a;
+color:white;
+padding:18px 22px;
+border-radius:50px;
+box-shadow:0 6px 14px rgba(0,0,0,0.25);
+display:flex;
+flex-direction:column;
+gap:6px;
+font-size:16px;
+z-index:999;
+">
+
+<a href="tel:0743334424" 
+style="color:white; text-decoration:none; font-weight:bold;">
+📞 07 43 33 44 24
+</a>
+
+<span style="font-size:14px;">
+📍 12 impasse Saint‑Louis, 06400 Cannes
+</span>
+
+</div>
+
 
 @endsection

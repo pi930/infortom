@@ -39,36 +39,45 @@
         </h2>
 
         <!-- Création de sites web -->
-        <div style="background: white; padding: 25px; border-radius: 8px; 
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 25px;">
-            <h3 style="font-size: 22px; margin-bottom: 10px;">Création de sites web</h3>
-            <p style="color: #555;">
-                J’ai réalisé quatre sites web complets, incluant la conception, le développement,
-                l’intégration et la mise en ligne.
-            </p>
+<div style="background: white; padding: 25px; border-radius: 8px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 25px;">
+    <h3 style="font-size: 22px; margin-bottom: 10px;">Création de sites web</h3>
+    <p style="color: #555;">
+        J’ai réalisé quatre sites web complets, incluant la conception, le développement,
+        l’intégration et la mise en ligne.
+    </p>
 
-            <p style="margin-top: 15px;">
-                <a href="https://lexpertimmo.onrender.com" target="_blank" 
-                   style="color: #007bff; font-weight: bold;">
-                    https://lexpertimmo.onrender.com
-                </a>
-            </p>
+    <p style="margin-top: 15px;">
+        <a href="https://lexpertimmo.onrender.com" target="_blank" 
+           style="color: #007bff; font-weight: bold;">
+            https://lexpertimmo.onrender.com
+        </a>
+    </p>
 
-            <p style="margin-top: 10px;">
-                <a href="https://champscameibondoux-2.onrender.com" target="_blank" 
-                   style="color: #007bff; font-weight: bold;">
-                    https://champscameibondoux.onrender.com
-                </a>
-            </p>
+    <p style="margin-top: 10px;">
+        <a href="https://champscameibondoux-2.onrender.com" target="_blank" 
+           style="color: #007bff; font-weight: bold;">
+            https://champscameibondoux.onrender.com
+        </a>
+    </p>
 
-            <p style="margin-top: 10px;">
-                <a href="https://infortom-1.onrender.com" target="_blank" 
-                   style="color: #007bff; font-weight: bold;">
-                    https://infortom.onrender.com
-                </a>
-            </p>
+    <p style="margin-top: 10px;">
+        <a href="https://infortom-1.onrender.com" target="_blank" 
+           style="color: #007bff; font-weight: bold;">
+            https://infortom.onrender.com
+        </a>
+    </p>
 
-        </div>
+    <!-- Nouveau lien ajouté -->
+    <p style="margin-top: 10px;">
+        <a href="https://aliciahomeservice.onrender.com" target="_blank" 
+           style="color: #007bff; font-weight: bold;">
+            https://aliciahomeservice.onrender.com
+        </a>
+    </p>
+
+</div>
+
 
         <!-- Dépannage informatique -->
         <div style="background: white; padding: 25px; border-radius: 8px; 
