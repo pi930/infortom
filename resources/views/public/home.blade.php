@@ -189,16 +189,27 @@ font-size:16px;
 z-index:999;
 ">
 
-<a href="tel:0743334424" 
-style="color:white; text-decoration:none; font-weight:bold;">
-📞 07 43 33 44 24
-</a>
+    <a href="tel:0743334424" 
+       style="color:white; text-decoration:none; font-weight:bold;">
+        📞 07 43 33 44 24
+    </a>
 
-<span style="font-size:14px;">
-📍 12 impasse Saint‑Louis, 06400 Cannes
-</span>
+    <span style="font-size:14px;">
+        📍 12 impasse Saint‑Louis, 06400 Cannes
+    </span>
+
+    <div style="display:flex; gap:12px; font-size:13px; margin-top:4px;">
+        <a href="{{ route('mentions-legales') }}" style="color:#cce6ff; text-decoration:none;">
+            Mentions légales
+        </a>
+
+        <a href="{{ route('confidentialite') }}" style="color:#cce6ff; text-decoration:none;">
+            Confidentialité
+        </a>
+    </div>
 
 </div>
+
 
 
 @endsection
