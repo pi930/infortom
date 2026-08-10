@@ -39,7 +39,7 @@
         <p><strong>Entreprise :</strong> Infortom</p>
         <p><strong>Statut juridique :</strong> Micro‑entreprise</p>
         <p><strong>Adresse :</strong> 12 impasse Saint Louis, 06400 Cannes</p>
-        <p><strong>SIRET :</strong> 93818904000026</p>
+        <p><strong>SIRET :</strong> En cours d'attribution</p>
         <p><strong>Chiffre d’affaires :</strong> 0 € (entreprise en développement)</p>
 
         <h3>Responsable de la publication</h3>
