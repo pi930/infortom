@@ -37,9 +37,9 @@
             Mes Devis
         </h2>
 
-        @forelse(auth()->user()->devis as $devis)
-            <a href="{{ route('user.devis.show', $devis->id) }}" 
-               style="text-decoration:none; color:inherit;">
+        @forelse($devis as $devis)
+           <div onclick="window.location='{{ route('user.devis.show', $devis->id) }}'" 
+     style="cursor:pointer; text-decoration:none; color:inherit;">
                 <div style="background:white; padding:20px; border-radius:8px; 
                             box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-bottom:20px;">
 
@@ -62,9 +62,27 @@
                     @else
                         <span style="color:gray;">En attente</span>
                     @endif
+                    @if($devis->contrat_signe)
+    <a href="{{ route('user.devis.downloadSigned', $devis->id) }}" 
+   class="btn btn-sm btn-primary">
+   Télécharger le contrat signé
+</a>
+
+@else
+    <p style="color:orange;">Contrat en attente de signature</p>
+@endif
+{{-- Contrat signé des deux parties --}}
+@if($devis->contrat_pdf_both)
+    <a href="{{ route('user.devis.downloadBoth', $devis->id) }}" 
+       class="btn btn-sm btn-success" style="margin-left:10px;">
+        Télécharger le contrat signé des deux parties
+    </a>
+@endif
+
+
 
                 </div>
-            </a>
+            </div>
         @empty
             <p style="color:white;">Aucun devis pour le moment.</p>
         @endforelse

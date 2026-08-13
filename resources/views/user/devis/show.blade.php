@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+use Illuminate\Support\Facades\Storage;
+@endphp
 
 <style>
 .devis-show-background {
@@ -28,6 +31,33 @@
     z-index: 2;
 }
 </style>
+<style>
+/* Texte du contrat en blanc */
+.contract-text {
+    color: white !important;
+}
+
+/* Liens en blanc */
+.contract-links a {
+    color: white !important;
+    text-decoration: underline !important;
+}
+
+/* Boutons : texte blanc */
+.contract-links .btn {
+    color: white !important;
+}
+
+/* Titres en blanc */
+.contract-section-title,
+.contract-section-title h3,
+.contract-section-title p,
+.contract-section-title h4 {
+    color: white !important;
+}
+</style>
+
+
 
 
 <div class="devis-show-background">
@@ -122,6 +152,68 @@
             <p><strong>Date :</strong> {{ $devis->created_at->format('d/m/Y H:i') }}</p>
 
         </div>
+        <hr>
+
+<h3>Contrat généré</h3>
+
+<pre class="contract-text" style="white-space: pre-wrap; font-size: 15px;">
+{{ $contrat }}
+</pre>
+
+
+
+<div class="contract-links contract-section-title">
+
+    <a href="{{ route('user.devis.download', $devis->id) }}"
+       class="btn btn-primary" style="margin-top:20px;">
+       Télécharger le contrat
+    </a>
+
+    @if($contratVisible)
+        <hr>
+
+        <h3>Contrat signé</h3>
+
+        <a href="{{ route('user.devis.downloadSigned', $devis->id) }}" class="btn btn-primary">
+           Télécharger le contrat signé
+        </a>
+    @else
+        <hr>
+        <p style="font-weight:bold;">
+            Le contrat n'est pas encore signé par l'administrateur.
+        </p>
+    @endif
+
+    <hr>
+
+    <p style="font-weight:bold;">
+        Signez le à votre tour :
+    </p>
+
+    <h4>Importer le contrat signé des deux parties</h4>
+
+    <form action="{{ route('user.devis.uploadBoth', $devis->id) }}"
+          method="POST" enctype="multipart/form-data">
+
+        @csrf
+
+        <input type="file" name="contrat_pdf_both" required>
+
+        <button type="submit" class="btn btn-primary" style="margin-top:10px;">
+            Importer le contrat signé des deux parties
+        </button>
+    </form>
+
+    @if($devis->contrat_pdf_both)
+        <a href="{{ route('user.devis.downloadBoth', $devis->id) }}"
+           class="btn btn-success" style="margin-top:15px;">
+            Télécharger le contrat signé des deux parties
+        </a>
+    @endif
+
+</div>
+
+
 
     </div>
 </div>

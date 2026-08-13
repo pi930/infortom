@@ -133,6 +133,12 @@
     et les solutions numériques adaptées à vos besoins.
 </p>
 
+<p class="compact-text" style="font-size: 17px; color: #000000; margin-top: 10px;">
+    Je réalise des sites web simples pour les artisans et les commerçants,
+    des sites plus complets pour les différents corps de métiers,
+    ainsi que leurs publicités via les réseaux sociaux.
+</p>
+
 
 
 
@@ -153,26 +159,39 @@
 
 
     </div>
-</section>
-
-
 <section class="services compact-section">
     <div class="container" style="max-width: 1000px; margin: auto;">
         <h2 class="compact-title" style="text-align: center; font-size: 28px;">
-            Mes services
-        </h2>
+    Nos plus
+</h2>
+
 
         <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
 
+            <!-- Serveurs Active Directory -->
+            <div class="service-card"
+                 style="width: 300px; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <h3 style="font-size: 20px; margin-bottom: 8px;">Serveurs Active Directory</h3>
+                <p style="color: #555; font-size: 15px;">
+                    Je crée des serveurs Active Directory complets, avec des bureaux connectés
+                    dans lesquels chaque poste de travail possède ses spécificités, ses droits
+                    et ses configurations personnalisées.
+                </p>
+            </div>
+
+            <!-- Dépannage informatique -->
             <div class="service-card"
                  style="width: 300px; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                 <h3 style="font-size: 20px; margin-bottom: 8px;">Dépannage informatique</h3>
-                <p style="color: #555; font-size: 15px;">Intervention rapide pour résoudre vos problèmes matériels et logiciels.</p>
+                <p style="color: #555; font-size: 15px;">
+                    Intervention rapide pour résoudre vos problèmes matériels et logiciels.
+                </p>
             </div>
 
         </div>
     </div>
 </section>
+
 <div style="
 position: fixed;
 bottom: 20px;

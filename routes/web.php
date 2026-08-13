@@ -126,11 +126,12 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::post('/messages/{id}/reply', [UserMessageController::class, 'reply'])->name('messages.reply');
 
     // Devis utilisateur
-    Route::get('/devis/{devis}', [UserDevisController::class, 'show'])->name('devis.show');
-    Route::get('/devis', function () {
-        return view('user.devis.index');
-    })->name('devis.index');
-});
+    Route::get('/devis', [UserDevisController::class, 'index'])->name('devis.index');   // ✔️ doit être AVANT
+    Route::get('/devis/{devis}', [UserDevisController::class, 'show'])->name('devis.show'); // ✔️ doit être APRÈS
+Route::get('/devis/{id}/download', [UserDevisController::class, 'download'])->name('devis.download');
+
+    });
+
 
 // --------------------------------------------------
 // PAIEMENT STRIPE (SIMPLE)
@@ -167,3 +168,27 @@ Route::get('/confidentialite', function () {
 Route::get('/mentions-legales', function () {
     return view('mentions-legales');
 })->name('mentions-legales');
+Route::get('/admin/devis/{id}/download-signed', [AdminDevisController::class, 'downloadSigned'])
+    ->name('admin.devis.downloadSigned');
+
+    // Télécharger le contrat brut
+Route::get('/admin/devis/{id}/download', [AdminDevisController::class, 'download'])
+    ->name('admin.devis.download');
+
+// Importer contrat signé
+Route::post('/admin/devis/{id}/upload', [AdminDevisController::class, 'upload'])
+    ->name('admin.devis.upload');
+Route::get('/user/devis/{id}/download-signed', [UserDevisController::class, 'downloadSigned'])
+    ->name('user.devis.downloadSigned');
+// USER
+Route::post('/user/devis/{id}/upload-both', [UserDevisController::class, 'uploadBoth'])
+    ->name('user.devis.uploadBoth');
+
+Route::get('/user/devis/{id}/download-both', [UserDevisController::class, 'downloadBoth'])
+    ->name('user.devis.downloadBoth');
+
+// ADMIN
+Route::get('/admin/devis/{id}/download-both', [AdminDevisController::class, 'downloadBoth'])
+    ->name('admin.devis.downloadBoth');
+
+

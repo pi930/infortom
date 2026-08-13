@@ -1,0 +1,17 @@
+[0;1;32m●[0m apache2.service - The Apache HTTP Server
+     Loaded: loaded (]8;;file://thomas-ASUS-EXPERTBOOK-P5405CSA-V5405CSA/usr/lib/systemd/system/apache2.service/usr/lib/systemd/system/apache2.service]8;;; [0;1;32menabled[0m; preset: [0;1;32menabled[0m)
+     Active: [0;1;32mactive (running)[0m since Tue 2026-08-11 14:35:19 CEST; 38s ago
+       Docs: ]8;;https://httpd.apache.org/docs/2.4/https://httpd.apache.org/docs/2.4/]8;;
+   Main PID: 16236 (apache2)
+      Tasks: 56 (limit: 16185)
+     Memory: 7.3M (peak: 8.5M)
+        CPU: 71ms
+     CGroup: /system.slice/apache2.service
+             ├─[0;38;5;245m16236 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m16238 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m16239 /usr/sbin/apache2 -k start[0m
+             └─[0;38;5;245m16241 /usr/sbin/apache2 -k start[0m
+
+août 11 14:35:19 thomas-ASUS-EXPERTBOOK-P5405CSA-V5405CSA systemd[1]: Starting apache2.service - The Apache HTTP Server...
+août 11 14:35:19 thomas-ASUS-EXPERTBOOK-P5405CSA-V5405CSA apachectl[16235]: AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+août 11 14:35:19 thomas-ASUS-EXPERTBOOK-P5405CSA-V5405CSA systemd[1]: Started apache2.service - The Apache HTTP Server.

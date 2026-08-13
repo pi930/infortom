@@ -65,7 +65,18 @@
         <label>Mot de passe GitHub</label>
         <input class="form-control mb-3" type="text" name="github_password"
                value="{{ $config->data['github_password'] ?? '' }}">
-    @endif
+        <h4 class="mt-4">Configuration Stripe</h4>
+
+<label>Identifiant Stripe</label>
+<input class="form-control mb-3" type="text" name="stripe_login"
+       value="{{ $config->data['stripe_login'] ?? '' }}">
+
+<label>Mot de passe Stripe</label>
+<input class="form-control mb-3" type="text" name="stripe_password"
+       value="{{ $config->data['stripe_password'] ?? '' }}">
+
+
+               @endif
 
 
 

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Devis;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
 
 class AdminDevisController extends Controller
 {
@@ -58,30 +61,24 @@ class AdminDevisController extends Controller
     $total_ttc = $total_ht;
 
     // Déterminer si acompte possible
-    $acompte_possible = $total_ht > 500;
+    $acompte_possible = $total_ht >= 500;
 
     // Détection automatique du type de service
-    $service_type = null;
-
     $site_items = ['hebergement', 'email', 'blog'];
     $ad_items = ['active_directory', 'windows_server_2025'];
 
     if (count(array_intersect($selected, $site_items)) > 0) {
         $service_type = 'site';
-    }
-
-    if (count(array_intersect($selected, $ad_items)) > 0) {
+    } elseif (count(array_intersect($selected, $ad_items)) > 0) {
         $service_type = 'ad';
-    }
-
-    if (!$service_type) {
+    } else {
         $service_type = 'standard';
     }
 
     // Trouver l'utilisateur correspondant à l'email
     $user = User::where('email', $request->client_email)->first();
 
-    // Création du devis
+    // Création du devis (UNE SEULE FOIS)
     $devis = Devis::create([
         'client_name' => $request->client_name,
         'client_email' => $request->client_email,
@@ -94,15 +91,97 @@ class AdminDevisController extends Controller
         'service_type' => $service_type,
     ]);
 
+    // 🔥 CONTRAT GÉNÉRÉ (CHAMPS VIDES POUR REMPLISSAGE)
+    $contrat = "
+CONTRAT DE VENTE
+
+ENTRE :
+
+Thomas PIERRARD, né le 31/01/1980 à Senlis 60300, France,
+micro-entrepreneur immatriculé sous le numéro SIRET : en cours d’attribution,
+domicilié 12 impasse Saint-Louis, 06400 Cannes.
+
+Ci-après dénommé le « Vendeur », d'une part,
+
+ET :
+
+Nom : __________________________
+Prénom : ________________________
+Entreprise : __________________________
+Adresse : __________________________
+Ville : __________________________
+SIRET : __________________________
+Date de naissance : __________________________
+Ville de naissance : __________________________
+Fonction : __________________________
+
+ARTICLE 1 - OBJET DU CONTRAT
+
+Bien(s) vendu(s) :
+- [Description du bien sélectionné]
+- [Autres prestations cochées]
+
+Nom du Bien :
+- [URL du site web] ou SERVEUR AD
+
+ARTICLE 2 - PRIX
+
+Montant total : ".$total_ttc." € — TVA 0%
+
+ARTICLE 3 - CONDITIONS DE PAIEMENT
+
+Facture envoyée par courriel.
+
+Paiement en deux fois :
+- 200 € à la signature du contrat
+- [Reste à payer] € à la fin du travail
+
+Mode de paiement : carte bancaire.
+
+ARTICLE 4 - LIVRAISON
+
+Livraison dans un délai de [X jours].
+
+Réclamations : 15 jours par courriel concernant :
+- [URL du site] ou SERVEUR AD
+
+ARTICLE 9 - LITIGES
+
+Tribunaux compétents : Cannes.
+
+SIGNATURES
+
+POUR LE VENDEUR :
+Thomas PIERRARD
+
+POUR L’ACQUÉREUR :
+Nom : __________________________
+Prénom : ________________________
+Signature :
+
+Fait à Cannes, le ".date('d/m/Y').".
+";
+
+    // 🔥 Sauvegarde du contrat dans la base
+    DB::table('devis')
+    ->where('id', $devis->id)
+    ->update(['contrat' => $contrat]);
+
+
+    // 🔥 IMPORTANT : REDIRECTION
     return redirect()->route('admin.devis.show', $devis->id);
 }
 
 
 
-    public function show(Devis $devis)
-    {
-        return view('admin.devis.show', compact('devis'));
-    }
+public function show(Devis $devis)
+{
+    $contrat = $devis->contrat; // 🔥 On récupère le contrat depuis la base
+
+    return view('admin.devis.show', compact('devis', 'contrat'));
+}
+
+
      public function index()
 {
     $devis = Devis::orderBy('created_at', 'desc')->get();
@@ -131,5 +210,63 @@ class AdminDevisController extends Controller
     Devis::findOrFail($id)->delete();
     return back()->with('success', 'Devis supprimé.');
 }
+public function download($id)
+{
+    $devis = Devis::findOrFail($id);
+
+    return response($devis->contrat)
+        ->header('Content-Type', 'text/plain')
+        ->header('Content-Disposition', 'attachment; filename="contrat_devis_'.$id.'.txt"');
+}
+
+public function upload(Request $request, $id)
+{
+    $devis = Devis::findOrFail($id);
+
+    if (!$request->hasFile('contrat_pdf')) {
+        return back()->with('error', 'Aucun fichier reçu.');
+    }
+
+    $file = $request->file('contrat_pdf');
+
+    // Nettoyage du nom
+    $cleanName = str_replace([' ', 'é', 'è', 'ê', 'à'], '_', $file->getClientOriginalName());
+    $filename = time() . '_' . $cleanName;
+
+    // Stockage FIABLE
+    Storage::disk('public')->putFileAs(
+        'contrats_signes',
+        $file,
+        $filename
+    );
+
+    // Mise à jour BDD
+    $devis->contrat_signe = 1;
+    $devis->contrat_pdf = 'contrats_signes/' . $filename;
+    $devis->save();
+
+    return back()->with('success', 'Contrat signé importé avec succès.');
+}
+
+public function downloadSigned($id)
+{
+    $devis = Devis::findOrFail($id);
+
+    return response()->download(
+        storage_path('app/public/' . $devis->contrat_pdf)
+    );
+}
+public function downloadBoth($id)
+{
+    $devis = Devis::findOrFail($id);
+
+    return response()->download(
+        storage_path('app/public/' . $devis->contrat_pdf_both)
+    );
+}
+
+
+
+
 
 }
