@@ -1,3 +1,10 @@
+<h1>Facture</h1>
+
+<div style="position: absolute; top: 10px; right: 10px; text-align: right;">
+    <strong>Infortom</strong><br>
+    <span>SIRET : 93818904000034</span>
+</div>
+
 <p><strong>Devis :</strong> #{{ $devis->id }}</p>
 <p><strong>Client :</strong> {{ $devis->client_name }}</p>
 <p><strong>Email :</strong> {{ $devis->client_email }}</p>
@@ -11,3 +18,5 @@
     @endforeach
 </ul>
 
+<h3>Total TTC</h3>
+<p><strong>{{ $devis->total_ttc }} €</strong></p>
