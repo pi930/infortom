@@ -18,8 +18,10 @@ class PaiementController extends Controller
         'price_data' => [
             'currency' => 'eur',
             'product_data' => [
-                'name' => "Paiement total du devis #{$devis->id}",
-                'tax_code' => 'txcd_99999999',
+    'name' => "Paiement total du devis #{$devis->id}",
+    'tax_code' => 'txcd_10000000',
+
+
             ],
             'unit_amount' => $devis->total_ttc * 100,
         ],
@@ -54,7 +56,7 @@ class PaiementController extends Controller
             'currency' => 'eur',
             'product_data' => [
                 'name' => "Acompte sur devis #{$devis->id}",
-                'tax_code' => 'txcd_99999999',
+                'tax_code' => 'txcd_10000000',
             ],
             'unit_amount' => 20000,
         ],
@@ -91,7 +93,7 @@ class PaiementController extends Controller
             'currency' => 'eur',
             'product_data' => [
                 'name' => "Reste à payer du devis #{$devis->id}",
-                'tax_code' => 'txcd_99999999',
+                'tax_code' => 'txcd_10000000',
             ],
             'unit_amount' => $reste,
         ],
