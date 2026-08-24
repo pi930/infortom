@@ -17,7 +17,6 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\RendezVousController as AdminRendezVousController;
 use App\Http\Controllers\Admin\AdminFactureController;
 use App\Http\Controllers\Admin\AdminServiceConfigController;
-use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\DevisController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -73,7 +72,6 @@ Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
     Route::get('/service-config/{devis}', [AdminServiceConfigController::class, 'form'])->name('admin.service.config.form');
     Route::post('/service-config/{devis}', [AdminServiceConfigController::class, 'store'])->name('admin.service.config.store');
 });
-Route::post('/stripe/webhook', [\App\Http\Controllers\StripeWebhookController::class, 'handle']);
 Route::get('/admin/users/{user}/show', [AdminUserController::class, 'show'])
     ->name('admin.user.show');
 
