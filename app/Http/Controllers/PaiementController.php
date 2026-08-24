@@ -9,147 +9,139 @@ use App\Models\Devis;
 
 class PaiementController extends Controller
 {
-   public function checkoutTotal(Devis $devis)
-{
-    Stripe::setApiKey(config('services.stripe.secret'));
+    public function checkoutTotal(Devis $devis)
+    {
+        Stripe::setApiKey(config('services.stripe.secret'));
 
-    $session = Session::create([
-        'payment_method_types' => ['card'],
-        'line_items' => [[
-            'price_data' => [
-                'currency' => 'eur',
-                'product_data' => [
-                    'name' => "Paiement total du devis #{$devis->id}",
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'eur',
+                    'product_data' => [
+                        'name' => "Paiement total du devis #{$devis->id}",
+                    ],
+                    'unit_amount' => $devis->total_ttc * 100,
                 ],
-                'unit_amount' => $devis->total_ttc * 100,
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('user.dashboard'),
+            'metadata' => [
+                'site' => 'infortom',
+                'devis_id' => $devis->id,
+                'type_paiement' => 'total',
             ],
-            'quantity' => 1,
-        ]],
-        'mode' => 'payment',
-        'success_url' => route('paiement.success'),
-        'cancel_url' => route('user.dashboard'),
-        'metadata' => [
-    'site' => 'infortom',
-    'devis_id' => $devis->id,
-    'type_paiement' => 'total',
-],       
-
-
         ]);
 
-    session(['devis_id' => $devis->id, 'paiement_type' => 'total']);
-
-    return redirect($session->url);
-}
-
-public function checkoutAcompte(Devis $devis)
-{
-    if (!$devis->acompte_possible) {
-        return back()->with('error', 'Acompte non disponible pour ce devis.');
+        return redirect($session->url);
     }
 
-    Stripe::setApiKey(config('services.stripe.secret'));
+    public function checkoutAcompte(Devis $devis)
+    {
+        if (!$devis->acompte_possible) {
+            return back()->with('error', 'Acompte non disponible pour ce devis.');
+        }
 
-    $session = Session::create([
-        'payment_method_types' => ['card'],
-        'line_items' => [[
-            'price_data' => [
-                'currency' => 'eur',
-                'product_data' => [
-                    'name' => "Acompte sur devis #{$devis->id}",
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'eur',
+                    'product_data' => [
+                        'name' => "Acompte sur devis #{$devis->id}",
+                    ],
+                    'unit_amount' => 20000,
                 ],
-                'unit_amount' => 20000, // 200 €
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('user.dashboard'),
+            'metadata' => [
+                'site' => 'infortom',
+                'devis_id' => $devis->id,
+                'type_paiement' => 'acompte',
             ],
-            'quantity' => 1,
-        ]],
-        'mode' => 'payment',
-        'success_url' => route('paiement.success'),
-        'cancel_url' => route('user.dashboard'),
-        'metadata' => [
-    'site' => 'infortom',
-    'devis_id' => $devis->id,
-    'type_paiement' => 'acompte',
-],
-
-
-
         ]);
 
-    session(['devis_id' => $devis->id, 'paiement_type' => 'acompte']);
-
-    return redirect($session->url);
-}
-
-public function checkoutReste(Devis $devis)
-{
-    if ($devis->paiement_type !== 'acompte') {
-        return back()->with('error', 'Le reste n’est payable qu’après acompte.');
+        return redirect($session->url);
     }
 
-    $reste = ($devis->total_ttc - 200) * 100;
+    public function checkoutReste(Devis $devis)
+    {
+        if ($devis->paiement_type !== 'acompte') {
+            return back()->with('error', 'Le reste n’est payable qu’après acompte.');
+        }
 
-    \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+        $reste = ($devis->total_ttc - 200) * 100;
 
-    $session = \Stripe\Checkout\Session::create([
-        'payment_method_types' => ['card'],
-        'line_items' => [[
-            'price_data' => [
-                'currency' => 'eur',
-                'product_data' => [
-                    'name' => "Reste à payer du devis #{$devis->id}",
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'eur',
+                    'product_data' => [
+                        'name' => "Reste à payer du devis #{$devis->id}",
+                    ],
+                    'unit_amount' => $reste,
                 ],
-                'unit_amount' => $reste,
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('paiement.cancel'),
+            'metadata' => [
+                'site' => 'infortom',
+                'devis_id' => $devis->id,
+                'type_paiement' => 'reste',
             ],
-            'quantity' => 1,
-        ]],
-        'mode' => 'payment',
-        'success_url' => route('paiement.success'),
-        'cancel_url' => route('paiement.cancel'),
-        'metadata' => [
-    'site' => 'infortom',
-    'devis_id' => $devis->id,
-    'type_paiement' => 'reste',
-],
-
-
         ]);
 
-    // 🔥 IMPORTANT : enregistrer le paiement du reste
-    session([
-        'devis_id' => $devis->id,
-        'paiement_type' => 'reste'
-    ]);
+        return redirect($session->url);
+    }
 
-    return redirect($session->url);
-}
+    public function success(Request $request)
+    {
+        $sessionId = $request->get('session_id');
 
+        if (!$sessionId) {
+            return redirect()->route('user.dashboard')->with('error', 'Session Stripe introuvable.');
+        }
 
+        Stripe::setApiKey(config('services.stripe.secret'));
 
-    public function success()
-{
-    $devisId = session('devis_id');
+        $session = Session::retrieve($sessionId);
+        $paymentIntent = \Stripe\PaymentIntent::retrieve($session->payment_intent);
 
-    if ($devisId) {
+        if ($paymentIntent->status !== 'succeeded') {
+            return redirect()->route('user.dashboard')->with('error', 'Paiement non confirmé.');
+        }
+
+        $devisId = $session->metadata->devis_id ?? null;
+        $typePaiement = $session->metadata->type_paiement ?? null;
+
+        if (!$devisId) {
+            return redirect()->route('user.dashboard')->with('error', 'Devis introuvable.');
+        }
+
         $devis = Devis::find($devisId);
 
-        if ($devis) {
-            $devis->statut = 'payé';
-            $devis->paiement_type = session('paiement_type'); // total | acompte
-            $devis->paiement_date = now();
-            $devis->save();
+        if (!$devis) {
+            return redirect()->route('user.dashboard')->with('error', 'Devis introuvable.');
         }
+
+        $devis->statut = 'payé';
+        $devis->paiement_type = $typePaiement;
+        $devis->paiement_date = now();
+        $devis->save();
+
+        return redirect()->route('user.dashboard')->with('success', 'Paiement effectué avec succès.');
     }
-
-    session()->forget([
-        'panier_service',
-        'panier_date',
-        'panier_heure',
-        'panier_total',
-        'devis_id',
-        'paiement_type',
-    ]);
-
-    return redirect()->route('user.dashboard')->with('success', 'Paiement effectué avec succès.');
-}
 }
 
