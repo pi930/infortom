@@ -13,12 +13,13 @@ class PaiementController extends Controller
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $session = Session::create([
+       $session = Session::create([
     'line_items' => [[
         'price_data' => [
             'currency' => 'eur',
             'product_data' => [
                 'name' => "Paiement total du devis #{$devis->id}",
+                'tax_code' => 'txcd_99999999',
             ],
             'unit_amount' => $devis->total_ttc * 100,
         ],
@@ -33,6 +34,7 @@ class PaiementController extends Controller
         'type_paiement' => 'total',
     ],
 ]);
+
 
 
         return redirect($session->url);
@@ -52,6 +54,7 @@ class PaiementController extends Controller
             'currency' => 'eur',
             'product_data' => [
                 'name' => "Acompte sur devis #{$devis->id}",
+                'tax_code' => 'txcd_99999999',
             ],
             'unit_amount' => 20000,
         ],
@@ -68,6 +71,7 @@ class PaiementController extends Controller
 ]);
 
 
+
         return redirect($session->url);
     }
 
@@ -81,12 +85,13 @@ class PaiementController extends Controller
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $session = Session::create([
+       $session = Session::create([
     'line_items' => [[
         'price_data' => [
             'currency' => 'eur',
             'product_data' => [
                 'name' => "Reste à payer du devis #{$devis->id}",
+                'tax_code' => 'txcd_99999999',
             ],
             'unit_amount' => $reste,
         ],
@@ -101,6 +106,7 @@ class PaiementController extends Controller
         'type_paiement' => 'reste',
     ],
 ]);
+
 
 
         return redirect($session->url);
