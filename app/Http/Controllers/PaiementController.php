@@ -14,26 +14,26 @@ class PaiementController extends Controller
         Stripe::setApiKey(config('services.stripe.secret'));
 
         $session = Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'eur',
-                    'product_data' => [
-                        'name' => "Paiement total du devis #{$devis->id}",
-                    ],
-                    'unit_amount' => $devis->total_ttc * 100,
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('user.dashboard'),
-            'metadata' => [
-                'site' => 'infortom',
-                'devis_id' => $devis->id,
-                'type_paiement' => 'total',
+    'line_items' => [[
+        'price_data' => [
+            'currency' => 'eur',
+            'product_data' => [
+                'name' => "Paiement total du devis #{$devis->id}",
             ],
-        ]);
+            'unit_amount' => $devis->total_ttc * 100,
+        ],
+        'quantity' => 1,
+    ]],
+    'mode' => 'payment',
+    'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
+    'cancel_url' => route('user.dashboard'),
+    'metadata' => [
+        'site' => 'infortom',
+        'devis_id' => $devis->id,
+        'type_paiement' => 'total',
+    ],
+]);
+
 
         return redirect($session->url);
     }
@@ -47,26 +47,26 @@ class PaiementController extends Controller
         Stripe::setApiKey(config('services.stripe.secret'));
 
         $session = Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'eur',
-                    'product_data' => [
-                        'name' => "Acompte sur devis #{$devis->id}",
-                    ],
-                    'unit_amount' => 20000,
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('user.dashboard'),
-            'metadata' => [
-                'site' => 'infortom',
-                'devis_id' => $devis->id,
-                'type_paiement' => 'acompte',
+    'line_items' => [[
+        'price_data' => [
+            'currency' => 'eur',
+            'product_data' => [
+                'name' => "Acompte sur devis #{$devis->id}",
             ],
-        ]);
+            'unit_amount' => 20000,
+        ],
+        'quantity' => 1,
+    ]],
+    'mode' => 'payment',
+    'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
+    'cancel_url' => route('user.dashboard'),
+    'metadata' => [
+        'site' => 'infortom',
+        'devis_id' => $devis->id,
+        'type_paiement' => 'acompte',
+    ],
+]);
+
 
         return redirect($session->url);
     }
@@ -82,26 +82,26 @@ class PaiementController extends Controller
         Stripe::setApiKey(config('services.stripe.secret'));
 
         $session = Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'eur',
-                    'product_data' => [
-                        'name' => "Reste à payer du devis #{$devis->id}",
-                    ],
-                    'unit_amount' => $reste,
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('paiement.cancel'),
-            'metadata' => [
-                'site' => 'infortom',
-                'devis_id' => $devis->id,
-                'type_paiement' => 'reste',
+    'line_items' => [[
+        'price_data' => [
+            'currency' => 'eur',
+            'product_data' => [
+                'name' => "Reste à payer du devis #{$devis->id}",
             ],
-        ]);
+            'unit_amount' => $reste,
+        ],
+        'quantity' => 1,
+    ]],
+    'mode' => 'payment',
+    'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
+    'cancel_url' => route('paiement.cancel'),
+    'metadata' => [
+        'site' => 'infortom',
+        'devis_id' => $devis->id,
+        'type_paiement' => 'reste',
+    ],
+]);
+
 
         return redirect($session->url);
     }
