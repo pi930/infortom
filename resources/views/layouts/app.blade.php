@@ -6,109 +6,114 @@
     <title>Infortom</title>
 
     <style>
-        .header-logo {
-            height: 55px;
-            margin-right: 15px;
-            vertical-align: middle;
-        }
-
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f5f7fa;
+            background: #ffffff;
+            color: black;
         }
 
-        /* Bandeau bleu indigo */
+        /* HEADER */
         header {
-            background: #3f51b5;
-            padding: 15px 30px;
-            color: white;
+            background: #0d0d0d;
+            padding: 12px 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #1f1f1f;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-logo {
+            height: 55px;
+        }
+
+        .header-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #6ec6ff;
+        }
+
+        /* NAVIGATION */
+        nav {
+            display: flex;
+            gap: 25px;
         }
 
         nav a {
-            color: white;
+            color: #d0d0d0;
             text-decoration: none;
-            margin-left: 20px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
         }
 
-        nav a:hover {
+        nav a:hover,
+        nav a.active {
+            color: #6ec6ff;
             text-decoration: underline;
         }
 
-        .logo-wrapper {
-            background: white;
-            padding: 6px;
-            border-radius: 6px;
-            margin-right: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logout-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            margin-left: 20px;
-            cursor: pointer;
-        }
-
-        .logout-btn:hover {
-            text-decoration: underline;
-        }
-
-        /* 🌌 Fond global */
-        .global-background {
-            background-image: url('{{ asset('images/layout-image-new.png') }}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: relative;
-            min-height: 100vh;
-            padding: 40px 0;
-        }
-        /* Toutes les backgrounds de pages */
-.services-background::before,
-.mentions-background::before,
-.confidentialite-background::before,
-.contact-background::before,
-.devis-background::before,
-.rendezvous-background::before,
-.messages-background::before,
-.login-background::before,
-.register-background::before {
-    background: transparent !important; /* filtre sombre retiré */
-}
-
-
-        /* Voile sombre */
-        .global-background::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: 1;
-        }
-
-        /* Contenu au-dessus */
-        .global-background > main {
-            position: relative;
-            z-index: 2;
-        }
-
+        /* MAIN */
         main {
-            max-width: 1100px;
-            margin: auto;
+            padding: 0;
+            margin: 0;
+            max-width: 100%;
+        }
+
+        /* RESPONSIVE SMARTPHONE */
+        @media (max-width: 768px) {
+
+            header {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+
+            .header-left {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .header-logo {
+                height: 48px;
+            }
+
+            .header-title {
+                font-size: 20px;
+            }
+
+            nav {
+                margin-top: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            nav a {
+                font-size: 14px;
+            }
+        }
+
+        /* ULTRA SMALL DEVICES (iPhone SE, Galaxy Mini) */
+        @media (max-width: 420px) {
+            nav {
+                gap: 10px;
+            }
+
+            nav a {
+                font-size: 13px;
+            }
+
+            .header-title {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
@@ -116,38 +121,24 @@
 <body>
 
 <header>
-    <div style="display: flex; align-items: center;">
-        <div class="logo-wrapper">
-            <img src="{{ asset('images/infortom-logo.png') }}"
-                 alt="Logo Infortom"
-                 class="header-logo">
-        </div>
+    <div class="header-left">
+        <img src="{{ asset('images/infortom-logo.png') }}" class="header-logo" alt="Logo Infortom">
+        <div class="header-title">infortom</div>
     </div>
 
     <nav>
-        <a href="{{ route('user.devis.index') }}">📄 Devis</a>
-        <a href="{{ route('user.rendezvous.index') }}">📅 Rendez-vous</a>
-        <a href="{{ route('user.messages.index') }}">💬 Messages</a>
-
-        <a href="{{ route('home') }}">Accueil</a>
-        <a href="{{ route('services') }}">Services</a>
-        <a href="{{ route('competences') }}">Compétences</a>
-        <a href="{{ route('contact') }}">Contact</a>
-
-        @auth
-        <form method="POST" action="{{ route('logout') }}" style="display:inline;">
-            @csrf
-            <button type="submit" class="logout-btn">Déconnexion</button>
-        </form>
-        @endauth
+        <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">ACCUEIL</a>
+        <a href="{{ route('services') }}" class="{{ request()->routeIs('services') ? 'active' : '' }}">NOS SERVICES</a>
+        <a href="{{ route('tarifs') }}" class="{{ request()->routeIs('tarifs') ? 'active' : '' }}">NOS TARIFS</a>
+        <a href="{{ route('realisations') }}" class="{{ request()->routeIs('realisations') ? 'active' : '' }}">NOS RÉALISATIONS</a>
+        <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">CONTACT</a>
     </nav>
 </header>
 
-<div class="global-background">
-    <main>
-        @yield('content')
-    </main>
-</div>
+<main>
+    @yield('content')
+</main>
 
 </body>
 </html>
+

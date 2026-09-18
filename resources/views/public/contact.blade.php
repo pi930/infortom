@@ -3,94 +3,169 @@
 @section('content')
 
 <style>
-.contact-background {
-    background-image: url('{{ asset('images/home-background-new.jpg') }}');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 40px 0;
-    position: relative;
-}
+    .contact-header {
+        width: 100%;
+        background: #ffffff;
+        padding: 50px 40px;
+        text-align: left;
+    }
 
-/* Voile sombre */
-.contact-background::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    z-index: 1;
-}
+    .contact-header h1 {
+        font-size: 34px;
+        font-weight: 800;
+        color: #1e3a8a;
+        margin-bottom: 20px;
+    }
 
-/* Contenu au-dessus du voile */
-.contact-background > .container {
-    position: relative;
-    z-index: 2;
-}
+    .contact-header p {
+        font-size: 17px;
+        color: #333;
+        max-width: 900px;
+        line-height: 1.6;
+    }
+
+    .contact-container {
+        display: flex;
+        gap: 40px;
+        padding: 50px 40px;
+        background: #ffffff;
+    }
+
+    .contact-left {
+        flex: 1;
+        text-align: left;
+    }
+
+    .contact-left img {
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .contact-left h2 {
+        font-size: 26px;
+        font-weight: 800;
+        color: #1e3a8a;
+        margin-bottom: 10px;
+    }
+
+    .contact-left p {
+        font-size: 16px;
+        color: #333;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+
+    .contact-right {
+        flex: 1;
+        background: #f7f7f7;
+        padding: 30px;
+        border-radius: 10px;
+    }
+
+    .contact-right h2 {
+        font-size: 26px;
+        font-weight: 800;
+        color: #1e3a8a;
+        margin-bottom: 20px;
+    }
+
+    .contact-right label {
+        font-size: 15px;
+        font-weight: 600;
+        color: #333;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .contact-right input,
+    .contact-right textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 15px;
+    }
+
+    .contact-right textarea {
+        height: 140px;
+        resize: none;
+    }
+
+    .contact-btn {
+        background: #1e3a8a;
+        color: white;
+        padding: 14px 30px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    @media (max-width: 768px) {
+        .contact-container {
+            flex-direction: column;
+        }
+    }
 </style>
 
+<!-- ==== BANDEAU BLANC ==== -->
+<div class="contact-header">
+    <h1>Contactez Infortom</h1>
 
-<div class="contact-background">
-    <div class="container" style="max-width: 700px; margin: auto;">
+    <p>
+        Vous lancez votre activité d'auto‑entrepreneur et souhaitez développer votre visibilité en ligne ?
+        Infortom conçoit pour vous un site web moderne, clé en main avec messagerie automatique, devis,
+        factures et paiements intégrés. Écrivez‑nous via le formulaire ci‑dessous : nous étudions votre
+        demande avec attention et vous répondons sous 48h.
+    </p>
+</div>
 
-        <h2 style="margin-bottom: 20px; color:white; text-align:center;">
-            Contactez-nous
-        </h2>
+<!-- ==== CONTENU PRINCIPAL ==== -->
+<div class="contact-container">
 
-        @if(session('success'))
-            <p style="color: lightgreen; font-weight: bold; text-align:center;">
-                {{ session('success') }}
-            </p>
-        @endif
+    <!-- ==== COLONNE GAUCHE ==== -->
+    <div class="contact-left">
+        <img src="{{ asset('images/localisation.png') }}" alt="Contact Infortom">
 
-        <form method="POST" action="{{ route('contact.send') }}" 
-            style="background: white; padding: 25px; border-radius: 8px; 
-                   box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-            @csrf
+        <h2>Localisation</h2>
+        <p>Cannes, France</p>
 
-            <label style="font-weight: bold;">Nom</label>
-            <input type="text" name="name" required
-                style="width: 100%; padding: 10px; border: none; outline: none;">
-            <hr>
+        <h2>E-mail</h2>
+        <p>t.pierrard.131.198@outlook.fr</p>
 
-            <label style="font-weight: bold;">Email</label>
-            <input type="email" name="email" required
-                style="width: 100%; padding: 10px; border: none; outline: none;">
-            <hr>
-
-            <label style="font-weight: bold;">Sujet</label>
-            <input type="text" name="subject" required
-                style="width: 100%; padding: 10px; border: none; outline: none;">
-            <hr>
-
-            <label style="font-weight: bold;">Message</label>
-            <textarea name="message" required rows="5"
-                style="width: 100%; padding: 10px; border: none; outline: none; resize: vertical;"></textarea>
-            <hr>
-
-            <button type="submit"
-                style="
-                    width: 100%;
-                    padding: 12px;
-                    background: #3f51b5;
-                    color: white;
-                    font-size: 18px;
-                    border: none;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    margin-top: 10px;
-                    transition: 0.2s;
-                "
-                onmouseover="this.style.background='#303f9f'"
-                onmouseout="this.style.background='#3f51b5'">
-                Envoyer
-            </button>
-
-        </form>
-
+        <h2>Réseaux sociaux</h2>
+        <p>Instagram – Facebook – LinkedIn</p>
     </div>
+
+    <!-- ==== COLONNE DROITE : FORMULAIRE ==== -->
+    <div class="contact-right">
+        <h2>Démarrez votre projet</h2>
+
+        <form action="{{ route('contact.send') }}" method="POST">
+            @csrf
+            <label>Sujet *</label>
+<input type="text" name="subject" required>
+
+            <label>Nom *</label>
+            <input type="text" name="name" required>
+
+            <label>Adresse e-mail *</label>
+            <input type="email" name="email" required>
+
+            <label>Téléphone</label>
+            <input type="text" name="phone">
+
+            <label>Message *</label>
+            <textarea name="message" required></textarea>
+
+            <button type="submit" class="contact-btn">Envoyer ma demande</button>
+        </form>
+    </div>
+
 </div>
 
 @endsection

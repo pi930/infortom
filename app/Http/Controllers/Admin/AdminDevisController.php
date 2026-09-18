@@ -8,16 +8,21 @@ use App\Models\Devis;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+
 
 
 class AdminDevisController extends Controller
 {
-    public function create()
-    {
-        return view('admin.devis.create');
-    }
+    public function create(Request $request)
+{
+    $client_name = $request->client_name;
+    $client_email = $request->client_email;
 
-   public function store(Request $request)
+    return view('admin.devis.create', compact('client_name', 'client_email'));
+}
+
+public function store(Request $request)
 {
     // Liste des prix
     $prices = [
@@ -78,7 +83,7 @@ class AdminDevisController extends Controller
     // Trouver l'utilisateur correspondant à l'email
     $user = User::where('email', $request->client_email)->first();
 
-    // Création du devis (UNE SEULE FOIS)
+    // Création du devis
     $devis = Devis::create([
         'client_name' => $request->client_name,
         'client_email' => $request->client_email,
@@ -91,87 +96,63 @@ class AdminDevisController extends Controller
         'service_type' => $service_type,
     ]);
 
-    // 🔥 CONTRAT GÉNÉRÉ (CHAMPS VIDES POUR REMPLISSAGE)
+    // 🔥 Génération du contrat
     $contrat = "
 CONTRAT DE VENTE
 
-ENTRE :
+Client : {$devis->client_name}
+Email : {$devis->client_email}
 
-Thomas PIERRARD, né le 31/01/1980 à Senlis 60300, France,
-micro-entrepreneur immatriculé sous le numéro SIRET : en cours d’attribution,
-domicilié 12 impasse Saint-Louis, 06400 Cannes.
+Prestations :
+" . implode("\n", $selected) . "
 
-Ci-après dénommé le « Vendeur », d'une part,
+Montant total : {$total_ttc} €
 
-ET :
+Acompte : 200 €
+Reste à payer : " . ($total_ttc - 200) . " €
 
-Nom : __________________________
-Prénom : ________________________
-Entreprise : __________________________
-Adresse : __________________________
-Ville : __________________________
-SIRET : __________________________
-Date de naissance : __________________________
-Ville de naissance : __________________________
-Fonction : __________________________
-
-ARTICLE 1 - OBJET DU CONTRAT
-
-Bien(s) vendu(s) :
-- [Description du bien sélectionné]
-- [Autres prestations cochées]
-
-Nom du Bien :
-- [URL du site web] ou SERVEUR AD
-
-ARTICLE 2 - PRIX
-
-Montant total : ".$total_ttc." € — TVA 0%
-
-ARTICLE 3 - CONDITIONS DE PAIEMENT
-
-Facture envoyée par courriel.
-
-Paiement en deux fois :
-- 200 € à la signature du contrat
-- [Reste à payer] € à la fin du travail
-
-Mode de paiement : carte bancaire.
-
-ARTICLE 4 - LIVRAISON
-
-Livraison dans un délai de [X jours].
-
-Réclamations : 15 jours par courriel concernant :
-- [URL du site] ou SERVEUR AD
-
-ARTICLE 9 - LITIGES
-
-Tribunaux compétents : Cannes.
-
-SIGNATURES
-
-POUR LE VENDEUR :
-Thomas PIERRARD
-
-POUR L’ACQUÉREUR :
-Nom : __________________________
-Prénom : ________________________
-Signature :
-
-Fait à Cannes, le ".date('d/m/Y').".
+Fait à Cannes, le " . date('d/m/Y') . ".
 ";
 
-    // 🔥 Sauvegarde du contrat dans la base
-    DB::table('devis')
-    ->where('id', $devis->id)
-    ->update(['contrat' => $contrat]);
+    // Sauvegarde du contrat
+    $devis->contrat = $contrat;
+    $devis->save();
+
+    // 🔥 Lien de paiement Stripe
+    $acompteLink = route('paiement.acompte', $devis->id);
+
+    // 🔥 Envoi du devis par email
+    Mail::send([], [], function ($message) use ($devis, $contrat, $acompteLink) {
+        $message->to($devis->client_email)
+                ->subject("Votre devis Infortom #{$devis->id}")
+                ->text("
+Bonjour {$devis->client_name},
+
+Voici votre devis :
+
+Montant total : {$devis->total_ttc} €
+
+Prestations :
+" . implode("\n", $devis->items) . "
+
+Contrat :
+$contrat
+
+Pour payer l'acompte de 200 €, cliquez ici :
+$acompteLink
+
+Cordialement,
+Infortom
+06400 Cannes
+");});
+$devis->email_sent = true;
+$devis->save();
 
 
-    // 🔥 IMPORTANT : REDIRECTION
-    return redirect()->route('admin.devis.show', $devis->id);
+    return redirect()->route('admin.devis.index')
+    ->with('success', 'Devis créé et envoyé au client.');
+
 }
-
 
 
 public function show(Devis $devis)

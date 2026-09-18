@@ -21,6 +21,35 @@ use App\Http\Controllers\DevisController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\Admin\RendezVousController; 
+
+
+
+
+// Page d'accueil
+Route::get('/', [App\Http\Controllers\Public\HomeController::class, 'index'])
+    ->name('home');
+
+// Services
+Route::get('/services', [App\Http\Controllers\Public\HomeController::class, 'services'])
+    ->name('services');
+
+
+// Tarifs
+Route::get('/tarifs', function () {
+    return view('public.tarifs');
+})->name('tarifs');
+
+// Réalisations
+Route::get('/realisations', function () {
+    return view('public.realisations');
+})->name('realisations');
+
+// Contact
+Route::get('/contact', [App\Http\Controllers\Public\ContactController::class, 'index'])
+    ->name('contact');
+
+Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
 // --------------------------------------------------
 // ADMIN
@@ -32,31 +61,45 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
+// ADMIN — Messages
+Route::get('/admin/messages', [AdminMessageController::class, 'index'])
+    ->name('admin.messages.index');
+
+// ADMIN — Rendez-vous
+Route::get('/admin/rendezvous', [RendezVousController::class, 'index'])
+    ->name('admin.rendezvous.index');
+
+Route::post('/admin/rendezvous', [RendezVousController::class, 'store'])
+    ->name('admin.rendezvous.store');
+
+Route::delete('/admin/rendezvous/{id}', [RendezVousController::class, 'destroy'])
+    ->name('admin.rendezvous.destroy');
+
+// ADMIN — Devis
+Route::get('/admin/devis/create', [AdminDevisController::class, 'create'])
+    ->name('admin.devis.create');
+    Route::get('/admin/devis', [AdminDevisController::class, 'index'])
+    ->name('admin.devis.index');
+Route::get('/admin/devis/{devis}', [AdminDevisController::class, 'show'])
+    ->name('admin.devis.show');
+
+
+Route::post('/admin/devis/store', [AdminDevisController::class, 'store'])
+    ->name('admin.devis.store');
+Route::get('/admin/rendezvous/confirm/{id}', [RendezVousController::class, 'confirm'])
+    ->name('admin.rendezvous.confirm')
+    ->middleware('signed');
+
 
 Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
 
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])
         ->name('admin.dashboard');
 
-    // Devis
-    Route::get('/devis', [AdminDevisController::class, 'index'])->name('admin.devis.index');
-    Route::get('/devis/create', [AdminDevisController::class, 'create'])->name('admin.devis.create');
-    Route::post('/devis/store', [AdminDevisController::class, 'store'])->name('admin.devis.store');
-    Route::get('/devis/{devis}', [AdminDevisController::class, 'show'])->name('admin.devis.show');
-
-    // Messages
-    Route::get('/messages', [AdminMessageController::class, 'index'])->name('admin.messages.index');
-    Route::get('/messages/{id}/repondre', [AdminMessageController::class, 'repondre'])->name('admin.messages.repondre');
-    Route::post('/messages/{id}/envoyer', [AdminMessageController::class, 'envoyerReponse'])->name('admin.messages.envoyerReponse');
-
+   
+  
     // Paiements admin
     Route::get('/paiements', [AdminPaiementController::class, 'index'])->name('admin.paiements.index');
-
-    // Rendez-vous
-    Route::get('/rendezvous', [AdminRendezVousController::class, 'index'])->name('admin.rendezvous.index');
-    Route::post('/rendezvous/store', [AdminRendezVousController::class, 'store'])->name('admin.rendezvous.store');
-    Route::delete('/rendezvous/{id}', [AdminRendezVousController::class, 'destroy'])->name('admin.rendezvous.destroy');
-
     // Paramètres admin
     Route::get('/settings', [AdminUserController::class, 'settings'])->name('admin.users.settings');
     Route::post('/settings/update', [AdminUserController::class, 'updateSettings'])->name('admin.user.settings.update');
@@ -150,11 +193,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/services', [HomeController::class, 'services'])->name('services');
 Route::get('/competences', [HomeController::class, 'competences'])->name('competences');
 
-// Contact
-Route::middleware(['auth'])->group(function () {
-    Route::get('/contact', [ContactController::class, 'index'])->name('contact');
-    Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
-});
+
 
 // Support
 Route::get('/support', [SupportController::class, 'index'])->name('support.form');

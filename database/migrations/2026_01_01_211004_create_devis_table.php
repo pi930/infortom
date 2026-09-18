@@ -10,7 +10,9 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-{
+{    
+
+    
     Schema::create('devis', function (Blueprint $table) {
         $table->id();
         $table->string('client_name');

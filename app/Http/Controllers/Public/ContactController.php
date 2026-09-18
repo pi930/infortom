@@ -22,16 +22,15 @@ class ContactController extends Controller
             'message' => 'required|string',
         ]);
 
-      Message::create([
-    'user_id' => auth()->id(),
+       Message::create([
     'name'    => $request->name,
     'email'   => $request->email,
     'subject' => $request->subject,
     'message' => $request->message,
+    'phone'   => $request->phone,
 ]);
 
 
         return redirect()->route('contact')->with('success', 'Votre message a été envoyé.');
     }
 }
-

@@ -24,28 +24,8 @@
 
             <small>Reçu le : {{ $msg->created_at->format('d/m/Y H:i') }}</small>
 
-            {{-- Réponse admin --}}
-            @if($msg->reponse)
-                <div style="margin-top:15px; padding:10px; background:#e9f5ff; border-left:4px solid #007bff; border-radius:6px;">
-                    <strong>Votre réponse (Admin) :</strong><br>
-                    <p>{{ $msg->reponse }}</p>
-                </div>
-            @endif
+         
 
-            {{-- Réponse utilisateur --}}
-            @if($msg->user_reply)
-                <div style="margin-top:15px; padding:10px; background:#f1fff3; border-left:4px solid #28a745; border-radius:6px;">
-                    <strong>Réponse de l’utilisateur :</strong><br>
-                    <p>{{ $msg->user_reply }}</p>
-                </div>
-            @endif
-
-            {{-- Bouton répondre --}}
-            <div style="margin-top: 15px;">
-                <a href="{{ route('admin.messages.repondre', $msg->id) }}" class="btn btn-primary">
-                    Répondre
-                </a>
-            </div>
 
         </div>
     @endforeach

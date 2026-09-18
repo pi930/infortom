@@ -22,15 +22,25 @@
 
             <small class="text-muted">Reçu le : {{ $msg->created_at->format('d/m/Y H:i') }}</small>
 
-            @if($msg->reponse)
-                <div class="mt-3 p-2 bg-primary bg-opacity-10 border-start border-primary border-3 rounded">
-                    <strong>Votre réponse :</strong>
-                    <p>{{ $msg->reponse }}</p>
-                </div>
-            @endif
+            <hr>
 
-            <a href="{{ route('admin.messages.repondre', $msg->id) }}" class="btn btn-primary mt-3">
-                Répondre
+           <a href="{{ route('admin.rendezvous.index', [
+    'name' => $msg->name,
+    'email' => $msg->email,
+    'subject' => $msg->subject,
+    'message' => $msg->message,
+    'phone' => $msg->phone
+]) }}" class="btn btn-success mt-2">
+    Prendre rendez-vous
+</a>
+
+
+            <!-- Bouton faire un devis -->
+            <a href="{{ route('admin.devis.create', [
+                'client_name' => $msg->name,
+                'client_email' => $msg->email
+            ]) }}" class="btn btn-primary mt-2">
+                Faire un devis
             </a>
 
         </div>
@@ -38,4 +48,3 @@
 @endif
 
 @endsection
-

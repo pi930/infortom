@@ -24,22 +24,30 @@
 
             <tbody>
                 @foreach($devis as $d)
-                    <tr>
-                        <td>{{ $d->id }}</td>
-                        <td>{{ $d->client_name }}</td>
-                        <td>{{ $d->client_email }}</td>
-                        <td>{{ $d->total_ttc }} €</td>
-                        <td>{{ $d->created_at->format('d/m/Y H:i') }}</td>
-                        <td>
-                            <a href="{{ route('admin.devis.show', $d->id) }}" class="btn btn-sm btn-primary">
-                                Voir
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
+<tr>
+    <td>{{ $d->client_name }}</td>
+    <td>{{ $d->client_email }}</td>
+    <td>{{ $d->total_ttc }} €</td>
+    <td>{{ $d->created_at->format('d/m/Y H:i') }}</td>
+    <td>
+        <a href="{{ route('admin.devis.show', $d->id) }}" class="btn btn-sm btn-primary">
+            Voir
+        </a>
+    </td>
+    <td>
+        @if($d->email_sent)
+            <span class="badge bg-success">Email envoyé</span>
+        @else
+            <span class="badge bg-danger">Email non envoyé</span>
+        @endif
+    </td>
+</tr>
+@endforeach
+
             </tbody>
         </table>
     @endif
+
 
 </div>
 @endsection

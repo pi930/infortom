@@ -10,12 +10,14 @@
 
         <div class="mb-3">
             <label>Nom du client</label>
-            <input type="text" name="client_name" class="form-control" required>
+            <input type="text" name="client_name" class="form-control"
+       value="{{ $client_name ?? '' }}" required>
         </div>
 
         <div class="mb-3">
-            <label>Email du client</label>
-            <input type="email" name="client_email" class="form-control" required>
+            <label>Email du client</label>            
+<input type="email" name="client_email" class="form-control"
+       value="{{ $client_email ?? '' }}" required>
         </div>
 
         <hr>
@@ -117,9 +119,9 @@
 </div>
 
 
-
-
-        <button type="submit" class="btn btn-primary mt-4">Générer le devis</button>
+<button type="submit" class="btn btn-success mt-4">
+    Envoyer le devis au client
+</button>
 
     </form>
 </div>

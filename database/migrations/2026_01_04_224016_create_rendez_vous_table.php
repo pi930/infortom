@@ -10,18 +10,18 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('rendez_vous', function (Blueprint $table) {
-    $table->id();
-    $table->dateTime('date'); // début du rendez-vous
-    $table->string('nom');
-    $table->string('rue');
-    $table->string('ville');
-    $table->string('telephone');
-    $table->timestamps();
-});
+{
+    Schema::create('rendez_vous', function (Blueprint $table) {
+        $table->id();
+        $table->dateTime('date');
+        $table->string('nom');
+        $table->string('rue');
+        $table->string('ville');
+        $table->string('telephone');
+        $table->timestamps();
+    });
+}
 
-    }
 
     /**
      * Reverse the migrations.
