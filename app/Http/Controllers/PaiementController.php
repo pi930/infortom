@@ -58,7 +58,7 @@ class PaiementController extends Controller
                     'name' => "Acompte sur devis #{$devis->id}",
                     'tax_code' => 'txcd_10000000',
                 ],
-                'unit_amount' => 20000, // 200 €
+                'unit_amount' => 10000, // 100 €
             ],
             'quantity' => 1,
         ]],
@@ -84,7 +84,7 @@ class PaiementController extends Controller
             return back()->with('error', 'Le reste n’est payable qu’après acompte.');
         }
 
-        $reste = ($devis->total_ttc - 200) * 100;
+        $reste = ($devis->total_ttc - 100) * 100;
 
         Stripe::setApiKey(config('services.stripe.secret'));
 

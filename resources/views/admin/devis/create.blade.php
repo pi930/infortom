@@ -11,117 +11,60 @@
         <div class="mb-3">
             <label>Nom du client</label>
             <input type="text" name="client_name" class="form-control"
-       value="{{ $client_name ?? '' }}" required>
+                   value="{{ $client_name ?? '' }}" required>
         </div>
 
         <div class="mb-3">
-            <label>Email du client</label>            
-<input type="email" name="client_email" class="form-control"
-       value="{{ $client_email ?? '' }}" required>
+            <label>Email du client</label>
+            <input type="email" name="client_email" class="form-control"
+                   value="{{ $client_email ?? '' }}" required>
         </div>
 
         <hr>
 
         <h4>Prestations</h4>
 
+        <!-- Dépannage -->
         <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" name="items[]" value="deplacement" id="deplacement">
-            <label class="form-check-label" for="deplacement">
-                Déplacement / Dépannage — 60 €
+            <input class="form-check-input" type="checkbox" name="items[]" value="depannage" id="depannage">
+            <label class="form-check-label" for="depannage">
+                Dépannage — 60 €
             </label>
         </div>
 
-        <h4 class="mt-4">Matériel</h4>
-
+        <!-- Site internet -->
         <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" name="items[]" value="ssd" id="ssd">
-            <label class="form-check-label" for="ssd">
-                Disque dur SSD — 60 €
+            <input class="form-check-input" type="checkbox" name="items[]" value="site_internet" id="site_internet">
+            <label class="form-check-label" for="site_internet">
+                Site internet — 200 €
             </label>
         </div>
 
+        <!-- Nom de domaine -->
         <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" name="items[]" value="carte_son" id="carte_son">
-            <label class="form-check-label" for="carte_son">
-                Carte son — 60 €
+            <input class="form-check-input" type="checkbox" name="items[]" value="nom_de_domaine" id="nom_de_domaine">
+            <label class="form-check-label" for="nom_de_domaine">
+                Nom de domaine — 6 €
             </label>
         </div>
 
-        <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" name="items[]" value="carte_reseau" id="carte_reseau">
-            <label class="form-check-label" for="carte_reseau">
-                Carte réseau — 60 €
-            </label>
+        <hr>
+
+        <h4 class="mt-4">Ajout personnalisé</h4>
+
+        <div class="mb-3">
+            <label>Nom personnalisé</label>
+            <input type="text" name="custom_name" class="form-control">
         </div>
 
-        <h4 class="mt-4">Sites web</h4>
-
-        <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" name="items[]" value="blog" id="blog">
-            <label class="form-check-label" for="blog">
-                Site vitrine / Blog — 250 €
-            </label>
+        <div class="mb-3">
+            <label>Montant personnalisé (€)</label>
+            <input type="number" name="custom_amount" class="form-control" step="0.01">
         </div>
 
-        <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" name="items[]" value="entreprise" id="entreprise">
-            <label class="form-check-label" for="entreprise">
-                Site d'entreprise — 500 €
-            </label>
-        </div>
-
-        <div class="form-check mb-4">
-            <input class="form-check-input" type="checkbox" name="items[]" value="commercial" id="commercial">
-            <label class="form-check-label" for="commercial">
-                Site commercial — 1000 €
-            </label>
-        </div>
-        <h4 class="mt-4">Réseau / Active Directory</h4>
-
-<div class="form-check mb-4">
-    <input class="form-check-input" type="checkbox" name="items[]" value="active_directory" id="active_directory">
-    <label class="form-check-label" for="active_directory">
-        Mise en place serveur Active Directory — 1000 €
-    </label>
-</div>
-<h4 class="mt-4">Logiciels</h4>
-
-<div class="form-check mb-2">
-    <input class="form-check-input" type="checkbox" name="items[]" value="windows_server_2025" id="windows_server_2025">
-    <label class="form-check-label" for="windows_server_2025">
-        Windows Server 2025 — 1200 €
-    </label>
-</div>
-
-<div class="form-check mb-2">
-    <input class="form-check-input" type="checkbox" name="items[]" value="hebergement" id="hebergement">
-    <label class="form-check-label" for="hebergement">
-        Hébergement — 20 €
-    </label>
-</div>
-
-<div class="form-check mb-4">
-    <input class="form-check-input" type="checkbox" name="items[]" value="email" id="email">
-    <label class="form-check-label" for="email">
-        Email — 5 €
-    </label>
-</div>
-<h4 class="mt-4">Ajout personnalisé</h4>
-
-<div class="mb-3">
-    <label>Nom personnalisé</label>
-    <input type="text" name="custom_name" class="form-control">
-</div>
-
-<div class="mb-3">
-    <label>Montant personnalisé (€)</label>
-    <input type="number" name="custom_amount" class="form-control" step="0.01">
-</div>
-
-
-<button type="submit" class="btn btn-success mt-4">
-    Envoyer le devis au client
-</button>
+        <button type="submit" class="btn btn-success mt-4">
+            Envoyer le devis au client
+        </button>
 
     </form>
 </div>

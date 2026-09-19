@@ -14,30 +14,31 @@ use Illuminate\Support\Facades\Mail;
 
 class AdminDevisController extends Controller
 {
-    public function create(Request $request)
+   public function create(Request $request)
 {
     $client_name = $request->client_name;
     $client_email = $request->client_email;
 
-    return view('admin.devis.create', compact('client_name', 'client_email'));
+    // Prestations autorisées pour la page admin
+    $adminPrices = [
+        'site_internet' => 200,
+        'nom_de_domaine' => 6,
+        'depannage' => 60,
+    ];
+
+    return view('admin.devis.create', compact('client_name', 'client_email', 'adminPrices'));
 }
+
 
 public function store(Request $request)
 {
     // Liste des prix
-    $prices = [
-        'deplacement' => 60,
-        'ssd' => 60,
-        'carte_son' => 60,
-        'carte_reseau' => 60,
-        'blog' => 250,
-        'entreprise' => 500,
-        'commercial' => 1000,
-        'active_directory' => 1000,
-        'windows_server_2025' => 1200,
-        'hebergement' => 20,
-        'email' => 5,
-    ];
+   $prices = [
+    'site_internet' => 200,
+    'nom_de_domaine' => 6,
+    'depannage' => 60,
+];
+
 
     // Récupération des éléments cochés
     $selected = $request->items ?? [];
@@ -65,8 +66,8 @@ public function store(Request $request)
     // Total TTC = HT
     $total_ttc = $total_ht;
 
-    // Déterminer si acompte possible
-    $acompte_possible = $total_ht >= 500;
+    $acompte_possible = $total_ht >= 100;
+
 
     // Détection automatique du type de service
     $site_items = ['hebergement', 'email', 'blog'];
@@ -108,8 +109,9 @@ Prestations :
 
 Montant total : {$total_ttc} €
 
-Acompte : 200 €
-Reste à payer : " . ($total_ttc - 200) . " €
+Acompte : 100 €
+Reste à payer : " . ($total_ttc - 100) . " €
+
 
 Fait à Cannes, le " . date('d/m/Y') . ".
 ";
@@ -138,7 +140,7 @@ Prestations :
 Contrat :
 $contrat
 
-Pour payer l'acompte de 200 €, cliquez ici :
+Pour payer l'acompte de 100 €, cliquez ici :
 $acompteLink
 
 Cordialement,
