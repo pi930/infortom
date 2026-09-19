@@ -42,6 +42,40 @@ class PaiementController extends Controller
         return redirect($session->url);
     }
 
+    public function checkoutAcompte(Devis $devis)
+{
+    if (!$devis->acompte_possible) {
+        return back()->with('error', 'Acompte non disponible pour ce devis.');
+    }
+
+    Stripe::setApiKey(config('services.stripe.secret'));
+
+    $session = Session::create([
+        'line_items' => [[
+            'price_data' => [
+                'currency' => 'eur',
+                'product_data' => [
+                    'name' => "Acompte sur devis #{$devis->id}",
+                    'tax_code' => 'txcd_10000000',
+                ],
+                'unit_amount' => 20000, // 200 €
+            ],
+            'quantity' => 1,
+        ]],
+        'mode' => 'payment',
+        'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
+        'cancel_url' => route('user.dashboard'),
+        'metadata' => [
+            'site' => 'infortom',
+            'devis_id' => $devis->id,
+            'type_paiement' => 'acompte',
+        ],
+    ]);
+
+    return redirect($session->url);
+}
+
+
 
 
     public function checkoutReste(Devis $devis)
