@@ -138,7 +138,20 @@
         <p>t.pierrard.131.198@outlook.fr</p>
 
         <h2>Réseaux sociaux</h2>
-        <p>Instagram – Facebook – LinkedIn</p>
+
+<a href="https://www.facebook.com/share/18s1hCsu3W/" 
+   target="_blank" 
+   style="display:flex; align-items:center; gap:10px;">
+
+    <img src="{{ asset('images/logo-facebook.jpg') }}" 
+         alt="Facebook Infortom" 
+         style="width:32px; height:32px;">
+
+    <span style="font-size:16px; color:#1e3a8a; font-weight:600;">
+        Facebook
+    </span>
+</a>
+
     </div>
 
     <!-- ==== COLONNE DROITE : FORMULAIRE ==== -->

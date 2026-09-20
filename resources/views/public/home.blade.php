@@ -718,7 +718,27 @@
         <div class="contact-text">07 43 33 44 24</div>
 
         <div class="contact-section-title">Suivez nos réalisations</div>
-        <div class="contact-text">© 2026 infortom</div>
+
+<!-- Icône Facebook + lien -->
+<div class="contact-text" style="display:flex; align-items:center; gap:12px; margin-top:10px;">
+
+    <a href="https://www.facebook.com/share/18s1hCsu3W/" target="_blank" style="display:flex; align-items:center; gap:10px;">
+        <img src="{{ asset('images/logo-facebook.jpg') }}" 
+             alt="Facebook Infortom" 
+             style="width:38px; height:38px; border-radius:6px;">
+        <span style="font-size:16px; color:#1e3a8a; font-weight:600;">
+            Voir nos réalisations sur Facebook
+        </span>
+    </a>
+</div>
+
+<!-- Explication -->
+<div class="contact-text" style="margin-top:12px; font-size:14px; color:#444;">
+    Facebook demande une connexion pour vérifier votre identité et protéger l’accès aux contenus privés ou sensibles.
+</div>
+
+<div class="contact-text">© 2026 infortom</div>
+
 
     </div>
 
