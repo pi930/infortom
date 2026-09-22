@@ -29,7 +29,7 @@ class PaiementController extends Controller
     ]],
     'mode' => 'payment',
     'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
-    'cancel_url' => route('user.dashboard'),
+    'cancel_url' => route('home'),
     'metadata' => [
         'site' => 'infortom',
         'devis_id' => $devis->id,
@@ -64,7 +64,7 @@ class PaiementController extends Controller
         ]],
         'mode' => 'payment',
         'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
-        'cancel_url' => route('user.dashboard'),
+        'cancel_url' => route('home'),
         'metadata' => [
             'site' => 'infortom',
             'devis_id' => $devis->id,
