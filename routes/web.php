@@ -152,7 +152,7 @@ Route::get('/debug-mail', function () {
 // --------------------------------------------------
 // UTILISATEURS AUTHENTIFIÉS
 // --------------------------------------------------
-Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
+
 
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
@@ -171,16 +171,16 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/devis/{devis}', [UserDevisController::class, 'show'])->name('devis.show'); // ✔️ doit être APRÈS
 Route::get('/devis/{id}/download', [UserDevisController::class, 'download'])->name('devis.download');
 
-    });
+   
 
 
 // --------------------------------------------------
 // PAIEMENT STRIPE (SIMPLE)
 // --------------------------------------------------
-Route::middleware(['auth'])->group(function () {
+
     Route::get('/paiement/total/{devis}', [PaiementController::class, 'checkoutTotal'])->name('paiement.total');
     Route::get('/paiement/acompte/{devis}', [PaiementController::class, 'checkoutAcompte'])->name('paiement.acompte');
-});
+
 
 Route::get('/paiement/reste/{devis}', [PaiementController::class, 'checkoutReste'])->name('paiement.reste');
 Route::get('/paiement/success', [PaiementController::class, 'success'])->name('paiement.success');

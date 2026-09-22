@@ -50,6 +50,7 @@ class Kernel extends HttpKernel
 
         // 👉 Ton middleware admin
         'isadmin' => \App\Http\Middleware\IsAdmin::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
     ];
 }
 
