@@ -65,15 +65,19 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::get('/admin/messages', [AdminMessageController::class, 'index'])
     ->name('admin.messages.index');
 
-// ADMIN — Rendez-vous
-Route::get('/admin/rendezvous', [RendezVousController::class, 'index'])
-    ->name('admin.rendezvous.index');
+Route::middleware(['auth'])->group(function () {
 
-Route::post('/admin/rendezvous', [RendezVousController::class, 'store'])
-    ->name('admin.rendezvous.store');
+    Route::get('/admin/rendezvous', [RendezVousController::class, 'index'])
+        ->name('admin.rendezvous.index');
 
-Route::delete('/admin/rendezvous/{id}', [RendezVousController::class, 'destroy'])
-    ->name('admin.rendezvous.destroy');
+    Route::post('/admin/rendezvous/store', [RendezVousController::class, 'store'])
+        ->name('admin.rendezvous.store');
+
+    Route::delete('/admin/rendezvous/{id}', [RendezVousController::class, 'destroy'])
+        ->name('admin.rendezvous.destroy');
+
+});
+
 
 // ADMIN — Devis
 Route::get('/admin/devis/create', [AdminDevisController::class, 'create'])

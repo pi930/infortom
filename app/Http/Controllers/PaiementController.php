@@ -19,7 +19,7 @@ class PaiementController extends Controller
             'currency' => 'eur',
             'product_data' => [
     'name' => "Paiement total du devis #{$devis->id}",
-    'tax_code' => 'txcd_10000000',
+    'tax_code' => 'txcd_99999999',
 
 
             ],
@@ -56,7 +56,7 @@ class PaiementController extends Controller
                 'currency' => 'eur',
                 'product_data' => [
                     'name' => "Acompte sur devis #{$devis->id}",
-                    'tax_code' => 'txcd_10000000',
+                    'tax_code' => 'txcd_99999999',
                 ],
                 'unit_amount' => 10000, // 100 €
             ],
@@ -94,7 +94,7 @@ class PaiementController extends Controller
             'currency' => 'eur',
             'product_data' => [
                 'name' => "Reste à payer du devis #{$devis->id}",
-                'tax_code' => 'txcd_10000000',
+                'tax_code' => 'txcd_99999999',
             ],
             'unit_amount' => $reste,
         ],
@@ -115,42 +115,44 @@ class PaiementController extends Controller
         return redirect($session->url);
     }
 
-    public function success(Request $request)
-    {
-        $sessionId = $request->get('session_id');
+   public function success(Request $request)
+{
+    $sessionId = $request->get('session_id');
 
-        if (!$sessionId) {
-            return redirect()->route('user.dashboard')->with('error', 'Session Stripe introuvable.');
-        }
-
-        Stripe::setApiKey(config('services.stripe.secret'));
-
-        $session = Session::retrieve($sessionId);
-        $paymentIntent = \Stripe\PaymentIntent::retrieve($session->payment_intent);
-
-        if ($paymentIntent->status !== 'succeeded') {
-            return redirect()->route('user.dashboard')->with('error', 'Paiement non confirmé.');
-        }
-
-        $devisId = $session->metadata->devis_id ?? null;
-        $typePaiement = $session->metadata->type_paiement ?? null;
-
-        if (!$devisId) {
-            return redirect()->route('user.dashboard')->with('error', 'Devis introuvable.');
-        }
-
-        $devis = Devis::find($devisId);
-
-        if (!$devis) {
-            return redirect()->route('user.dashboard')->with('error', 'Devis introuvable.');
-        }
-
-        $devis->statut = 'payé';
-        $devis->paiement_type = $typePaiement;
-        $devis->paiement_date = now();
-        $devis->save();
-
-        return redirect()->route('user.dashboard')->with('success', 'Paiement effectué avec succès.');
+    if (!$sessionId) {
+        return redirect()->route('home')->with('error', 'Session Stripe introuvable.');
     }
+
+    Stripe::setApiKey(config('services.stripe.secret'));
+
+    $session = Session::retrieve($sessionId);
+    $paymentIntent = \Stripe\PaymentIntent::retrieve($session->payment_intent);
+
+    if ($paymentIntent->status !== 'succeeded') {
+        return redirect()->route('home')->with('error', 'Paiement non confirmé.');
+    }
+
+    $devisId = $session->metadata->devis_id ?? null;
+    $typePaiement = $session->metadata->type_paiement ?? null;
+
+    if (!$devisId) {
+        return redirect()->route('home')->with('error', 'Devis introuvable.');
+    }
+
+    $devis = Devis::find($devisId);
+
+    if (!$devis) {
+        return redirect()->route('home')->with('error', 'Devis introuvable.');
+    }
+
+    // Mise à jour du devis
+    $devis->statut = 'payé';
+    $devis->paiement_type = $typePaiement;
+    $devis->paiement_date = now();
+    $devis->save();
+
+    return redirect()->route('home')->with('success', 'Paiement effectué avec succès.');
+}
+
 }
 

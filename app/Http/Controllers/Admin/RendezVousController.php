@@ -122,15 +122,22 @@ $rdv->save();
         RendezVous::findOrFail($id)->delete();
         return back()->with('success', 'Rendez-vous supprimé');
     }
-    public function confirm($id)
+    public function confirm(Request $request, $id)
 {
+    if (! $request->hasValidSignature()) {
+        abort(403, 'Lien de confirmation invalide ou expiré.');
+    }
+
     $rdv = RendezVous::findOrFail($id);
     $rdv->confirmed = true;
     $rdv->save();
 
-    return redirect()->route('admin.rendezvous.index')
-                     ->with('success', 'Rendez-vous confirmé par le client !');
+    return redirect()->route('home')
+    ->with('success', 'Votre rendez-vous est confirmé !');
+
+
 }
+
 
 }
 

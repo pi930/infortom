@@ -86,58 +86,71 @@
 </div>
 
 
-    <table class="table table-bordered text-center align-middle">
+<h3 class="mt-5 mb-3">Liste des rendez-vous</h3>
+
+<table class="table table-bordered">
     <thead class="table-dark">
         <tr>
-            <th>Heures</th>
-            @for ($i = 0; $i < 7; $i++)
-                <th>{{ $startOfWeek->copy()->addDays($i)->format('l d/m') }}</th>
-            @endfor
+            <th>Date</th>
+            <th>Nom</th>
+            <th>Ville</th>
+            <th>Téléphone</th>
+            <th>Type</th>
+            <th>Lien Meet</th>
+            <th>Confirmé</th>
+            <th>Actions</th>
         </tr>
     </thead>
 
     <tbody>
-        @for ($h = 8; $h <= 18; $h++)
+        @foreach($rendezvous as $rdv)
             <tr>
-                <th class="table-secondary">{{ $h }}h - {{ $h+2 }}h</th>
+                <td>{{ $rdv->date->format('d/m/Y H:i') }}</td>
+                <td>{{ $rdv->nom }}</td>
+                <td>{{ $rdv->ville }}</td>
+                <td>{{ $rdv->telephone }}</td>
 
-                @for ($d = 0; $d < 7; $d++)
-                    @php
-                        $date = $startOfWeek->copy()->addDays($d)->setTime($h, 0);
-                        $rdv = $rendezvous->firstWhere('date', $date);
-                    @endphp
+                {{-- 🔥 Type de rendez-vous --}}
+                <td>
+                    @if($rdv->type === 'telephone')
+                        📞 Téléphone
+                    @else
+                        🎥 Google Meet
+                    @endif
+                </td>
 
-                   @if ($rdv)
-    <td class="{{ $rdv->confirmed ? 'bg-primary text-white' : 'bg-danger text-white' }}">
-        <strong>{{ $rdv->nom }}</strong><br>
-        {{ $rdv->rue }} - {{ $rdv->ville }}<br>
-        {{ $rdv->telephone }}
+                {{-- 🔥 Lien Meet si Google Meet --}}
+                <td>
+                    @if($rdv->type === 'google_meet')
+                        <a href="{{ $rdv->meet_link }}" target="_blank" class="btn btn-sm btn-info">
+                            Ouvrir la réunion
+                        </a>
+                    @else
+                        —
+                    @endif
+                </td>
 
-        @if($rdv->confirmed)
-            <div class="mt-2 badge bg-success">Rendez-vous confirmé</div>
-        @else
-            <div class="mt-2 badge bg-warning">En attente de confirmation</div>
-        @endif
+                {{-- Confirmation --}}
+                <td>
+                    @if($rdv->confirmed)
+                        <span class="badge bg-success">Confirmé</span>
+                    @else
+                        <span class="badge bg-warning">En attente</span>
+                    @endif
+                </td>
 
-        @if($rdv->email_sent)
-            <div class="mt-2 badge bg-info">Email envoyé</div>
-        @else
-            <div class="mt-2 badge bg-danger">Email NON envoyé</div>
-        @endif
-
-        <form action="{{ route('admin.rendezvous.destroy', $rdv->id) }}" method="POST" class="mt-2">
-            @csrf
-            @method('DELETE')
-            <button class="btn btn-sm btn-light">Supprimer</button>
-        </form>
-    </td>
-@endif
-
-                @endfor
+                <td>
+                    <form action="{{ route('admin.rendezvous.destroy', $rdv->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                </td>
             </tr>
-        @endfor
+        @endforeach
     </tbody>
 </table>
+
 
     <hr>
 
