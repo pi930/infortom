@@ -8,7 +8,10 @@
 @include('pdf.partials.header', ['devis' => $devis])
 
 <h3>Acompte payé</h3>
-<p><strong>200 €</strong></p>
+<p><strong>100 €</strong></p>
 
 <h3>Total TTC</h3>
 <p><strong>{{ $devis->total_ttc }} €</strong></p>
+
+<h3>Reste à payer</h3>
+<p><strong>{{ $devis->total_ttc - 100 }} €</strong></p>

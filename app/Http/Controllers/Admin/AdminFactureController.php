@@ -29,10 +29,10 @@ class AdminFactureController extends Controller
         // Création du dossier si inexistant
         Storage::disk('public')->makeDirectory('factures');
 
-        // Stockage du PDF dans le bon disque
+        // Stockage du PDF
         Storage::disk('public')->put("factures/{$filename}", $pdf->output());
 
-        // Envoi email
+        // Envoi email avec facture
         Mail::send('emails.facture', ['devis' => $devis], function ($message) use ($devis, $filename) {
             $message->to($devis->client_email)
                     ->subject("Votre facture - Devis #{$devis->id}")

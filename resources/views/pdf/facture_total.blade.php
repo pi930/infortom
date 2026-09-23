@@ -1,4 +1,4 @@
-<h1>Facture</h1>
+<h1>Facture - Paiement total</h1>
 
 <div style="position: absolute; top: 10px; right: 10px; text-align: right;">
     <strong>Infortom</strong><br>
@@ -18,5 +18,5 @@
     @endforeach
 </ul>
 
-<h3>Total TTC</h3>
+<h3>Total TTC payé</h3>
 <p><strong>{{ $devis->total_ttc }} €</strong></p>

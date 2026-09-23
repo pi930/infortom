@@ -78,6 +78,8 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+Route::get('/admin/devis/send-email/{devis}', [AdminDevisController::class, 'sendEmail'])
+    ->name('admin.devis.sendEmail');
 
 // ADMIN — Devis
 Route::get('/admin/devis/create', [AdminDevisController::class, 'create'])

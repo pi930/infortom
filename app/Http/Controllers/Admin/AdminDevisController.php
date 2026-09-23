@@ -33,12 +33,11 @@ class AdminDevisController extends Controller
 public function store(Request $request)
 {
     // Liste des prix
-   $prices = [
-    'site_internet' => 200,
-    'nom_de_domaine' => 6,
-    'depannage' => 60,
-];
-
+    $prices = [
+        'site_internet' => 200,
+        'nom_de_domaine' => 6,
+        'depannage' => 60,
+    ];
 
     // Récupération des éléments cochés
     $selected = $request->items ?? [];
@@ -62,12 +61,7 @@ public function store(Request $request)
 
     // TVA supprimée
     $tva = 0;
-
-    // Total TTC = HT
     $total_ttc = $total_ht;
-
-    $acompte_possible = $total_ht >= 100;
-
 
     // Détection automatique du type de service
     $site_items = ['hebergement', 'email', 'blog'];
@@ -84,6 +78,11 @@ public function store(Request $request)
     // Trouver l'utilisateur correspondant à l'email
     $user = User::where('email', $request->client_email)->first();
 
+    // Déterminer si acompte ou paiement total
+    $acompte_possible = $total_ttc > 100;
+    $acompte = $acompte_possible ? 100 : 0;
+    $reste = $total_ttc - $acompte;
+
     // Création du devis
     $devis = Devis::create([
         'client_name' => $request->client_name,
@@ -93,6 +92,8 @@ public function store(Request $request)
         'tva' => $tva,
         'total_ttc' => $total_ttc,
         'acompte_possible' => $acompte_possible,
+        'acompte' => $acompte,
+        'reste_a_payer' => $reste,
         'user_id' => $user->id ?? null,
         'service_type' => $service_type,
     ]);
@@ -109,25 +110,28 @@ Prestations :
 
 Montant total : {$total_ttc} €
 
-Acompte : 100 €
-Reste à payer : " . ($total_ttc - 100) . " €
-
+" . ($acompte_possible
+        ? "Acompte : 100 €\nReste à payer : {$reste} €"
+        : "Paiement total : {$total_ttc} €") . "
 
 Fait à Cannes, le " . date('d/m/Y') . ".
 ";
 
-    // Sauvegarde du contrat
     $devis->contrat = $contrat;
     $devis->save();
 
-    // 🔥 Lien de paiement Stripe
-    $acompteLink = route('paiement.acompte', $devis->id);
+    // 🔥 Lien de paiement
+    $paymentLink = $acompte_possible
+        ? route('paiement.acompte', $devis->id)
+        : route('paiement.total', $devis->id);
 
-    // 🔥 Envoi du devis par email
-    Mail::send([], [], function ($message) use ($devis, $contrat, $acompteLink) {
-        $message->to($devis->client_email)
-                ->subject("Votre devis Infortom #{$devis->id}")
-                ->text("
+    // 🔥 Envoi email SEULEMENT si acompte_possible = true
+    if ($acompte_possible) {
+
+        Mail::send([], [], function ($message) use ($devis, $contrat, $paymentLink) {
+            $message->to($devis->client_email)
+                    ->subject("Votre devis Infortom #{$devis->id}")
+                    ->text("
 Bonjour {$devis->client_name},
 
 Voici votre devis :
@@ -141,19 +145,57 @@ Contrat :
 $contrat
 
 Pour payer l'acompte de 100 €, cliquez ici :
-$acompteLink
+$paymentLink
 
 Cordialement,
 Infortom
 06400 Cannes
-");});
-$devis->email_sent = true;
-$devis->save();
+");
+        });
 
+        $devis->email_sent = true;
+
+    } else {
+
+        // 🔥 Total ≤ 100 € → pas d’email envoyé
+        $devis->email_sent = false;
+    }
+
+    $devis->save();
 
     return redirect()->route('admin.devis.index')
-    ->with('success', 'Devis créé et envoyé au client.');
+        ->with('success', 'Devis créé.');
+}
+public function sendEmail(Devis $devis)
+{
+    $paymentLink = route('paiement.total', $devis->id);
 
+    Mail::send([], [], function ($message) use ($devis, $paymentLink) {
+        $message->to($devis->client_email)
+                ->subject("Votre devis Infortom #{$devis->id}")
+                ->text("
+Bonjour {$devis->client_name},
+
+Voici votre devis :
+
+Montant total : {$devis->total_ttc} €
+
+Prestations :
+" . implode("\n", $devis->items) . "
+
+Pour payer la totalité, cliquez ici :
+$paymentLink
+
+Cordialement,
+Infortom
+06400 Cannes
+");
+    });
+
+    $devis->email_sent = true;
+    $devis->save();
+
+    return back()->with('success', 'Email envoyé au client.');
 }
 
 
