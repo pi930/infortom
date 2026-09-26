@@ -39,6 +39,14 @@
                 Site internet — 200 €
             </label>
         </div>
+        <!-- Campagne publicitaire -->
+<div class="form-check mb-2">
+    <input class="form-check-input" type="checkbox" name="items[]" value="campagne_pub" id="campagne_pub">
+    <label class="form-check-label" for="campagne_pub">
+        Campagne publicitaire — 100 €
+    </label>
+</div>
+
 
         <!-- Nom de domaine -->
         <div class="form-check mb-2">

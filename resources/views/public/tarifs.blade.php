@@ -122,6 +122,7 @@
         <tr>
             <td>Campagne réseaux sociaux</td>
             <td>100 € + coût de la campagne</td>
+
         </tr>
     </table>
 </div>

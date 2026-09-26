@@ -32,11 +32,12 @@ class AdminDevisController extends Controller
 
 public function store(Request $request)
 {
-    // Liste des prix
+       // Liste des prix
     $prices = [
         'site_internet' => 200,
         'nom_de_domaine' => 6,
         'depannage' => 60,
+        'campagne_pub' => 100, // 🔥 Ajout de la campagne publicitaire
     ];
 
     // Récupération des éléments cochés
