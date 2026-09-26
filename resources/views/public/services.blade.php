@@ -53,9 +53,12 @@
     <h1>Des solutions web complètes pour lancer votre activité</h1>
 
     <p>
-        Chez infortom, nous accompagnons les nouveaux auto‑entrepreneurs avec des sites web harmonieux
-        et des outils automatiques intégrés : emails, devis, paiements et factures professionnelles
-        à des tarifs abordables.
+       Des solutions web complètes pour lancer votre activité
+
+Chez Infortom, nous accompagnons les nouveaux auto‑entrepreneurs avec des sites web harmonieux
+et des outils automatiques intégrés : emails, devis, paiements et factures professionnelles à des tarifs accessibles.
+Nous proposons également un accompagnement publicitaire sur les réseaux sociaux,
+pour booster votre visibilité dès le lancement, avec des campagnes personnalisées et des tarifs adaptés à votre budget.
     </p>
 
     <a href="{{ route('tarifs') }}" class="cta-white">Découvrez nos tarifs</a>
@@ -168,7 +171,9 @@
             <img src="{{ asset('images/3184458.webp') }}" alt="Site vitrine harmonieux">
             <h3>Site vitrine harmonieux</h3>
             <p>
-                Une présence en ligne soignée et percutante pour présenter vos prestations et attirer rapidement vos premiers clients.
+                Une présence en ligne soignée et percutante pour présenter vos prestations et attirer vos premiers clients.
+Votre visibilité est renforcée grâce à un accompagnement publicitaire sur les réseaux sociaux,
+permettant de toucher rapidement les personnes qui recherchent vos services — avec des offres ajustées à vos besoins.
             </p>
         </div>
 
@@ -347,9 +352,10 @@
         <div class="double-text">
             <h2>Le pack tout-en-un pour auto-entrepreneurs</h2>
             <p>
-                Plus qu'un simple site vitrine, bénéficiez d'une véritable boîte à outils commerciale :
-                formulaires sur mesure, réponses automatiques, création de devis rapides et liens de paiement
-                pour encaisser vos prestations en toute tranquillité.
+                Plus qu’un simple site vitrine, profitez d’une véritable boîte à outils commerciale :
+formulaires sur mesure, réponses automatiques, création de devis rapides, liens de paiement sécurisés…
+Et désormais, un accompagnement publicitaire complet sur les réseaux sociaux, avec des campagnes ciblées
+Facebook, Instagram ou Google, à des tarifs adaptés à votre activité et à votre budget.
             </p>
 
             <!-- BOUTON AJOUTÉ ICI -->

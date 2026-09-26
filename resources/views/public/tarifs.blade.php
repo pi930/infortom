@@ -117,8 +117,15 @@
             <td>Nom de domaine</td>
             <td>6,00 €</td>
         </tr>
+
+        <!-- 🔥 Nouvelle ligne ajoutée -->
+        <tr>
+            <td>Campagne réseaux sociaux</td>
+            <td>100 € + coût de la campagne</td>
+        </tr>
     </table>
 </div>
+
 
 <style>
     .cta-blue {
