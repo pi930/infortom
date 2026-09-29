@@ -49,10 +49,11 @@ public function store(Request $request)
     $user->save();
 
     // 🔥 Génération du lien Google Meet si nécessaire
-    $meetLink = null;
-    if ($request->type === 'google_meet') {
-        $meetLink = "https://meet.google.com/lookup/INFORTOM-" . uniqid();
-    }
+$meetLink = null;
+
+if ($request->type === 'google_meet') {
+$meetLink = 'https://meet.google.com/lookup/INFORTOM-' . uniqid();
+}
 
     // Création du rendez-vous
     $rdv = RendezVous::create([
@@ -122,20 +123,60 @@ $rdv->save();
         RendezVous::findOrFail($id)->delete();
         return back()->with('success', 'Rendez-vous supprimé');
     }
-    public function confirm(Request $request, $id)
+   public function confirm(Request $request, $id)
 {
-    if (! $request->hasValidSignature()) {
-        abort(403, 'Lien de confirmation invalide ou expiré.');
-    }
+if (! $request->hasValidSignature()) {
+abort(403, 'Lien de confirmation invalide ou expiré.');
+}
 
-    $rdv = RendezVous::findOrFail($id);
-    $rdv->confirmed = true;
-    $rdv->save();
+$rdv = RendezVous::findOrFail($id);
 
-    return redirect()->route('home')
-    ->with('success', 'Votre rendez-vous est confirmé !');
+if ($rdv->confirmation_mail_sent) {
+return redirect()->route('home')
+->with('success', 'Votre rendez-vous est déjà confirmé.');
+}
+
+$rdv->confirmed = true;
+$rdv->confirmation_mail_sent = true;
+$rdv->save();
+
+$user = User::find($rdv->user_id);
 
 
+if ($rdv->type === 'telephone') {
+Mail::send([], [], function ($message) use ($user, $rdv) {
+$message->to($user->email)
+->subject('Rendez-vous confirmé - Infortom')
+->text("
+Bonjour {$user->name},
+Votre rendez-vous est désormais confirmé.
+📅 Date : {$rdv->date->format('d/m/Y à H:i')}
+📞 Type : Rendez-vous téléphonique
+Nous vous contacterons au numéro :
+{$rdv->telephone}
+Merci de votre confiance.
+
+Infortom
+");
+});
+} else {
+Mail::send([], [], function ($message) use ($user, $rdv) {
+$message->to($user->email)
+->subject('Rendez-vous Google Meet confirmé - Infortom')
+->text("
+Bonjour {$user->name},
+Votre rendez-vous est désormais confirmé.
+📅 Date : {$rdv->date->format('d/m/Y à H:i')}
+🎥 Type : Google Meet
+Lien de connexion :
+{$rdv->meet_link}
+Merci de vous connecter quelques minutes avant l'heure prévue.
+Infortom
+");
+});
+}
+return redirect()->route('home')
+->with('success', 'Votre rendez-vous est confirmé !');
 }
 
 

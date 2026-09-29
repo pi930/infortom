@@ -120,15 +120,21 @@
                 </td>
 
                 {{-- 🔥 Lien Meet si Google Meet --}}
-                <td>
-                    @if($rdv->type === 'google_meet')
-                        <a href="{{ $rdv->meet_link }}" target="_blank" class="btn btn-sm btn-info">
-                            Ouvrir la réunion
-                        </a>
-                    @else
-                        —
-                    @endif
-                </td>
+               <td>
+@if($rdv->type === 'google_meet' && $rdv->meet_link)
+
+<a href="{{ $rdv->meet_link }}"
+target="_blank"
+class="btn btn-info btn-sm">
+Ouvrir la réunion
+</a>
+
+@else
+
+—
+
+@endif
+</td>
 
                 {{-- Confirmation --}}
                 <td>
@@ -209,6 +215,14 @@
             </select>
         </div>
     </div>
+    <div class="mb-3">
+<label>Type de rendez-vous</label>
+
+<select name="type" class="form-control" required>
+<option value="telephone">📞 Téléphone</option>
+<option value="google_meet">🎥 Google Meet</option>
+</select>
+</div>
 
     <button class="btn btn-primary">Ajouter le rendez-vous</button>
 </form>
