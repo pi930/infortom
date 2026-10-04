@@ -746,5 +746,41 @@
 
 
 
+<!-- ==== BANDE NOIRE LIENS LÉGAUX ==== -->
+<style>
+    .legal-footer {
+        background: #000;
+        padding: 20px 40px;
+        border-radius: 12px;
+        margin-top: 40px;
+        text-align: center;
+    }
 
+    .legal-footer a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        margin: 0 12px;
+    }
+
+    .legal-footer a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+        .legal-footer {
+            padding: 20px 15px;
+        }
+
+        .legal-footer a {
+            display: block;
+            margin: 8px 0;
+        }
+    }
+</style>
+
+<div class="legal-footer">
+    <a href="{{ route('mentions-legales') }}">Mentions légales</a>
+    <a href="{{ route('confidentialite') }}">Confidentialité</a>
+</div>
 @endsection
