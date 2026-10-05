@@ -105,12 +105,12 @@
 
         <div class="legal-card">
             <h2>Responsable de la publication</h2>
-            <p>Thomas</p>
+            <p>Thomas Pierrard</p>
         </div>
 
         <div class="legal-card">
             <h2>Contact</h2>
-            <p>Via la page « Support » du site.</p>
+            <p>contact@infortom.fr</p>
             <p>Téléphone : 07 43 33 44 24</p>
         </div>
 
