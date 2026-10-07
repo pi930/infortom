@@ -3,7 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infortom</title>
+    <title>@yield('title', 'Infortom - Création de sites web pour auto-entrepreneurs')</title>
+
+<meta name="description" content="@yield('description', 'Infortom à Cannes crée des sites professionnels clé en main pour auto-entrepreneurs : devis en ligne, paiement sécurisé, gestion automatisée.')">
+
+<!-- Open Graph (Facebook, Instagram, WhatsApp, LinkedIn) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Infortom">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:url" content="{{ url()->current() }}">
+<meta property="og:title" content="@yield('title', 'Infortom - Création de sites web pour auto-entrepreneurs')">
+<meta property="og:description" content="@yield('description', 'Des sites professionnels clé en main pour auto-entrepreneurs, à Cannes.')">
+<meta property="og:image" content="{{ asset('images/og-infortom.jpg') }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Infortom - création de sites web">
 
     <style>
         body {
