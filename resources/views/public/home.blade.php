@@ -782,5 +782,6 @@
 <div class="legal-footer">
     <a href="{{ route('mentions-legales') }}">Mentions légales</a>
     <a href="{{ route('confidentialite') }}">Confidentialité</a>
+    <a href="#" onclick="openCookieSettings(); return false;">Gérer les cookies</a>
 </div>
 @endsection
