@@ -36,7 +36,8 @@
         simplicité d'utilisation et tarifs accessibles.
     </p>
 </div>
-<!-- ==== BLOC BLANC FULL WIDTH ==== -->
+
+<!-- ==== BLOC BLANC FULL WIDTH + LIENS PROJETS ==== -->
 <style>
     .real-white {
         width: 100%;
@@ -58,17 +59,115 @@
         max-width: 900px;
         line-height: 1.6;
     }
+
+    .real-white p a {
+        color: #1e3a8a;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    /* Cartes projets */
+    .project-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px;
+        margin-top: 35px;
+    }
+
+    .project-card {
+        flex: 1 1 280px;
+        max-width: 420px;
+        background: #f2f2f2;
+        border-radius: 12px;
+        padding: 28px;
+        box-sizing: border-box;
+        border-left: 5px solid #1e3a8a;
+    }
+
+    .project-card h3 {
+        font-size: 22px;
+        font-weight: 800;
+        color: #1e3a8a;
+        margin: 0 0 10px 0;
+    }
+
+    .project-card .project-desc {
+        font-size: 16px;
+        color: #333;
+        line-height: 1.6;
+        margin: 0 0 20px 0;
+    }
+
+    .project-card .project-btn {
+        display: inline-block;
+        background: #1e3a8a;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .project-card .project-btn:hover {
+        background: #16296b;
+    }
+
+    @media (max-width: 600px) {
+        .real-white,
+        .real-grey {
+            padding: 40px 20px;
+        }
+
+        .project-card {
+            max-width: 100%;
+        }
+
+        .project-card .project-btn {
+            display: block;
+            text-align: center;
+        }
+    }
 </style>
 
 <div class="real-white">
     <h2>Projets récents créés pour nos clients</h2>
 
     <p>
-        Découvrez nos réalisations phares telles que Careandnet et Thomaservice. Pour chacun de ces professionnels,
-        nous avons mis en place une interface élégante et intuitive, une communication directe par e‑mail,
-        la réservation en ligne ainsi qu'un système automatisé de facturation et de paiement.
+        Découvrez nos réalisations phares telles que
+        <a href="https://careandnet.onrender.com" target="_blank" rel="noopener noreferrer">Careandnet</a>
+        et
+        <a href="https://thomaservice.onrender.com" target="_blank" rel="noopener noreferrer">Thomaservice</a>.
+        Pour chacun de ces professionnels, nous avons mis en place une interface élégante et intuitive,
+        une communication directe par e‑mail, la réservation en ligne ainsi qu'un système automatisé
+        de facturation et de paiement.
     </p>
+
+    <div class="project-cards">
+
+        <div class="project-card">
+            <h3>Careandnet</h3>
+            <p class="project-desc">
+                Entreprise de nettoyage à Cannes et dans les Alpes‑Maritimes : devis en ligne et prise de contact simplifiée.
+            </p>
+            <a href="https://careandnet.onrender.com" target="_blank" rel="noopener noreferrer" class="project-btn">
+                Visiter le site
+            </a>
+        </div>
+
+        <div class="project-card">
+            <h3>Thomaservice</h3>
+            <p class="project-desc">
+                Accompagnement, autonomie et bien‑être au Cannet : présentation des services, tarifs et formulaire de contact.
+            </p>
+            <a href="https://thomaservice.onrender.com" target="_blank" rel="noopener noreferrer" class="project-btn">
+                Visiter le site
+            </a>
+        </div>
+
+    </div>
 </div>
+
 <!-- ==== BLOC IMAGES FULL WIDTH ==== -->
 <style>
     .real-grid {
@@ -159,6 +258,7 @@
 
     <a href="{{ route('services') }}" class="cta-white-btn">Découvrir nos services</a>
 </div>
+
 <!-- ==== PETITE BARRE NOIRE ==== -->
 <style>
     .mini-footer {
