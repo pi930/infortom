@@ -1,3 +1,4 @@
+FROM caddy:2 AS caddy-bin
 FROM php:8.3-fpm
 
 RUN apt-get update && apt-get install -y \
@@ -17,17 +18,17 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 COPY . .
 
-RUN apt-get update && apt-get install -y debian-keyring debian-archive-keyring curl && \
-    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg && \
-    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list && \
-    apt-get update && apt-get install -y caddy
+COPY --from=caddy-bin /usr/bin/caddy /tmp/caddy-orig
+RUN cat /tmp/caddy-orig > /usr/local/bin/caddy && \
+    chmod 755 /usr/local/bin/caddy && \
+    rm /tmp/caddy-orig
 
 COPY Caddyfile /etc/caddy/Caddyfile
 
 RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache && \
     chown -R www-data:www-data /var/www/html
 
-EXPOSE 80
+EXPOSE 10000
 
 
 COPY start.sh /start.sh
