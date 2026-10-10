@@ -19,7 +19,7 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 COPY . .
 
 COPY --from=caddy-bin /usr/bin/caddy /usr/bin/caddy
-
+RUN chmod 755 /usr/bin/caddy
 COPY Caddyfile /etc/caddy/Caddyfile
 
 RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache && \
