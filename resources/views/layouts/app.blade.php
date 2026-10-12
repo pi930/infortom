@@ -2,8 +2,10 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Infortom - Création de sites web pour auto-entrepreneurs')</title>
+    <meta name="google-site-verification" content="LGvgF4dy0ULdL49WpW8ic6lZsEcseuuqnz23poSY6hE" />
     <meta name="google-site-verification" content="cwL-kSfZ-1odv-tdAU4prfYn0K07rslVkkCSBswSik4" />
 <meta name="description" content="@yield('description', 'Infortom à Cannes crée des sites professionnels clé en main pour auto-entrepreneurs : devis en ligne, paiement sécurisé, gestion automatisée.')">
 
