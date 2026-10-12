@@ -1,3 +1,7 @@
+@extends('layouts.admin')
+
+@section('title', 'Devis #'.$devis->id)
+
 @section('content')
 <div class="container">
 
@@ -6,13 +10,43 @@
 
     <hr>
 
-    {{-- ... ton @php $labels ... et la liste des prestations inchangés ... --}}
+    @php
+        $labels = [
+            'depannage'      => 'Dépannage — 60 €',
+            'site_internet'  => 'Site internet — 200 €',
+            'campagne_pub'   => 'Campagne publicitaire — 100 €',
+            'nom_de_domaine' => 'Nom de domaine — 6 €',
+        ];
+
+        $items = is_array($devis->items) ? $devis->items : (json_decode($devis->items, true) ?? []);
+    @endphp
+
+    <h4>Prestations sélectionnées</h4>
+    <ul>
+        @foreach($items as $item)
+            @if(str_starts_with($item, 'custom:'))
+                @php
+                    $parts = explode(':', $item);
+                    $customName = $parts[1] ?? 'Nom personnalisé';
+                    $customAmount = $parts[2] ?? 0;
+                @endphp
+                <li><strong>{{ $customName }}</strong> — {{ $customAmount }} €</li>
+            @else
+                <li>{{ $labels[$item] ?? $item }}</li>
+            @endif
+        @endforeach
+    </ul>
 
     <h3>Total TTC : {{ $devis->total_ttc }} €</h3>
     <p><strong>Total HT :</strong> {{ $devis->total_ht }} €</p>
     <p><strong>TVA :</strong> {{ $devis->tva }} €</p>
 
-    {{-- ... bloc acompte inchangé ... --}}
+    @if($devis->paiement_type === 'acompte')
+        <p class="text-warning fw-bold">
+            Acompte payé : {{ $devis->acompte }} €<br>
+            Reste à payer : {{ $devis->reste_a_payer }} €
+        </p>
+    @endif
 
     <hr>
 
@@ -37,7 +71,7 @@
         <div class="mb-2">
             <input type="file" name="contrat_pdf" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary w-100 w-md-auto">
+        <button type="submit" class="btn btn-primary">
             Importer le contrat signé
         </button>
     </form>
