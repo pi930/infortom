@@ -96,26 +96,110 @@
 
     <!-- ==== TEXTE À GAUCHE ==== -->
     <div class="hero-left">
-        <h1>Lancez votre activité avec un site web clé en main</h1>
 
-        <p>
-            Chez Infortom à Cannes, nous concevons des sites professionnels pour les auto‑entrepreneurs :
-            design harmonieux, devis en ligne, paiements sécurisés et gestion automatisée à tarifs accessibles.
-        </p>
+    <h1>
+        Création de sites web professionnels pour auto‑entrepreneurs à Cannes
+    </h1>
 
-        <p style="font-size:15px; color:#000;">
-            Des solutions conçues pour votre visibilité.
-        </p>
+    <p>
+        Site internet clé en main avec devis automatisés, facturation en ligne,
+        paiements sécurisés et accompagnement personnalisé.
+    </p>
 
-        <a href="{{ route('services') }}" class="btn-blue">Découvrir nos services</a><br>
-        <a href="{{ route('tarifs') }}" class="btn-outline">Voir nos tarifs</a>
+    <div style="
+        background:#ffffff;
+        border-left:5px solid #1e3a8a;
+        padding:15px;
+        margin:20px 0;
+        border-radius:8px;
+    ">
+
+        <div style="margin-bottom:8px;">
+            ✅ Site web professionnel
+        </div>
+
+        <div style="margin-bottom:8px;">
+            ✅ Nom de domaine inclus
+        </div>
+
+        <div style="margin-bottom:8px;">
+            ✅ Référencement Google
+        </div>
+
+        <div style="margin-bottom:8px;">
+            ✅ Devis automatisés
+        </div>
+
+        <div style="margin-bottom:8px;">
+            ✅ Paiement en ligne
+        </div>
+
+        <div>
+            ✅ Accompagnement personnalisé
+        </div>
+
     </div>
 
-    <!-- ==== IMAGE À DROITE ==== -->
-    <div class="hero-right">
-        <img src="{{ asset('images/ai-banner-b691fad35b5d-standard.png') }}" alt="Infortom Banner">
-    </div>
+    <p style="
+        font-size:22px;
+        font-weight:700;
+        color:#1e3a8a;
+        margin:15px 0;
+    ">
+        📞 07 43 33 44 24
+    </p>
 
+    <a href="tel:0743334424" class="btn-blue">
+        📞 Appeler maintenant
+    </a>
+
+    <br>
+
+    <a href="{{ route('contact') }}" class="btn-outline">
+        💬 Demander un devis gratuit
+    </a>
+
+    <br><br>
+
+    <small style="color:#555;">
+        Basé à Cannes • Accompagnement local • Tarif compétitif
+    </small>
+
+</div>
+
+</div>
+<div style="
+background:#ffffff;
+padding:30px;
+margin-top:30px;
+border-radius:12px;
+text-align:center;
+">
+ 
+<h2 style="color:#1e3a8a;">
+Pourquoi choisir Infortom ?
+</h2>
+ 
+<p>
+Infortom accompagne les auto‑entrepreneurs dans la création
+de leur présence en ligne avec des outils utilisés par les
+professionnels :
+</p>
+ 
+<p>
+✅ Site vitrine moderne
+<br>
+✅ Référencement Google
+<br>
+✅ Formulaires de contact
+<br>
+✅ Devis automatisés
+<br>
+✅ Paiements en ligne
+<br>
+✅ Assistance personnalisée
+</p>
+ 
 </div>
 
 
@@ -693,7 +777,15 @@
         <div class="contact-text">Dimanche : Fermé</div>
 
         <div class="contact-section-title">Coordonnées</div>
-        <div class="contact-text">07 43 33 44 24</div>
+        <div class="contact-text">
+📞 07 43 33 44 24
+</div>
+
+<div style="margin-top:15px;">
+    <a href="tel:0743334424" class="btn-blue">
+        📞 Appeler maintenant
+    </a>
+</div>
 
         <div class="contact-section-title">Suivez nos réalisations</div>
 
