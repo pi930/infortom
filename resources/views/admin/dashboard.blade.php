@@ -36,6 +36,7 @@
 @if($devis->isEmpty())
     <p>Aucun devis pour le moment.</p>
 @else
+<div class="table-responsive-auto">
     <table class="table table-bordered" style="background:white;">
         <thead>
             <tr>
@@ -74,6 +75,7 @@
             @endforeach
         </tbody>
     </table>
+    </div>
 @endif
 <tr>
     <td>

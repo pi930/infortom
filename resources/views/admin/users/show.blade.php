@@ -1,104 +1,95 @@
 @extends('layouts.admin')
 
-@section('title', 'Fiche utilisateur')
+@section('title', 'Fiche utilisateur : ' . $user->name)
 
 @section('content')
+<div class="container">
 
-<h2 class="mb-4">Fiche utilisateur : {{ $user->name }}</h2>
+    {{-- COORDONNÉES --}}
+    <div class="bg-white p-3 mb-3 shadow-sm rounded">
+        <h4>Coordonnées</h4>
 
-{{-- ============================
-     COORDONNÉES
-============================ --}}
-<h3>Coordonnées</h3>
+        @if($coordonnees)
+            <p class="mb-1"><strong>Nom :</strong> {{ $coordonnees->nom }}</p>
+            <p class="mb-1"><strong>Adresse :</strong> {{ $coordonnees->rue }}, {{ $coordonnees->code_postal }} {{ $coordonnees->ville }}</p>
+            <p class="mb-0"><strong>Téléphone :</strong> {{ $coordonnees->telephone }}</p>
+        @else
+            <p class="mb-0">Aucune coordonnée enregistrée.</p>
+        @endif
+    </div>
 
-@if($coordonnees)
-    <p><strong>Nom :</strong> {{ $coordonnees->nom }}</p>
-    <p><strong>Adresse :</strong> {{ $coordonnees->rue }}, {{ $coordonnees->code_postal }} {{ $coordonnees->ville }}</p>
-    <p><strong>Téléphone :</strong> {{ $coordonnees->telephone }}</p>
+    {{-- MESSAGES --}}
+    <div class="bg-white p-3 mb-3 shadow-sm rounded">
+        <h4>Messages</h4>
 
-@else
-    <p>Aucune coordonnée enregistrée.</p>
-@endif
+        @if($messages->count())
+            @foreach($messages as $msg)
+                <div class="border-bottom py-2">
+                    <div style="word-break: break-word;">{{ $msg->message }}</div>
+                    <small class="text-muted">{{ $msg->created_at->format('d/m/Y H:i') }}</small>
+                </div>
+            @endforeach
+        @else
+            <p class="mb-0">Aucun message.</p>
+        @endif
+    </div>
 
+    {{-- RENDEZ-VOUS --}}
+    <div class="bg-white p-3 mb-3 shadow-sm rounded">
+        <h4>Rendez-vous</h4>
 
-<hr>
+        @if($rendezvous->count())
+            @foreach($rendezvous as $rdv)
+                <div class="d-flex justify-content-between align-items-center gap-2 border-bottom py-2">
+                    <span>{{ $rdv->date->format('d/m/Y à H:i') }}</span>
 
-{{-- ============================
-     MESSAGES
-============================ --}}
-<h3>Messages</h3>
+                    <form action="{{ route('admin.rendezvous.destroy', $rdv->id) }}" method="POST"
+                          onsubmit="return confirm('Supprimer ce rendez-vous ?');">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                </div>
+            @endforeach
+        @else
+            <p class="mb-0">Aucun rendez-vous.</p>
+        @endif
+    </div>
 
-@if($messages->count())
-    <ul>
-        @foreach($messages as $msg)
-            <li>{{ $msg->message }} — <em>{{ $msg->created_at }}</em></li>
-        @endforeach
-    </ul>
-@else
-    <p>Aucun message.</p>
-@endif
+    {{-- DEVIS --}}
+    <div class="bg-white p-3 mb-3 shadow-sm rounded">
+        <h4>Devis</h4>
 
-<hr>
+        @if($devis->count())
+            @foreach($devis as $d)
+                <div class="d-flex justify-content-between align-items-center gap-2 border-bottom py-2">
+                    <span>Devis #{{ $d->id }} — {{ $d->statut }}</span>
 
-{{-- ============================
-     RENDEZ-VOUS
-============================ --}}
-<h3>Rendez-vous</h3>
+                    @if($d->statut !== 'payé')
+                        <form action="{{ route('admin.devis.delete', $d->id) }}" method="POST"
+                              onsubmit="return confirm('Supprimer ce devis ?');">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    @endif
+                </div>
+            @endforeach
+        @else
+            <p class="mb-0">Aucun devis.</p>
+        @endif
+    </div>
 
-@if($rendezvous->count())
-    <ul>
-        @foreach($rendezvous as $rdv)
-            <li>
-                {{ $rdv->date }} à {{ $rdv->heure }}
-                <form action="{{ route('admin.rendezvous.delete', $rdv->id) }}" method="POST" class="d-inline">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger btn-sm">Supprimer</button>
-                </form>
-            </li>
-        @endforeach
-    </ul>
-@else
-    <p>Aucun rendez-vous.</p>
-@endif
+    {{-- CONFIGURATION SERVICE --}}
+    <div class="bg-white p-3 mb-3 shadow-sm rounded">
+        <h4>Configuration du service</h4>
 
-<hr>
+        @if($serviceConfig)
+            <pre class="bg-light p-2 rounded mb-0" style="white-space: pre-wrap; word-break: break-word; overflow-x: auto;">{{ print_r($serviceConfig->data, true) }}</pre>
+        @else
+            <p class="mb-0">Aucune configuration enregistrée.</p>
+        @endif
+    </div>
 
-{{-- ============================
-     DEVIS
-============================ --}}
-<h3>Devis</h3>
-
-@if($devis->count())
-    <ul>
-        @foreach($devis as $d)
-            <li>
-                Devis #{{ $d->id }} — {{ $d->statut }}
-
-                <form action="{{ route('admin.devis.delete', $d->id) }}" method="POST" class="d-inline">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger btn-sm">Supprimer</button>
-                </form>
-            </li>
-        @endforeach
-    </ul>
-@else
-    <p>Aucun devis.</p>
-@endif
-
-<hr>
-
-{{-- ============================
-     CONFIGURATION SERVICE
-============================ --}}
-<h3>Configuration du service</h3>
-
-@if($serviceConfig)
-    <pre>{{ print_r($serviceConfig->data, true) }}</pre>
-@else
-    <p>Aucune configuration enregistrée.</p>
-@endif
-
+</div>
 @endsection
-
