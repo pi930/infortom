@@ -544,47 +544,25 @@
             <!-- 1 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
-                    Une question concernant vos produits ou services
+                    Est ce que mes services sont ceux d'un site proféssionel ?
                     <div class="faq-toggle">+</div>
                 </div>
                 <div class="faq-answer">
-                    Exemple de réponse à la question. N'hésitez pas à personnaliser le contenu avec les informations réelles que vous souhaitez écrire.
+                   Oui, tout à fait , même aux tarifs que je pratique , les services sont comparativement semblables à ceux proposés par les acteurs du marché. 
                 </div>
             </div>
 
             <!-- 2 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
-                    Un titre pour le service que vous proposez
+                    Un accompagnement tout au long du processus de creation , puis un suivi sur les réseaux aprés la mise en ligne du site 
                     <div class="faq-toggle">+</div>
                 </div>
                 <div class="faq-answer">
-                    Exemple de réponse à la question. N'hésitez pas à personnaliser le contenu avec les informations réelles que vous souhaitez écrire.
-                </div>
+                    J'accompagne, pas à pas , le client à chaques étapes du dévellopement de son site web . Je le reférence sur google . Puis , si le client le désir , je fais une campagne publicitaire sur les réseaux à un tarifs adapté aux besoins du client. 
             </div>
 
-            <!-- 3 -->
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    Une autre question que vos visiteurs pourraient se poser
-                    <div class="faq-toggle">+</div>
-                </div>
-                <div class="faq-answer">
-                    Exemple de réponse à la question. N'hésitez pas à personnaliser le contenu avec les informations réelles que vous souhaitez écrire.
-                </div>
-            </div>
-
-            <!-- 4 -->
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    Ou ajoutez des sous-titres pour plus de clarté
-                    <div class="faq-toggle">+</div>
-                </div>
-                <div class="faq-answer">
-                    Exemple de réponse à la question. N'hésitez pas à personnaliser le contenu avec les informations réelles que vous souhaitez écrire.
-                </div>
-            </div>
-
+           
         </div>
 
         <!-- ==== COLONNE DROITE ==== -->
@@ -593,22 +571,22 @@
             <!-- 5 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
-                    Une question que vos clients se posent souvent
+                    Quelle est l'intêret de faire son site chez un ibformaticien 
                     <div class="faq-toggle">+</div>
                 </div>
                 <div class="faq-answer">
-                    Exemple de réponse à la question. N'hésitez pas à personnaliser le contenu avec les informations réelles que vous souhaitez écrire.
+                    L'intêret est que chez un site de créations automatique en ligne , vous n'avez que les pages visuelles , vous n'avez pas tous les pages cachées, réserver aux propriétaire, ou sont crées tous les outils téchniques : messages des visiteurs, devis automatisés, rendez-vous automatisés, paiements en ligne et facturation éléctronique. 
                 </div>
             </div>
 
             <!-- 6 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
-                    Une question concernant vos produits ou services
+                    Est-ce que mes services sont cheres par rapport au marché 
                     <div class="faq-toggle">+</div>
                 </div>
                 <div class="faq-answer">
-                    Exemple de réponse à la question. N'hésitez pas à personnaliser le contenu avec les informations réelles que vous souhaitez écrire.
+                    Non, mes services sont bien en dessous du prix du marché , ils sont seulement une seule fois à payer
                 </div>
             </div>
 

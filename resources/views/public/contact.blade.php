@@ -135,7 +135,7 @@
         <p>Cannes, France</p>
 
         <h2>E-mail</h2>
-        <p>t.pierrard.131.198@outlook.fr</p>
+        <p>contact@infortom.fr</p>
 
         <h2>Réseaux sociaux</h2>
 
