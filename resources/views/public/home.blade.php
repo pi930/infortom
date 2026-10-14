@@ -308,7 +308,7 @@ professionnels :
                 Un site internet vitrine élégant et moderne qui valorise votre savoir-faire d'auto‑entrepreneur
                 auprès de vos futurs clients.
             </p>
-            <a href="#" class="btn-blue-small">En savoir plus</a>
+            <a href="/services" class="btn-blue-small">En savoir plus</a>
         </div>
 
         <!-- ==== COLONNE DROITE ==== -->
@@ -319,7 +319,7 @@ professionnels :
                 Gagnez du temps précieux grâce à l'envoi automatique d'emails de confirmation et d'informations
                 pour vos prospects et clients.
             </p>
-            <a href="#" class="btn-blue-small">En savoir plus</a>
+            <a href="/services" class="btn-blue-small">En savoir plus</a>
         </div>
 
     </div>
@@ -402,7 +402,7 @@ professionnels :
             <p>
                 Proposez des devis clairs et émettez des factures conformes directement reliées à votre activité professionnelle.
             </p>
-            <a href="#" class="btn-blue-small">En savoir plus</a>
+            <a href="/services" class="btn-blue-small">En savoir plus</a>
         </div>
 
         <!-- ==== COLONNE DROITE ==== -->
@@ -412,7 +412,7 @@ professionnels :
             <p>
                 Encaissez vos règlements immédiatement grâce à une plateforme de paiement fiable et transparente pour vos clients.
             </p>
-            <a href="#" class="btn-blue-small">En savoir plus</a>
+            <a href="/services" class="btn-blue-small">En savoir plus</a>
         </div>
 
     </div>
@@ -645,7 +645,7 @@ professionnels :
                 <div class="faq-answer">
                     J'accompagne, pas à pas , le client à chaques étapes du dévellopement de son site web . Je le reférence sur google . Puis , si le client le désir , je fais une campagne publicitaire sur les réseaux à un tarifs adapté aux besoins du client. 
             </div>
-
+          </div>
            
         </div>
 
