@@ -207,7 +207,7 @@
         }
     </style>
 </head>
-
+@include('partials.cookie-banner')
 <body>
 
 <header>
