@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'isadmin' => \App\Http\Middleware\IsAdmin::class,
         ]);
         $middleware->trustProxies(at: '*');
+        $middleware->prepend(\App\Http\Middleware\RedirectToCanonicalDomain::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
