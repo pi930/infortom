@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Infortom - Création de sites web pour auto-entrepreneurs')</title>
     <meta name="google-site-verification" content="LGvgF4dy0ULdL49WpW8ic6lZsEcseuuqnz23poSY6hE" />
-    <meta name="google-site-verification" content="cwL-kSfZ-1odv-tdAU4prfYn0K07rslVkkCSBswSik4" />
+    
 <meta name="description" content="@yield('description', 'Infortom à Cannes crée des sites professionnels clé en main pour auto-entrepreneurs : devis en ligne, paiement sécurisé, gestion automatisée.')">
+
+   <link rel="canonical" href="{{ url()->current() }}" />
 
 <!-- Open Graph (Facebook, Instagram, WhatsApp, LinkedIn) -->
 <meta property="og:type" content="website">
@@ -227,6 +229,7 @@
     @yield('content')
 </main>
 
+
 <!-- ==== BANDEAU DE CONSENTEMENT COOKIES ==== -->
 <div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Gestion des cookies">
     <h3>Vos préférences de cookies</h3>
@@ -326,3 +329,4 @@
 
 </body>
 </html>
+
