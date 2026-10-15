@@ -628,49 +628,49 @@ professionnels :
             <!-- 1 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
-                    Est ce que mes services sont ceux d'un site profésionel ?
+                    Est-ce que mes services sont ceux d'un site professionnel ?
                     <div class="faq-toggle">+</div>
                 </div>
                 <div class="faq-answer">
-                   Oui, tout à fait , même aux tarifs que je pratique , les services sont comparativement semblables à ceux proposés par les acteurs du marché. 
+                    Oui, tout à fait. Même aux tarifs que je pratique, les services sont comparables à ceux proposés par les acteurs du marché.
                 </div>
             </div>
 
             <!-- 2 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
-                    Un accompagnement tout au long du processus de creation , puis un suivi sur les réseaux aprés la mise en ligne du site 
+                    Y a-t-il un accompagnement pendant la création, puis un suivi sur les réseaux après la mise en ligne ?
                     <div class="faq-toggle">+</div>
                 </div>
                 <div class="faq-answer">
-                    J'accompagne, pas à pas , le client à chaques étapes du développement de son site web . Je le reférence sur google . Puis , si le client le désir , je fais une campagne publicitaire sur les réseaux à un tarifs adapté à vos besoins. 
+                    J'accompagne le client pas à pas, à chaque étape du développement de son site web. Je le référence sur Google. Puis, si le client le souhaite, je réalise une campagne publicitaire sur les réseaux sociaux, à un tarif adapté à ses besoins.
+                </div>
             </div>
-          </div>
-           
+
         </div>
 
         <!-- ==== COLONNE DROITE ==== -->
         <div class="faq-column">
 
-            <!-- 5 -->
+            <!-- 3 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
-                    Quelle est l'intêret de faire son site chez un informaticien 
+                    Quel est l'intérêt de faire son site chez un informaticien ?
                     <div class="faq-toggle">+</div>
                 </div>
                 <div class="faq-answer">
-                    L'interêt est que chez un site de créations automatique en ligne , vous n'avez que les pages visuelles , vous n'avez pas tous les pages cachées, réserver aux propriétaire, ou sont crées tous les outils téchniques : messages des visiteurs, devis automatisés, rendez-vous automatisés, paiements en ligne et facturation éléctronique. 
+                    L'intérêt est que sur un site de création automatique en ligne, vous n'avez que les pages visuelles. Vous n'avez pas toutes les pages cachées, réservées au propriétaire, où sont créés tous les outils techniques : messages des visiteurs, devis automatisés, rendez-vous automatisés, paiements en ligne et facturation électronique.
                 </div>
             </div>
 
-            <!-- 6 -->
+            <!-- 4 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
-                    Est-ce que mes services sont cheres par rapport au marché 
+                    Mes services sont-ils chers par rapport au marché ?
                     <div class="faq-toggle">+</div>
                 </div>
                 <div class="faq-answer">
-                    Non, mes services sont bien en dessous du prix du marché , ils sont seulement une seule fois à payer
+                    Non, mes services sont bien en dessous du prix du marché. Ils ne sont à payer qu'une seule fois.
                 </div>
             </div>
 
