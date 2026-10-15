@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'Nos services - Infortom | Création de site web à Cannes')
+@section('description', 'Site vitrine, devis automatisés, facturation et paiement en ligne : les services Infortom pour auto-entrepreneurs à Cannes.')
+
 @section('content')
 
 <!-- ==== BLOC BLEU FULL WIDTH ==== -->

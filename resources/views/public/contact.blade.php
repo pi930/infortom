@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'Contact - Infortom | Devis gratuit site web à Cannes')
+@section('description', 'Appelez ou écrivez à Infortom à Cannes pour obtenir un devis gratuit pour votre site web professionnel.')
+
 @section('content')
 
 <style>

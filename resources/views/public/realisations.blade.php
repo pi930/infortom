@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'Nos réalisations - Infortom | Sites web pour auto-entrepreneurs')
+@section('description', 'Découvrez les sites web créés par Infortom à Cannes pour des auto-entrepreneurs : exemples de réalisations et de projets.')
+
 @section('content')
 
 <!-- ==== BLOC GRIS FULL WIDTH ==== -->

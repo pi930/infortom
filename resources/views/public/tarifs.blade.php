@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+   @section('title', 'Tarifs - Infortom | Création de site web à Cannes')
+   @section('description', 'Découvrez les tarifs Infortom : site web clé en main pour auto-entrepreneurs à Cannes, paiement unique.')
+
+
 @section('content')
 
 
@@ -27,6 +31,7 @@
         line-height: 1.6;
     }
 </style>
+
 
 <div class="tarifs-header">
     <h1>Nos tarifs clairs et accessibles</h1>
