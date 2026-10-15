@@ -628,7 +628,7 @@ professionnels :
             <!-- 1 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
-                    Est ce que mes services sont ceux d'un site proféssionel ?
+                    Est ce que mes services sont ceux d'un site profésionel ?
                     <div class="faq-toggle">+</div>
                 </div>
                 <div class="faq-answer">
@@ -643,7 +643,7 @@ professionnels :
                     <div class="faq-toggle">+</div>
                 </div>
                 <div class="faq-answer">
-                    J'accompagne, pas à pas , le client à chaques étapes du dévellopement de son site web . Je le reférence sur google . Puis , si le client le désir , je fais une campagne publicitaire sur les réseaux à un tarifs adapté aux besoins du client. 
+                    J'accompagne, pas à pas , le client à chaques étapes du développement de son site web . Je le reférence sur google . Puis , si le client le désir , je fais une campagne publicitaire sur les réseaux à un tarifs adapté à vos besoins. 
             </div>
           </div>
            
@@ -655,11 +655,11 @@ professionnels :
             <!-- 5 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
-                    Quelle est l'intêret de faire son site chez un ibformaticien 
+                    Quelle est l'intêret de faire son site chez un informaticien 
                     <div class="faq-toggle">+</div>
                 </div>
                 <div class="faq-answer">
-                    L'intêret est que chez un site de créations automatique en ligne , vous n'avez que les pages visuelles , vous n'avez pas tous les pages cachées, réserver aux propriétaire, ou sont crées tous les outils téchniques : messages des visiteurs, devis automatisés, rendez-vous automatisés, paiements en ligne et facturation éléctronique. 
+                    L'interêt est que chez un site de créations automatique en ligne , vous n'avez que les pages visuelles , vous n'avez pas tous les pages cachées, réserver aux propriétaire, ou sont crées tous les outils téchniques : messages des visiteurs, devis automatisés, rendez-vous automatisés, paiements en ligne et facturation éléctronique. 
                 </div>
             </div>
 
