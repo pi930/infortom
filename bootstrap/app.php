@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->trustProxies(at: '*');
         $middleware->prepend(\App\Http\Middleware\RedirectToCanonicalDomain::class);
+        $middleware->prepend(\App\Http\Middleware\ForceDomain::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -18,7 +18,7 @@
 <meta property="og:url" content="https://infortom.fr{{ request()->getPathInfo() }}">
 <meta property="og:title" content="@yield('title', 'Infortom - Création de sites web pour auto-entrepreneurs')">
 <meta property="og:description" content="@yield('description', 'Des sites professionnels clé en main pour auto-entrepreneurs, à Cannes.')">
-<meta property="og:image" content="{{ asset('images/og-infortom.jpg') }}">
+<meta property="og:image" content="https://infortom.fr/images/og-infortom.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Infortom - création de sites web">

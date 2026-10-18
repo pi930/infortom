@@ -8,4 +8,7 @@
     php_fastcgi 127.0.0.1:9000
     file_server
 }
+infortom-1.onrender.com {
+    redir https://infortom.fr{uri} permanent
+}
 
