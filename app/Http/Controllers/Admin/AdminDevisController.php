@@ -167,38 +167,63 @@ Infortom
     return redirect()->route('admin.devis.index')
         ->with('success', 'Devis créé.');
 }
+public function sendResteEmail(Devis $devis)
+{
+    if ($devis->paiement_type !== 'acompte') {
+        return back()->with('error', 'Le reste n\'est envoyable qu\'après paiement de l\'acompte.');
+    }
+
+    $lienReste = route('paiement.reste', $devis->id);
+    $reste = $devis->total_ttc - 100;
+
+    Mail::raw(
+        "Bonjour {$devis->client_name},\n\n"
+        . "Voici le lien pour régler le solde de votre devis #{$devis->id}.\n\n"
+        . "Reste à payer : {$reste} €\n"
+        . "Lien : {$lienReste}\n\n"
+        . "Cordialement,\nInfortom\n06400 Cannes",
+        function ($message) use ($devis) {
+            $message->to($devis->client_email)
+                    ->subject("Reste à payer - Devis Infortom #{$devis->id}");
+        }
+    );
+
+    $devis->reste_email_sent = true;
+    $devis->save();
+
+    return back()->with('success', 'Email du reste à payer envoyé au client.');
+}
+
 public function sendEmail(Devis $devis)
 {
-    $paymentLink = route('paiement.total', $devis->id);
+    if ($devis->acompte_possible) {
+        $paymentLink = route('paiement.acompte', $devis->id);
+        $texte = "Acompte à régler : 100 €\n"
+               . "Reste à payer après l'acompte : " . ($devis->total_ttc - 100) . " €\n"
+               . "Lien pour payer l'acompte : {$paymentLink}";
+        $sujet = "Acompte - Devis Infortom #{$devis->id}";
+    } else {
+        $paymentLink = route('paiement.total', $devis->id);
+        $texte = "Montant total : {$devis->total_ttc} €\n"
+               . "Lien : {$paymentLink}";
+        $sujet = "Paiement - Devis Infortom #{$devis->id}";
+    }
 
-    Mail::send([], [], function ($message) use ($devis, $paymentLink) {
-        $message->to($devis->client_email)
-                ->subject("Votre devis Infortom #{$devis->id}")
-                ->text("
-Bonjour {$devis->client_name},
-
-Voici votre devis :
-
-Montant total : {$devis->total_ttc} €
-
-Prestations :
-" . implode("\n", $devis->items) . "
-
-Pour payer la totalité, cliquez ici :
-$paymentLink
-
-Cordialement,
-Infortom
-06400 Cannes
-");
-    });
+    Mail::raw(
+        "Bonjour {$devis->client_name},\n\n"
+        . "Voici le lien pour régler votre devis #{$devis->id}.\n\n"
+        . $texte . "\n\n"
+        . "Cordialement,\nInfortom\n06400 Cannes",
+        function ($message) use ($devis, $sujet) {
+            $message->to($devis->client_email)->subject($sujet);
+        }
+    );
 
     $devis->email_sent = true;
     $devis->save();
 
-    return back()->with('success', 'Email envoyé au client.');
+    return back()->with('success', 'Email de paiement envoyé au client.');
 }
-
 
 public function show(Devis $devis)
 {

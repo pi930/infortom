@@ -61,11 +61,14 @@
                                 🛠️ Configurer le service
                             </a>
 
-                            @if(Storage::exists("factures/$filename"))
-                                <a href="{{ route('admin.facture.download', $p->id) }}" class="btn btn-sm btn-success">
-                                    Télécharger la facture
-                                </a>
-                            @endif
+  <a href="{{ route('admin.facture.download', $p->id) }}" class="btn btn-sm btn-success">
+    ⬇️ Télécharger la facture
+</a>
+
+<a href="{{ route('admin.facture.send', $p->id) }}" class="btn btn-sm btn-outline-secondary"
+   onclick="return confirm('Envoyer la facture au client ?')">
+    ✉️ Envoyer au client
+</a>
                         </div>
                     </td>
                 </tr>

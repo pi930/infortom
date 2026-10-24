@@ -101,6 +101,8 @@ Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
 
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])
         ->name('admin.dashboard');
+        Route::get('/devis/send-reste/{devis}', [AdminDevisController::class, 'sendResteEmail'])
+    ->name('admin.devis.sendReste');
 
    
   
@@ -114,6 +116,7 @@ Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
     Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
 
     // Factures
+    Route::get('/facture/send/{devis}', [AdminFactureController::class, 'send'])->name('admin.facture.send');
     Route::get('/facture/{devis}', [AdminFactureController::class, 'show'])->name('admin.facture.show');
     Route::get('/facture/download/{devis}', [AdminFactureController::class, 'download'])->name('admin.facture.download');
 

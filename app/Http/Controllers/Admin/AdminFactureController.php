@@ -10,49 +10,59 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminFactureController extends Controller
 {
-    public function show(Devis $devis)
+    private function viewFor(?string $type): string
     {
-        $type = $devis->paiement_type;
-
-        $view = match ($type) {
+        return match ($type) {
             'total'   => 'pdf.facture_total',
             'acompte' => 'pdf.facture_acompte',
             'reste'   => 'pdf.facture_reste',
             default   => abort(404),
         };
-
-        // Génération PDF
-        $pdf = Pdf::loadView($view, compact('devis'));
-
-        $filename = "facture_{$type}_devis_{$devis->id}.pdf";
-
-        // Création du dossier si inexistant
-        Storage::disk('public')->makeDirectory('factures');
-
-        // Stockage du PDF
-        Storage::disk('public')->put("factures/{$filename}", $pdf->output());
-
-        // Envoi email avec facture
-        Mail::send('emails.facture', ['devis' => $devis], function ($message) use ($devis, $filename) {
-            $message->to($devis->client_email)
-                    ->subject("Votre facture - Devis #{$devis->id}")
-                    ->attach(storage_path("app/public/factures/{$filename}"));
-        });
-
-        return $pdf->stream($filename);
     }
 
-    public function download(Devis $devis)
+    // Génère le PDF si besoin et retourne son chemin relatif sur le disque public
+    private function ensurePdf(Devis $devis, bool $force = false): string
     {
         $type = $devis->paiement_type;
         $filename = "facture_{$type}_devis_{$devis->id}.pdf";
+        $path = "factures/{$filename}";
 
-        $path = storage_path("app/public/factures/{$filename}");
-
-        if (!file_exists($path)) {
-            return back()->with('error', 'La facture n’existe pas encore.');
+        if ($force || !Storage::disk('public')->exists($path)) {
+            $pdf = Pdf::loadView($this->viewFor($type), compact('devis'));
+            Storage::disk('public')->makeDirectory('factures');
+            Storage::disk('public')->put($path, $pdf->output());
         }
 
-        return response()->download($path);
+        return $path;
+    }
+
+    // Voir la facture (sans envoyer de mail)
+    public function show(Devis $devis)
+    {
+        $path = $this->ensurePdf($devis, true);
+
+        return response()->file(Storage::disk('public')->path($path));
+    }
+
+    // Télécharger (génère automatiquement si absente)
+    public function download(Devis $devis)
+    {
+        $path = $this->ensurePdf($devis);
+
+        return Storage::disk('public')->download($path);
+    }
+
+    // Envoi explicite de la facture au client
+    public function send(Devis $devis)
+    {
+        $path = $this->ensurePdf($devis);
+
+        Mail::send('emails.facture', ['devis' => $devis], function ($message) use ($devis, $path) {
+            $message->to($devis->client_email)
+                    ->subject("Votre facture - Devis #{$devis->id}")
+                    ->attach(Storage::disk('public')->path($path));
+        });
+
+        return back()->with('success', 'Facture envoyée au client.');
     }
 }

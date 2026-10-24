@@ -58,47 +58,43 @@
                     </td>
 
                     <td>
-
-                        {{-- Voir le devis --}}
-                        <a href="{{ route('admin.devis.show', $d->id) }}" class="btn btn-sm btn-primary mb-1">
-                            Voir
-                        </a>
-
-                        {{-- Paiement total si <= 100 € --}}
-                        @if(!$d->acompte_possible)
-                            <a href="{{ route('paiement.total', $d->id) }}" class="btn btn-sm btn-success mb-1">
-                                Payer la totalité
-                            </a>
-                        @endif
-                        @if(!$d->acompte_possible && !$d->email_sent)
-    <a href="{{ route('admin.devis.sendEmail', $d->id) }}" class="btn btn-sm btn-secondary mb-1">
-        Envoyer email
+    {{-- Voir le devis --}}
+    <a href="{{ route('admin.devis.show', $d->id) }}" class="btn btn-sm btn-primary mb-1">
+        Voir
     </a>
-@endif
 
-                        {{-- Paiement acompte si > 100 € et pas encore payé --}}
-                        @if($d->acompte_possible && $d->paiement_type === null)
-                            <a href="{{ route('paiement.acompte', $d->id) }}" class="btn btn-sm btn-warning mb-1">
-                                Payer acompte (100 €)
-                            </a>
-                        @endif
-                        
+    {{-- Petit devis (≤ 100 €) : envoi du lien de paiement total --}}
+    @if(!$d->acompte_possible && $d->paiement_type === null)
+        <a href="{{ route('admin.devis.sendEmail', $d->id) }}" class="btn btn-sm btn-secondary mb-1">
+            {{ $d->email_sent ? 'Renvoyer' : 'Envoyer' }} le lien de paiement ({{ $d->total_ttc }} €)
+        </a>
+    @endif
 
-                        {{-- Paiement du reste si acompte payé --}}
-                        @if($d->paiement_type === 'acompte')
-                            <a href="{{ route('paiement.reste', $d->id) }}" class="btn btn-sm btn-info mb-1">
-                                Payer le reste ({{ $d->reste_a_payer }} €)
-                            </a>
-                        @endif
+    {{-- Devis avec acompte : l'acompte part automatiquement à la création --}}
+    @if($d->acompte_possible && $d->paiement_type === null)
+        <span class="badge bg-warning text-dark">Acompte en attente</span>
+    @endif
 
-                        {{-- Email envoyé ? --}}
-                        @if($d->email_sent)
-                            <span class="badge bg-success">Email envoyé</span>
-                        @else
-                            <span class="badge bg-danger">Email non envoyé</span>
-                        @endif
+    {{-- Acompte payé : on affiche le badge + bouton d'envoi du reste --}}
+    @if($d->paiement_type === 'acompte')
+        <span class="badge bg-info">Acompte payé</span>
+        <a href="{{ route('admin.devis.sendReste', $d->id) }}" class="btn btn-sm btn-info mb-1">
+            {{ $d->reste_email_sent ? 'Renvoyer' : 'Envoyer' }} le reste par mail ({{ $d->reste_a_payer }} €)
+        </a>
+    @endif
 
-                    </td>
+    {{-- Tout est réglé --}}
+    @if(in_array($d->paiement_type, ['total', 'reste']))
+        <span class="badge bg-success">Soldé</span>
+    @endif
+
+    {{-- Email initial --}}
+    @if($d->email_sent)
+        <span class="badge bg-success">Email envoyé</span>
+    @else
+        <span class="badge bg-danger">Email non envoyé</span>
+    @endif
+</td>
                 </tr>
                 @endforeach
             </tbody>
