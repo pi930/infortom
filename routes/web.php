@@ -61,9 +61,6 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
-// ADMIN — Messages
-Route::get('/admin/messages', [AdminMessageController::class, 'index'])
-    ->name('admin.messages.index');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -101,13 +98,13 @@ Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
 
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])
         ->name('admin.dashboard');
-        Route::get('/devis/send-reste/{devis}', [AdminDevisController::class, 'sendResteEmail'])
-    ->name('admin.devis.sendReste');
 
-   
-  
+    Route::get('/devis/send-reste/{devis}', [AdminDevisController::class, 'sendResteEmail'])
+        ->name('admin.devis.sendReste');
+
     // Paiements admin
     Route::get('/paiements', [AdminPaiementController::class, 'index'])->name('admin.paiements.index');
+
     // Paramètres admin
     Route::get('/settings', [AdminUserController::class, 'settings'])->name('admin.users.settings');
     Route::post('/settings/update', [AdminUserController::class, 'updateSettings'])->name('admin.user.settings.update');
@@ -123,6 +120,14 @@ Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
     // Configuration service
     Route::get('/service-config/{devis}', [AdminServiceConfigController::class, 'form'])->name('admin.service.config.form');
     Route::post('/service-config/{devis}', [AdminServiceConfigController::class, 'store'])->name('admin.service.config.store');
+
+    // Messages
+    Route::get('/messages', [AdminMessageController::class, 'index'])
+        ->name('admin.messages.index');
+    Route::get('/messages/{id}/repondre', [AdminMessageController::class, 'repondre'])
+        ->name('admin.messages.repondre');
+    Route::post('/messages/{id}/repondre', [AdminMessageController::class, 'envoyerReponse'])
+        ->name('admin.messages.envoyerReponse');
 });
 Route::get('/admin/users/{user}/show', [AdminUserController::class, 'show'])
     ->name('admin.user.show');
@@ -137,12 +142,6 @@ Route::delete('/admin/devis/{id}', [AdminDevisController::class, 'destroy'])
 Route::post('/devis/accepter', [DevisController::class, 'accepter'])
     ->middleware('auth')
     ->name('devis.accepter');
-
-    // Messages
-    Route::get('/messages/{id}/repondre', [AdminMessageController::class, 'repondre'])
-        ->name('admin.messages.repondre');
-    Route::post('/messages/{id}/repondre', [AdminMessageController::class, 'envoyerReponse'])
-        ->name('admin.messages.envoyerReponse');
 
 
 // --------------------------------------------------

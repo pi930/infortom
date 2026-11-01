@@ -3,40 +3,46 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Mail\ReponseMessageMail;
 use App\Models\Message;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AdminMessageController extends Controller
 {
-    // Affichage du tableau de bord admin avec les messages
     public function index()
     {
         $messages = Message::latest()->get();
         return view('admin.messages.index', compact('messages'));
     }
 
-    // Formulaire pour répondre à un message
     public function repondre($id)
     {
         $message = Message::findOrFail($id);
         return view('admin.messages.repondre', compact('message'));
     }
 
-    // Envoi de la réponse
     public function envoyerReponse(Request $request, $id)
     {
         $request->validate([
-            'reponse' => 'required|string'
+            'reponse' => 'required|string',
         ]);
 
         $message = Message::findOrFail($id);
 
-        // Enregistrer la réponse
-        $message->reponse = $request->reponse;
-$message->repondu_at = now();
-$message->save();
-        return view('admin.messages.repondre', compact('message'));
+        // Envoi du mail au client
+        Mail::to($message->email)->send(
+            new ReponseMessageMail($message, $request->reponse)
+        );
 
+        // Sauvegarde de la réponse (après l'envoi, pour ne rien enregistrer si le mail échoue)
+        $message->reponse = $request->reponse;
+        $message->repondu_at = now();
+        $message->save();
+
+        return redirect()
+            ->route('admin.messages.index')
+            ->with('success', 'Réponse envoyée à ' . $message->email);
     }
 }
 
