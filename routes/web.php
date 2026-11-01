@@ -205,13 +205,10 @@ Route::get('/paiement/cancel', [PaiementController::class, 'cancel'])->name('pai
 // --------------------------------------------------
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/services', [HomeController::class, 'services'])->name('services');
-Route::get('/competences', [HomeController::class, 'competences'])->name('competences');
 
 
 
 // Support
-Route::get('/support', [SupportController::class, 'index'])->name('support.form');
-Route::post('/support', [SupportController::class, 'send'])->name('support.send');
 Route::get('/confidentialite', function () {
     return view('confidentialite');
 })->name('confidentialite');
