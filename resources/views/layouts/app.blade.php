@@ -9,7 +9,7 @@
     
 <meta name="description" content="@yield('description', 'Infortom à Cannes crée des sites professionnels clé en main pour auto-entrepreneurs : devis en ligne, paiement sécurisé, gestion automatisée.')">
 
-   <link rel="canonical" href="{{ url()->current() }}" />
+   <link rel="canonical" href="{{ rtrim(config('app.url'), '/') . request()->getPathInfo() }}" />
    
 <!-- Open Graph (Facebook, Instagram, WhatsApp, LinkedIn) -->
 <meta property="og:type" content="website">
