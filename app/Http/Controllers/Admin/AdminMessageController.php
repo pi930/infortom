@@ -33,7 +33,8 @@ class AdminMessageController extends Controller
 
         // Enregistrer la réponse
         $message->reponse = $request->reponse;
-        $message->save();
+$message->repondu_at = now();
+$message->save();
         return view('admin.messages.repondre', compact('message'));
 
     }

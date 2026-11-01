@@ -138,6 +138,12 @@ Route::post('/devis/accepter', [DevisController::class, 'accepter'])
     ->middleware('auth')
     ->name('devis.accepter');
 
+    // Messages
+    Route::get('/messages/{id}/repondre', [AdminMessageController::class, 'repondre'])
+        ->name('admin.messages.repondre');
+    Route::post('/messages/{id}/repondre', [AdminMessageController::class, 'envoyerReponse'])
+        ->name('admin.messages.envoyerReponse');
+
 
 // --------------------------------------------------
 // RESET PASSWORD

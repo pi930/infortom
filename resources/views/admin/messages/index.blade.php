@@ -23,6 +23,9 @@
             <hr>
 
             <div class="d-flex flex-column flex-sm-row gap-2">
+                <a href="{{ route('admin.messages.repondre', $msg->id) }}" class="btn btn-secondary">
+    Répondre
+</a>
                 <a href="{{ route('admin.rendezvous.index', [
                     'name' => $msg->name,
                     'email' => $msg->email,
