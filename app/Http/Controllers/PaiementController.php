@@ -16,6 +16,9 @@ class PaiementController extends Controller
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
+        // Conversion du total TTC en centimes
+        $montant = (int) round($devis->total_ttc * 100);
+
         $session = Session::create([
             'line_items' => [[
                 'price_data' => [
@@ -23,11 +26,17 @@ class PaiementController extends Controller
                     'product_data' => [
                         'name' => "Paiement total du devis #{$devis->id}",
                     ],
-                    'unit_amount' => (int) round($devis->total_ttc * 100),
+                    'unit_amount' => $montant,
                 ],
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
+            'payment_method_types' => ['card'],
+            'payment_method_options' => [
+                'card' => [
+                    'request_three_d_secure' => 'automatic',
+                ],
+            ],
             'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('home'),
             'metadata' => [
@@ -48,6 +57,9 @@ class PaiementController extends Controller
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
+        // 100 € d'acompte = 10000 centimes
+        $montant = 10000; 
+
         $session = Session::create([
             'line_items' => [[
                 'price_data' => [
@@ -55,11 +67,12 @@ class PaiementController extends Controller
                     'product_data' => [
                         'name' => "Acompte sur devis #{$devis->id}",
                     ],
-                    'unit_amount' => 10000, // 100 €
+                    'unit_amount' => $montant,
                 ],
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
+            'payment_method_types' => ['card'],
             'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('home'),
             'metadata' => [
@@ -78,7 +91,11 @@ class PaiementController extends Controller
             return back()->with('error', 'Le reste n’est payable qu’après acompte.');
         }
 
-        $reste = (int) round(($devis->total_ttc - 100) * 100);
+        // Calcul du reste à payer en euros (Total TTC - 100 € d'acompte)
+        $reste = $devis->total_ttc - 100;
+
+        // Conversion en centimes pour Stripe
+        $montant = (int) round($reste * 100);
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -87,13 +104,14 @@ class PaiementController extends Controller
                 'price_data' => [
                     'currency' => 'eur',
                     'product_data' => [
-                        'name' => "Reste à payer du devis #{$devis->id}",
+                       'name' => "Reste à payer du devis #{$devis->id}",
                     ],
-                    'unit_amount' => $reste,
+                    'unit_amount' => $montant,
                 ],
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
+            'payment_method_types' => ['card'],
             'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('paiement.cancel'),
             'metadata' => [
@@ -130,18 +148,15 @@ class PaiementController extends Controller
             return redirect()->route('home')->with('error', 'Devis introuvable.');
         }
 
-        // Anti-doublon : si la page est rechargée, on ne retraite pas le paiement
         if ($devis->paiement_type === $typePaiement) {
             return redirect()->route('home')->with('success', 'Paiement déjà enregistré.');
         }
 
-        // "payé" uniquement si tout est réglé
         $devis->statut = $typePaiement === 'acompte' ? 'acompte_payé' : 'payé';
         $devis->paiement_type = $typePaiement;
         $devis->paiement_date = now();
         $devis->save();
 
-        // Facture générée au paiement (une par type, l'acompte est conservé)
         try {
             $filename = "facture_{$typePaiement}_devis_{$devis->id}.pdf";
             $path = "factures/{$filename}";
@@ -156,7 +171,7 @@ class PaiementController extends Controller
                         ->attach(Storage::disk('public')->path($path));
             });
         } catch (\Throwable $e) {
-            report($e); // le paiement reste valide même si le PDF ou le mail échoue
+            report($e);
         }
 
         return redirect()->route('home')->with('success', 'Paiement effectué avec succès.');

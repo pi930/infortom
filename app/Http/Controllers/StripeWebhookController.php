@@ -47,10 +47,14 @@ class StripeWebhookController extends Controller
         if ($devis) {
 
             // 🔥 Mise à jour cohérente du devis (identique à PaiementController@success)
-            $devis->statut = 'payé';
+               $devis->statut = $typePaiement === 'acompte' ? 'acompte_payé' : 'payé';
             $devis->paiement_type = $typePaiement;
             $devis->paiement_date = now();
             $devis->save();
+
+               if (Paiement::where('stripe_session_id', $session->id)->exists()) {
+       return response('Already handled', 200);
+   }
 
             // 🔥 Enregistrement du paiement
             Paiement::create([
