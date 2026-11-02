@@ -18,5 +18,7 @@
     @endforeach
 </ul>
 
-<h3>Total TTC payé</h3>
-<p><strong>{{ $devis->total_ttc }} €</strong></p>
+<h3>Total payé</h3>
+<p><strong>{{ number_format($devis->total_ttc, 2, ',', ' ') }} €</strong></p>
+
+@include('pdf.partials.mentions')

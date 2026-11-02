@@ -1,4 +1,4 @@
-<h1>Facture - Reste à payer</h1>
+<h1>Facture - Solde</h1>
 
 <div style="position: absolute; top: 10px; right: 10px; text-align: right;">
     <strong>Infortom</strong><br>
@@ -7,8 +7,13 @@
 
 @include('pdf.partials.header', ['devis' => $devis])
 
-<h3>Reste payé</h3>
-<p><strong>{{ $devis->reste_a_payer }} €</strong></p>
+<h3>Total du devis</h3>
+<p><strong>{{ number_format($devis->total_ttc, 2, ',', ' ') }} €</strong></p>
 
-<h3>Total TTC</h3>
-<p><strong>{{ $devis->total_ttc }} €</strong></p>
+<h3>Acompte déjà versé</h3>
+<p><strong>100,00 €</strong></p>
+
+<h3>Solde payé</h3>
+<p><strong>{{ number_format($devis->total_ttc - 100, 2, ',', ' ') }} €</strong></p>
+
+@include('pdf.partials.mentions')

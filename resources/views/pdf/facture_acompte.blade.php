@@ -10,8 +10,9 @@
 <h3>Acompte payé</h3>
 <p><strong>100 €</strong></p>
 
-<h3>Total TTC</h3>
-<p><strong>{{ $devis->total_ttc }} €</strong></p>
+<h3>Total du devis</h3>
+<p><strong>{{ number_format($devis->total_ttc, 2, ',', ' ') }} €</strong></p>
 
 <h3>Reste à payer</h3>
 <p><strong>{{ $devis->total_ttc - 100 }} €</strong></p>
+@include('pdf.partials.mentions')
