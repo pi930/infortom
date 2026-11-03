@@ -7,13 +7,17 @@
     encode gzip
     php_fastcgi 127.0.0.1:9000
     file_server
+
+    @bingbot {
+        header User-Agent *bingbot*
+    }
+
+    handle @bingbot {
+        php_fastcgi 127.0.0.1:9000
+    }
 }
+
 infortom-1.onrender.com {
     redir https://infortom.fr{uri} permanent
 }
-@bingbot {
-    header User-Agent *bingbot*
-}
-
-respond @bingbot "OK" 200
 
