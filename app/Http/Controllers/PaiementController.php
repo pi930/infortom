@@ -44,6 +44,7 @@ public function checkoutTotal(Devis $devis)
                 'devis_id' => $devis->id, // Vérifiez bien qu'il y a un seul $devis ici
                 'type_paiement' => 'total',
             ],
+            'payment_method_configuration' => config('services.stripe.payment_method_configuration'),
         ]);
 
         return redirect($session->url);
@@ -72,7 +73,6 @@ public function checkoutTotal(Devis $devis)
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'payment_method_types' => ['card'],
             'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('home'),
             'metadata' => [
@@ -80,50 +80,47 @@ public function checkoutTotal(Devis $devis)
                 'devis_id' => $devis->id,
                 'type_paiement' => 'acompte',
             ],
+            'payment_method_configuration' => config('services.stripe.payment_method_configuration'),
         ]);
 
         return redirect($session->url);
     }
 
 public function checkoutReste(Devis $devis)
-    {
-        if ($devis->paiement_type !== 'acompte') {
-            return back()->with('error', 'Le reste n’est payable qu’après acompte.');
-        }
-
-        // Calcul du reste à payer en euros (Total TTC - 100 € d'acompte)
-        $reste = $devis->total_ttc - 100;
-
-        // Conversion en centimes pour Stripe
-        $montant = (int) round($reste * 100);
-
-        Stripe::setApiKey(config('services.stripe.secret'));
-
-        $session = Session::create([
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'eur',
-                    'product_data' => [
-                       'name' => "Reste à payer du devis #{$devis->id}",
-                    ],
-                    'unit_amount' => $montant,
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'payment_method_types' => ['card'],
-            'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('paiement.cancel'),
-            'metadata' => [
-                'site' => 'infortom',
-                'devis_id' => $devis->id,
-                'type_paiement' => 'reste',
-            ],
-        ]);
-
-        return redirect($session->url);
+{
+    if ($devis->paiement_type !== 'acompte') {
+        return back()->with('error', 'Le reste n’est payable qu’après acompte.');
     }
 
+    // Reste à payer en centimes (total - acompte de 100 €)
+    $montant = (int) round(($devis->total_ttc - 100) * 100);
+
+    Stripe::setApiKey(config('services.stripe.secret'));
+
+    $session = Session::create([
+        'line_items' => [[
+            'price_data' => [
+                'currency' => 'eur',
+                'product_data' => [
+                    'name' => "Reste à payer du devis #{$devis->id}",
+                ],
+                'unit_amount' => $montant,
+            ],
+            'quantity' => 1,
+        ]],
+        'mode' => 'payment',
+        'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
+        'cancel_url' => route('paiement.cancel'),
+        'metadata' => [
+            'site' => 'infortom',
+            'devis_id' => $devis->id,
+            'type_paiement' => 'reste',
+        ],
+        'payment_method_configuration' => config('services.stripe.payment_method_configuration'),
+    ]);
+
+    return redirect($session->url);
+}
     public function success(Request $request)
     {
         $sessionId = $request->get('session_id');
