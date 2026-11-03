@@ -12,79 +12,74 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PaiementController extends Controller
 {
+private function pmcOptions(): array
+{
+    $pmc = config('services.stripe.payment_method_configuration');
+
+    return $pmc ? ['payment_method_configuration' => $pmc] : [];
+}
+
 public function checkoutTotal(Devis $devis)
-    {
-        Stripe::setApiKey(config('services.stripe.secret'));
+{
+    Stripe::setApiKey(config('services.stripe.secret'));
 
-        $montant = (int) round($devis->total_ttc * 100);
+    $montant = (int) round($devis->total_ttc * 100);
 
-        $session = Session::create([
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'eur',
-                    'product_data' => [
-                        'name' => "Paiement total du devis #{$devis->id}",
-                    ],
-                    'unit_amount' => $montant,
+    $session = Session::create([
+        'line_items' => [[
+            'price_data' => [
+                'currency' => 'eur',
+                'product_data' => [
+                    'name' => "Paiement total du devis #{$devis->id}",
                 ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'payment_method_types' => ['card'],
-            'payment_method_options' => [
-                'card' => [
-                    'request_three_d_secure' => 'automatic',
-                ],
+                'unit_amount' => $montant,
             ],
-            // ❌ La ligne 'saved_payment_method_options' a été supprimée d'ici
-            'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('home'),
-            'metadata' => [
-                'site' => 'infortom',
-                'devis_id' => $devis->id, // Vérifiez bien qu'il y a un seul $devis ici
-                'type_paiement' => 'total',
-            ],
-            'payment_method_configuration' => config('services.stripe.payment_method_configuration'),
-        ]);
+            'quantity' => 1,
+        ]],
+        'mode' => 'payment',
+        'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
+        'cancel_url' => route('home'),
+        'metadata' => [
+            'site' => 'infortom',
+            'devis_id' => $devis->id,
+            'type_paiement' => 'total',
+        ],
+    ] + $this->pmcOptions());
 
-        return redirect($session->url);
+    return redirect($session->url);
+}
+
+public function checkoutAcompte(Devis $devis)
+{
+    if (!$devis->acompte_possible) {
+        return back()->with('error', 'Acompte non disponible pour ce devis.');
     }
 
-    public function checkoutAcompte(Devis $devis)
-    {
-        if (!$devis->acompte_possible) {
-            return back()->with('error', 'Acompte non disponible pour ce devis.');
-        }
+    Stripe::setApiKey(config('services.stripe.secret'));
 
-        Stripe::setApiKey(config('services.stripe.secret'));
-
-        // Définition du montant de l'acompte en centimes (100 € = 10000 centimes)
-        $montant = 10000; 
-
-        $session = Session::create([
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'eur',
-                    'product_data' => [
-                        'name' => "Acompte sur devis #{$devis->id}",
-                    ],
-                    'unit_amount' => $montant,
+    $session = Session::create([
+        'line_items' => [[
+            'price_data' => [
+                'currency' => 'eur',
+                'product_data' => [
+                    'name' => "Acompte sur devis #{$devis->id}",
                 ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('home'),
-            'metadata' => [
-                'site' => 'infortom',
-                'devis_id' => $devis->id,
-                'type_paiement' => 'acompte',
+                'unit_amount' => 10000, // 100 €
             ],
-            'payment_method_configuration' => config('services.stripe.payment_method_configuration'),
-        ]);
+            'quantity' => 1,
+        ]],
+        'mode' => 'payment',
+        'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
+        'cancel_url' => route('home'),
+        'metadata' => [
+            'site' => 'infortom',
+            'devis_id' => $devis->id,
+            'type_paiement' => 'acompte',
+        ],
+    ] + $this->pmcOptions());
 
-        return redirect($session->url);
-    }
+    return redirect($session->url);
+}
 
 public function checkoutReste(Devis $devis)
 {
@@ -92,7 +87,6 @@ public function checkoutReste(Devis $devis)
         return back()->with('error', 'Le reste n’est payable qu’après acompte.');
     }
 
-    // Reste à payer en centimes (total - acompte de 100 €)
     $montant = (int) round(($devis->total_ttc - 100) * 100);
 
     Stripe::setApiKey(config('services.stripe.secret'));
@@ -116,8 +110,7 @@ public function checkoutReste(Devis $devis)
             'devis_id' => $devis->id,
             'type_paiement' => 'reste',
         ],
-        'payment_method_configuration' => config('services.stripe.payment_method_configuration'),
-    ]);
+    ] + $this->pmcOptions());
 
     return redirect($session->url);
 }
