@@ -15,6 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'isadmin' => \App\Http\Middleware\IsAdmin::class,
         ]);
+
+        // Stripe n'envoie pas de jeton CSRF : on exclut la route du webhook
+        $middleware->validateCsrfTokens(except: [
+            'stripe/webhook',
+        ]);
+
         $middleware->trustProxies(at: '*');
         $middleware->prepend(\App\Http\Middleware\RedirectToCanonicalDomain::class);
         $middleware->prepend(\App\Http\Middleware\ForceDomain::class);

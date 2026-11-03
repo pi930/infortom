@@ -22,6 +22,7 @@ use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\Admin\RendezVousController; 
+use App\Http\Controllers\StripeWebhookController;
 
 
 
@@ -60,6 +61,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
+    ->name('stripe.webhook');
 
 
 Route::middleware(['auth'])->group(function () {
