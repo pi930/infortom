@@ -11,4 +11,9 @@
 infortom-1.onrender.com {
     redir https://infortom.fr{uri} permanent
 }
+@bingbot {
+    header User-Agent *bingbot*
+}
+
+respond @bingbot "OK" 200
 
