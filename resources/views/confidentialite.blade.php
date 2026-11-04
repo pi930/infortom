@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'Déclaration de confidentialité - Infortom | Cannes')
+@section('description', 'Découvrez comment Infortom protège vos données personnelles : cookies, pixel Meta, durées de conservation et exercice de vos droits (RGPD).')
+
 @section('content')
 
 <style>
@@ -145,7 +148,7 @@
         <p class="legal-intro">
             Infortom s’engage à protéger vos données personnelles conformément au Règlement Général
             sur la Protection des Données (RGPD) et à la loi Informatique et Libertés.
-            Dernière mise à jour : octobre 2026.
+            Dernière mise à jour : novembre 2026.
         </p>
 
         <div class="legal-card">
@@ -153,8 +156,8 @@
             <p>
                 Infortom, micro‑entreprise, 12 impasse Saint Louis, 06400 Cannes<br>
                 SIRET : 93818904000034<br>
-                Contact : via la page « Support » du site ou au 07 43 33 44 24.
-                {{-- Ajoute ici ton adresse email de contact --}}
+                Contact : <a href="mailto:contact@infortom.fr">contact@infortom.fr</a>,
+                via la <a href="{{ route('contact') }}">page Contact</a> du site ou au 07 43 33 44 24.
             </p>
         </div>
 
@@ -162,10 +165,13 @@
             <h2>2. Données collectées</h2>
             <p>Les données susceptibles d’être collectées sont :</p>
             <ul>
-                <li>informations transmises via les formulaires (nom, email, message),</li>
+                <li>informations transmises via les formulaires (sujet, nom, email, téléphone, message),</li>
                 <li>informations liées aux demandes de contact ou de devis,</li>
-                <li>données techniques nécessaires au fonctionnement du site (adresse IP, logs techniques),</li>
-                <li>données de navigation collectées par le pixel Meta, <strong>uniquement si vous les acceptez</strong> (voir section 5).</li>
+                <li>données techniques nécessaires au fonctionnement et à la sécurité du site (adresse IP, logs techniques),</li>
+                <li>
+                    données de navigation collectées par le pixel Meta (adresse IP, type de navigateur, pages consultées,
+                    identifiants publicitaires), <strong>uniquement si vous les acceptez</strong> (voir section 5).
+                </li>
             </ul>
         </div>
 
@@ -178,7 +184,8 @@
             </ul>
             <div class="legal-highlight">
                 <p style="margin:0;">
-                    Vos données ne sont jamais vendues. Le pixel Meta n’est activé qu’avec votre accord explicite.
+                    Le pixel Meta n’est activé qu’avec votre accord explicite. Refuser les cookies n’a aucune
+                    conséquence sur votre accès au site ni sur nos services.
                 </p>
             </div>
         </div>
@@ -192,6 +199,11 @@
                 <li>nos prestataires techniques strictement nécessaires au fonctionnement du service (envoi d’emails, paiement sécurisé).</li>
             </ul>
             <p style="margin-top:10px;">
+                Pour les données collectées par le pixel Meta, Infortom et Meta Platforms Ireland Limited
+                agissent en tant que responsables conjoints du traitement pour la collecte et la transmission
+                de ces données.
+            </p>
+            <p>
                 Certains de ces prestataires, dont Meta, peuvent traiter des données en dehors de l’Union européenne,
                 notamment aux États‑Unis, dans le cadre de garanties prévues par le RGPD (clauses contractuelles types
                 ou décision d’adéquation).
@@ -201,8 +213,10 @@
         <div class="legal-card">
             <h2>5. Cookies et pixel Meta</h2>
             <p>
-                Lors de votre première visite, un bandeau vous permet d’accepter ou de refuser les cookies
-                non essentiels. Sans votre accord, aucun cookie publicitaire n’est déposé.
+                Lors de votre première visite, un bandeau vous permet d’accepter, de refuser ou de personnaliser
+                vos choix concernant les cookies non essentiels. Sans votre accord, aucun cookie publicitaire
+                n’est déposé et le pixel Meta n’est pas chargé. Les cookies strictement nécessaires au
+                fonctionnement du site ne requièrent pas de consentement.
             </p>
 
             <div class="legal-table-wrap">
@@ -213,38 +227,61 @@
                             <th>Émetteur</th>
                             <th>Finalité</th>
                             <th>Durée</th>
+                            <th>Consentement</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
+                            <td>laravel-session</td>
+                            <td>Infortom</td>
+                            <td>Maintenir votre session et sécuriser le site</td>
+                            <td>Session (environ 2 h)</td>
+                            <td>Non requis</td>
+                        </tr>
+                        <tr>
+                            <td>XSRF-TOKEN</td>
+                            <td>Infortom</td>
+                            <td>Protéger les formulaires contre les requêtes frauduleuses</td>
+                            <td>Session (environ 2 h)</td>
+                            <td>Non requis</td>
+                        </tr>
+                        <tr>
                             <td>infortom_cookie_consent</td>
                             <td>Infortom</td>
-                            <td>Mémoriser votre choix concernant les cookies</td>
+                            <td>Mémoriser votre choix concernant les cookies (cookie et stockage local du navigateur)</td>
                             <td>6 mois</td>
+                            <td>Non requis</td>
                         </tr>
                         <tr>
                             <td>_fbp</td>
                             <td>Meta</td>
                             <td>Mesure des performances publicitaires et reciblage</td>
                             <td>3 mois</td>
+                            <td>Requis</td>
                         </tr>
                         <tr>
                             <td>_fbc</td>
                             <td>Meta</td>
                             <td>Attribuer une visite à une publicité Facebook ou Instagram</td>
                             <td>3 mois</td>
+                            <td>Requis</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
             <p style="margin-top:14px;">
-                Vous pouvez modifier ou retirer votre consentement à tout moment :
+                Vous pouvez modifier ou retirer votre consentement à tout moment, aussi simplement que vous l’avez donné.
+                Le retrait entraîne la suppression des cookies Meta.
             </p>
             <button type="button" class="legal-cookie-btn" onclick="openCookieSettings()">Gérer mes cookies</button>
             <p style="margin-top:14px;">
                 Pour en savoir plus sur le traitement des données par Meta :
                 <a href="https://www.facebook.com/privacy/policy" target="_blank" rel="noopener">politique de confidentialité de Meta</a>.
+            </p>
+            <p>
+                Le lien vers notre page Facebook présent sur le site est un simple lien : il ne dépose aucun cookie
+                tant que vous ne cliquez pas dessus.
             </p>
         </div>
 
@@ -253,7 +290,7 @@
             <ul>
                 <li>Demandes de contact et de devis : 3 ans maximum après le dernier échange.</li>
                 <li>Logs techniques : 12 mois maximum.</li>
-                <li>Cookies : 6 mois pour votre choix de consentement, 3 mois pour les cookies Meta.</li>
+                <li>Cookies : 6 mois pour votre choix de consentement, 3 mois pour les cookies Meta, durée de la session pour les cookies techniques.</li>
             </ul>
         </div>
 
@@ -270,7 +307,8 @@
                 <li>droit de retirer votre consentement à tout moment.</li>
             </ul>
             <p style="margin-top:12px;">
-                Pour exercer vos droits, contactez-nous via la page « Support ». Si vous estimez, après nous avoir contactés,
+                Pour exercer vos droits, écrivez-nous à <a href="mailto:contact@infortom.fr">contact@infortom.fr</a>
+                ou via la <a href="{{ route('contact') }}">page Contact</a>. Si vous estimez, après nous avoir contactés,
                 que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la
                 <a href="https://www.cnil.fr" target="_blank" rel="noopener">CNIL</a>.
             </p>
