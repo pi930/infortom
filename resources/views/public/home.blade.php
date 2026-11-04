@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'Infortom Cannes | Dépannage informatique, serveurs AD, sites web')
+@section('description', 'Dépannage informatique, nettoyage système, serveurs Active Directory, réseaux et création de site web à Cannes. Devis gratuit : 07 43 33 44 24.')
+
 @section('content')
 
 <style>

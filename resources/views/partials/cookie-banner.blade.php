@@ -1,5 +1,5 @@
 {{-- resources/views/partials/cookie-banner.blade.php --}}
-{{-- À inclure UNE fois dans layouts/app.blade.php, juste avant </body> : @include('partials.cookie-banner') --}}
+{{-- Inclus UNE seule fois dans layouts/app.blade.php, juste avant </body> --}}
 
 <style>
     .ck-banner {
@@ -122,8 +122,9 @@
 
     <p class="ck-intro">
         Infortom utilise des cookies indispensables au fonctionnement du site. Avec votre accord,
-        nous utilisons aussi des cookies de mesure d'audience et de contenus tiers (Facebook).
-        Vous pouvez accepter, refuser ou choisir cookie par cookie. Votre choix est conservé 6 mois.
+        nous utilisons aussi le pixel Meta (Facebook / Instagram) pour mesurer l'efficacité de nos publicités.
+        Vous pouvez accepter, refuser ou personnaliser vos choix, et les modifier à tout moment
+        via « Gérer les cookies ». Votre choix est conservé 6 mois.
         <a href="{{ route('confidentialite') }}">En savoir plus</a>
     </p>
 
@@ -141,22 +142,11 @@
 
         <div class="ck-row">
             <div>
-                <strong>Mesure d'audience</strong>
-                <span class="ck-desc">Statistiques de fréquentation pour améliorer le site.</span>
+                <strong>Publicité et réseaux sociaux</strong>
+                <span class="ck-desc">Pixel Meta (Facebook / Instagram) pour mesurer l'efficacité de nos publicités.</span>
             </div>
             <label class="ck-switch">
-                <input type="checkbox" id="ck-stats" aria-label="Mesure d'audience">
-                <span class="ck-slider"></span>
-            </label>
-        </div>
-
-        <div class="ck-row">
-            <div>
-                <strong>Contenus tiers et réseaux sociaux</strong>
-                <span class="ck-desc">Facebook et autres services externes.</span>
-            </div>
-            <label class="ck-switch">
-                <input type="checkbox" id="ck-social" aria-label="Contenus tiers et réseaux sociaux">
+                <input type="checkbox" id="ck-social" aria-label="Publicité et réseaux sociaux">
                 <span class="ck-slider"></span>
             </label>
         </div>
@@ -174,9 +164,9 @@
 (function () {
     var KEY = 'infortom_cookie_consent';
     var DURATION_MS = 6 * 30 * 24 * 60 * 60 * 1000; // 6 mois
+    var META_PIXEL_ID = '1027697580327686';
 
     var banner = document.getElementById('ck-banner');
-    var stats = document.getElementById('ck-stats');
     var social = document.getElementById('ck-social');
     var btnSave = document.getElementById('ck-save');
     var btnCustomize = document.getElementById('ck-customize');
@@ -184,30 +174,63 @@
     function read() {
         try {
             var data = JSON.parse(localStorage.getItem(KEY));
+            // Ancien format (sans "expires") ignoré : le bandeau réapparaît
             if (data && data.expires && data.expires > Date.now()) return data;
         } catch (e) {}
         return null;
     }
 
+    function deleteMetaCookies() {
+        var host = location.hostname;
+        var parts = host.split('.');
+        var root = parts.length > 1 ? '.' + parts.slice(-2).join('.') : host;
+        ['_fbp', '_fbc'].forEach(function (name) {
+            document.cookie = name + '=; Max-Age=0; path=/';
+            document.cookie = name + '=; Max-Age=0; path=/; domain=' + root;
+            document.cookie = name + '=; Max-Age=0; path=/; domain=' + host;
+        });
+    }
+
+    function loadMetaPixel() {
+        if (window.fbq) return;
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', META_PIXEL_ID);
+        fbq('track', 'PageView');
+    }
+
     function save(choice) {
+        var hadSocial = !!window.fbq;
         var data = {
             necessary: true,
-            stats: !!choice.stats,
+            stats: false, // réservé pour une future mesure d'audience
             social: !!choice.social,
             date: new Date().toISOString(),
             expires: Date.now() + DURATION_MS
         };
         try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
-        document.cookie = KEY + '=' + (data.stats ? 's' : '') + (data.social ? 'm' : '') +
+        document.cookie = KEY + '=' + (data.social ? 'm' : '') +
             '; max-age=' + Math.floor(DURATION_MS / 1000) + '; path=/; SameSite=Lax';
         hide();
+
+        // Consentement retiré : on supprime les cookies Meta et on recharge pour décharger le pixel
+        if (hadSocial && !data.social) {
+            deleteMetaCookies();
+            window.location.reload();
+            return;
+        }
         apply(data);
     }
 
     function show(custom) {
         var c = read();
-        stats.checked = c ? c.stats : false;
-        social.checked = c ? c.social : false;
+        social.checked = c ? !!c.social : false;
         banner.classList.toggle('ck-custom', !!custom);
         btnSave.style.display = custom ? '' : 'none';
         btnCustomize.style.display = custom ? 'none' : '';
@@ -218,26 +241,23 @@
         banner.classList.remove('ck-show', 'ck-custom');
     }
 
-    // Charger ici les scripts qui dépendent du consentement
+    // Charge les scripts qui dépendent du consentement
     function apply(consent) {
-        if (consent.stats) {
-            // Exemple : charger Google Analytics / Matomo ici
-        }
         if (consent.social) {
-            // Exemple : charger les scripts Facebook ici
+            loadMetaPixel();
         }
         document.dispatchEvent(new CustomEvent('cookie-consent', { detail: consent }));
     }
 
     document.getElementById('ck-accept').addEventListener('click', function () {
-        save({ stats: true, social: true });
+        save({ social: true });
     });
     document.getElementById('ck-refuse').addEventListener('click', function () {
-        save({ stats: false, social: false });
+        save({ social: false });
     });
     btnCustomize.addEventListener('click', function () { show(true); });
     btnSave.addEventListener('click', function () {
-        save({ stats: stats.checked, social: social.checked });
+        save({ social: social.checked });
     });
 
     // Appelée par le lien "Gérer les cookies" du pied de page

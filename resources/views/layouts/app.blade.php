@@ -2,26 +2,25 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Infortom - Création de sites web pour auto-entrepreneurs')</title>
-    <meta name="google-site-verification" content="LGvgF4dy0ULdL49WpW8ic6lZsEcseuuqnz23poSY6hE" />
-    
-<meta name="description" content="@yield('description', 'Infortom à Cannes crée des sites professionnels clé en main pour auto-entrepreneurs : devis en ligne, paiement sécurisé, gestion automatisée.')">
 
-   <link rel="canonical" href="{{ rtrim(config('app.url'), '/') . request()->getPathInfo() }}" />
-   
-<!-- Open Graph (Facebook, Instagram, WhatsApp, LinkedIn) -->
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Infortom">
-<meta property="og:locale" content="fr_FR">
-<meta property="og:url" content="https://infortom.fr{{ request()->getPathInfo() }}">
-<meta property="og:title" content="@yield('title', 'Infortom - Création de sites web pour auto-entrepreneurs')">
-<meta property="og:description" content="@yield('description', 'Des sites professionnels clé en main pour auto-entrepreneurs, à Cannes.')">
-<meta property="og:image" content="https://infortom.fr/images/og-infortom.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Infortom - création de sites web">
+    <title>@yield('title', 'Infortom Cannes - Dépannage informatique, serveurs AD et sites web')</title>
+    <meta name="description" content="@yield('description', 'Infortom à Cannes : dépannage informatique, serveurs Active Directory, réseaux et création de sites web professionnels clé en main pour particuliers et auto-entrepreneurs.')">
+    <meta name="google-site-verification" content="LGvgF4dy0ULdL49WpW8ic6lZsEcseuuqnz23poSY6hE" />
+
+    <link rel="canonical" href="https://infortom.fr{{ request()->getPathInfo() }}" />
+
+    <!-- Open Graph (Facebook, Instagram, WhatsApp, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Infortom">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:url" content="https://infortom.fr{{ request()->getPathInfo() }}">
+    <meta property="og:title" content="@yield('title', 'Infortom Cannes - Dépannage informatique, serveurs AD et sites web')">
+    <meta property="og:description" content="@yield('description', 'Infortom à Cannes : dépannage informatique, serveurs Active Directory, réseaux et création de sites web professionnels clé en main pour particuliers et auto-entrepreneurs.')">
+    <meta property="og:image" content="https://infortom.fr/images/og-infortom.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Infortom - dépannage informatique, serveurs et sites web à Cannes">
 
     <style>
         body {
@@ -131,83 +130,9 @@
                 font-size: 18px;
             }
         }
-
-        /* ==== BANDEAU COOKIES ==== */
-        #cookie-banner {
-            display: none;
-            position: fixed;
-            left: 20px;
-            right: 20px;
-            bottom: 20px;
-            max-width: 760px;
-            margin: 0 auto;
-            background: white;
-            border: 2px solid #1e3a8a;
-            border-radius: 12px;
-            padding: 22px 25px;
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
-            z-index: 9999;
-        }
-
-        #cookie-banner h3 {
-            margin: 0 0 8px 0;
-            font-size: 18px;
-            font-weight: 800;
-            color: #1e3a8a;
-        }
-
-        #cookie-banner p {
-            margin: 0 0 16px 0;
-            font-size: 14px;
-            line-height: 1.5;
-            color: #333;
-        }
-
-        #cookie-banner p a {
-            color: #1e3a8a;
-            font-weight: 600;
-        }
-
-        .cookie-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .cookie-btn {
-            flex: 1;
-            padding: 12px 18px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            border: 2px solid #1e3a8a;
-        }
-
-        .cookie-btn-accept {
-            background: #1e3a8a;
-            color: white;
-        }
-
-        .cookie-btn-refuse {
-            background: white;
-            color: #1e3a8a;
-        }
-
-        @media (max-width: 600px) {
-            #cookie-banner {
-                left: 10px;
-                right: 10px;
-                bottom: 10px;
-                padding: 18px;
-            }
-
-            .cookie-actions {
-                flex-direction: column;
-            }
-        }
     </style>
 </head>
-@include('partials.cookie-banner')
+
 <body>
 
 <header>
@@ -229,104 +154,8 @@
     @yield('content')
 </main>
 
-
-<!-- ==== BANDEAU DE CONSENTEMENT COOKIES ==== -->
-<div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Gestion des cookies">
-    <h3>Vos préférences de cookies</h3>
-    <p>
-        Nous utilisons le pixel Meta (Facebook / Instagram) pour mesurer l'efficacité de nos publicités.
-        Il n'est activé qu'avec votre accord. Vous pouvez accepter ou refuser, et changer d'avis à tout moment.
-        <a href="{{ route('confidentialite') }}">En savoir plus</a>
-    </p>
-    <div class="cookie-actions">
-        <button type="button" class="cookie-btn cookie-btn-refuse" onclick="refuseCookies()">Tout refuser</button>
-        <button type="button" class="cookie-btn cookie-btn-accept" onclick="acceptCookies()">Tout accepter</button>
-    </div>
-</div>
-
-<script>
-    const META_PIXEL_ID = '1027697580327686';
-    const CONSENT_KEY = 'infortom_cookie_consent';
-    const CONSENT_DURATION_DAYS = 180; // 6 mois, puis le bandeau réapparaît
-
-    function getConsent() {
-        try {
-            const raw = localStorage.getItem(CONSENT_KEY);
-            if (!raw) return null;
-            const data = JSON.parse(raw);
-            const ageDays = (Date.now() - data.date) / (1000 * 60 * 60 * 24);
-            if (ageDays > CONSENT_DURATION_DAYS) {
-                localStorage.removeItem(CONSENT_KEY);
-                return null;
-            }
-            return data.value;
-        } catch (e) {
-            return null;
-        }
-    }
-
-    function setConsent(value) {
-        try {
-            localStorage.setItem(CONSENT_KEY, JSON.stringify({ value: value, date: Date.now() }));
-        } catch (e) {}
-    }
-
-    function loadMetaPixel() {
-        if (window.fbq) return;
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', META_PIXEL_ID);
-        fbq('track', 'PageView');
-    }
-
-    function showCookieBanner() {
-        document.getElementById('cookie-banner').style.display = 'block';
-    }
-
-    function hideCookieBanner() {
-        document.getElementById('cookie-banner').style.display = 'none';
-    }
-
-    function acceptCookies() {
-        setConsent('accepted');
-        hideCookieBanner();
-        loadMetaPixel();
-    }
-
-    function refuseCookies() {
-        const wasAccepted = (getConsent() === 'accepted') || !!window.fbq;
-        setConsent('refused');
-        hideCookieBanner();
-
-        if (wasAccepted) {
-            // Supprime les cookies Meta et recharge la page pour décharger le pixel
-            document.cookie = '_fbp=; Max-Age=0; path=/';
-            document.cookie = '_fbc=; Max-Age=0; path=/';
-            window.location.reload();
-        }
-    }
-
-    // Permet de rouvrir le bandeau depuis un lien (« Gérer les cookies »)
-    function openCookieSettings() {
-        showCookieBanner();
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const consent = getConsent();
-        if (consent === 'accepted') {
-            loadMetaPixel();
-        } else if (consent === null) {
-            showCookieBanner();
-        }
-    });
-</script>
+{{-- Bandeau de consentement cookies + chargement du pixel Meta (une seule fois, juste avant </body>) --}}
+@include('partials.cookie-banner')
 
 </body>
 </html>
-
