@@ -13,18 +13,22 @@
     .subtitle { font-size:17px; color:#333; max-width:750px; margin:0 auto 35px auto; line-height:1.5; }
 
     .btn-blue, .btn-outline, .btn-blue-small, .cta-button { text-decoration:none; display:inline-block; border-radius:8px; }
-    .btn-blue { background:#1e3a8a; color:#fff; padding:12px 22px; font-size:16px; margin-bottom:12px; }
-    .btn-outline { background:#fff; color:#1e3a8a; border:2px solid #1e3a8a; padding:12px 22px; font-size:16px; }
+    .btn-blue { background:#1e3a8a; color:#fff; padding:12px 22px; font-size:16px; margin-bottom:12px; font-weight:700; }
+    .btn-outline { background:#fff; color:#1e3a8a; border:2px solid #1e3a8a; padding:12px 22px; font-size:16px; font-weight:700; }
     .btn-blue-small { background:#1e3a8a; color:#fff; padding:10px 20px; font-size:15px; }
     .cta-button { background:#fff; color:#000; padding:12px 26px; font-size:16px; font-weight:600; }
 
-    /* ==== HERO ==== */
-    .hero-split { display:flex; align-items:center; justify-content:space-between; background:#f8f9ff; padding:40px; border-radius:12px; margin-top:20px; gap:30px; }
+    /* ==== HERO MODIFIÉ POUR LA PUB ==== */
+    .hero-split { display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg, #f8f9ff 0%, #e2e8f0 100%); padding:45px; border-radius:12px; margin-top:20px; gap:30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
     .hero-left { flex:1; }
-    .hero-left h1 { font-size:34px; font-weight:800; color:#1e3a8a; margin-bottom:15px; }
-    .hero-left p { font-size:17px; color:#333; margin-bottom:18px; line-height:1.5; }
-    .hero-list { background:#fff; border-left:5px solid #1e3a8a; padding:15px; margin:20px 0; border-radius:8px; }
-    .hero-list div { margin-bottom:8px; }
+    .hero-badge { display:inline-block; background:#1e3a8a; color:#fff; padding:6px 14px; font-size:13px; font-weight:700; border-radius:20px; margin-bottom:15px; text-transform:uppercase; letter-spacing: 0.5px; }
+    .hero-left h1 { font-size:32px; font-weight:800; color:#1e3a8a; margin-bottom:15px; line-height:1.2; }
+    .hero-left p { font-size:16px; color:#333; margin-bottom:18px; line-height:1.5; }
+    
+    .hero-list { background:#fff; border-left:5px solid #2563eb; padding:18px; margin:20px 0; border-radius:8px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .hero-list div { margin-bottom:10px; font-size:15px; font-weight:600; color:#1f2937; }
+    .hero-list div:last-child { margin-bottom:0; }
+    
     .hero-phone { font-size:22px; font-weight:700; color:#1e3a8a; margin:15px 0; }
 
     /* ==== GRILLES ==== */
@@ -95,33 +99,33 @@
     }
 </style>
 
-<!-- ==== HERO ==== -->
+<!-- ==== HERO MODIFIÉ ==== -->
 <div class="hero-split">
     <div class="hero-left">
-        <h1>Dépannage informatique, serveurs AD et création de sites web à Cannes</h1>
+        <span class="hero-badge">🚀 Offre Spéciale & Proximité Cannes</span>
+        <h1>Dépannage informatique, serveurs AD et création de sites web professionnels</h1>
 
         <p>
-            Infortom intervient rapidement pour réparer vos équipements, sécuriser vos systèmes,
-            déployer vos serveurs Active Directory et créer votre site internet professionnel
-            avec devis automatisés et paiements en ligne.
+            Vous venez de cliquer sur notre annonce ? Infortom intervient en urgence à Cannes et ses environs pour réparer vos équipements, 
+            sécuriser vos données, déployer vos serveurs Active Directory et créer votre site web sur-mesure clé en main.
         </p>
 
         <div class="hero-list">
-            <div>✅ Dépannage matériel et nettoyage système</div>
+            <div>✅ Dépannage matériel et nettoyage système express</div>
             <div>✅ Serveurs Active Directory sur mesure</div>
             <div>✅ Réseaux et forfaits de maintenance</div>
             <div>✅ Site web professionnel + nom de domaine inclus</div>
-            <div>✅ Référencement Google</div>
-            <div>✅ Devis automatisés et paiement en ligne</div>
+            <div>✅ Référencement Google &amp; visibilité locale</div>
+            <div>✅ Devis automatisés et paiements en ligne intégrés</div>
         </div>
 
         <p class="hero-phone">📞 07 43 33 44 24</p>
 
-        <a href="tel:0743334424" class="btn-blue">📞 Appeler maintenant</a>
+        <a href="tel:0743334424" class="btn-blue">📞 Appeler maintenant (Intervention rapide)</a>
         <br>
         <a href="{{ route('contact') }}" class="btn-outline">💬 Demander un devis gratuit</a>
         <br><br>
-        <small style="color:#555;">Basé à Cannes • Particuliers et professionnels • Tarif compétitif</small>
+        <small style="color:#555;">Basé à Cannes • Particuliers et professionnels • Tarifs ultra-compétitifs</small>
     </div>
 </div>
 
