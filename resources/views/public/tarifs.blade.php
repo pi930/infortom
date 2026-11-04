@@ -129,6 +129,12 @@
             <td>100 € + coût de la campagne</td>
 
         </tr>
+
+        <!-- 🔥 Nouvelle prestation -->
+        <tr>
+            <td>Création de serveur AD</td>
+            <td>250 €</td>
+        </tr>
     </table>
 </div>
 
