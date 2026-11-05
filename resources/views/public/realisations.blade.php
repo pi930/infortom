@@ -265,7 +265,6 @@
         pour les auto‑entrepreneurs qui souhaitent se faire connaître rapidement. De la prise de rendez‑vous
         aux paiements en ligne sécurisés, en passant par l'envoi automatique de devis et factures par e‑mail,
         chaque projet allie harmonie visuelle, simplicité d'utilisation et tarifs accessibles.
-        <a href="{{ route('apropos') }}">En savoir plus sur nous</a>.
     </p>
 </div>
 
@@ -381,7 +380,6 @@
         <a href="{{ route('home') }}">Accueil</a>
         <a href="{{ route('services') }}">Services</a>
         <a href="{{ route('realisations') }}">Réalisations</a>
-        <a href="{{ route('apropos') }}">À propos</a>
         <a href="{{ route('contact') }}">Contact</a>
     </nav>
 </div>
