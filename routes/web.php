@@ -63,6 +63,7 @@ Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
     ->name('stripe.webhook');
+Route::view('/a-propos', 'apropos')->name('apropos');
 
 
 Route::middleware(['auth'])->group(function () {

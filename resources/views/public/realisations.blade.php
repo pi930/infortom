@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Nos réalisations - Infortom | Sites web pour auto-entrepreneurs')
-@section('description', 'Découvrez les sites web créés par Infortom à Cannes pour des auto-entrepreneurs : exemples de réalisations et de projets.')
+@section('title', "L'exception au quotidien - Infortom | Qualité et service impeccable")
+@section('description', "Découvrez Infortom : nos engagements, la qualité et un service impeccable, adaptés à vos besoins à chaque étape.")
 
 @section('content')
 
@@ -30,17 +30,16 @@
 </style>
 
 <div class="real-grey">
-    <h1>Nos réalisations web</h1>
+    <h1>L’exception au quotidien</h1>
 
     <p>
-        Chez infortom à Cannes, nous concevons des sites internet modernes et clés en main pour les auto‑entrepreneurs
-        qui souhaitent se faire connaître rapidement. De la prise de rendez‑vous aux paiements en ligne sécurisés,
-        en passant par l'envoi automatique de devis et factures par e‑mail, chaque projet allie harmonie visuelle,
-        simplicité d'utilisation et tarifs accessibles.
+        C'est ici que commence notre aventure. Apprenez à connaître notre entreprise et ce que nous faisons.
+        Nos engagements : la qualité et un service impeccable. Rejoignez-nous pour grandir et atteindre
+        des sommets, ensemble. Nous sommes heureux que vous soyez ici pour faire partie de notre histoire.
     </p>
 </div>
 
-<!-- ==== BLOC BLANC FULL WIDTH + LIENS PROJETS ==== -->
+<!-- ==== BLOC BLANC FULL WIDTH + CARTES ==== -->
 <style>
     .real-white {
         width: 100%;
@@ -56,20 +55,6 @@
         margin-bottom: 20px;
     }
 
-    .real-white p {
-        font-size: 17px;
-        color: #333;
-        max-width: 900px;
-        line-height: 1.6;
-    }
-
-    .real-white p a {
-        color: #1e3a8a;
-        font-weight: 700;
-        text-decoration: underline;
-    }
-
-    /* Cartes projets */
     .project-cards {
         display: flex;
         flex-wrap: wrap;
@@ -98,22 +83,7 @@
         font-size: 16px;
         color: #333;
         line-height: 1.6;
-        margin: 0 0 20px 0;
-    }
-
-    .project-card .project-btn {
-        display: inline-block;
-        background: #1e3a8a;
-        color: white;
-        padding: 12px 24px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-size: 16px;
-        font-weight: 600;
-    }
-
-    .project-card .project-btn:hover {
-        background: #16296b;
+        margin: 0;
     }
 
     @media (max-width: 600px) {
@@ -125,80 +95,41 @@
         .project-card {
             max-width: 100%;
         }
-
-        .project-card .project-btn {
-            display: block;
-            text-align: center;
-        }
     }
 </style>
 
 <div class="real-white">
-    <h2>Projets récents créés pour nos clients</h2>
-
-    <p>
-        Découvrez nos réalisations phares telles que
-        <a href="https://careandnet.onrender.com" target="_blank" rel="noopener noreferrer">Careandnet</a>
-        et
-        <a href="https://thomaservice.onrender.com" target="_blank" rel="noopener noreferrer">Thomaservice</a>.
-        Pour chacun de ces professionnels, nous avons mis en place une interface élégante et intuitive,
-        une communication directe par e‑mail, la réservation en ligne ainsi qu'un système automatisé
-        de facturation et de paiement.
-    </p>
+    <h2>Histoires racontées en pixels</h2>
 
     <div class="project-cards">
 
         <div class="project-card">
-            <h3>Careandnet</h3>
+            <h3>Histoires racontées en pixels</h3>
             <p class="project-desc">
-                Entreprise de nettoyage à Cannes et dans les Alpes‑Maritimes : devis en ligne et prise de contact simplifiée.
+                Nous sommes fiers de notre adaptabilité et de notre engagement envers l’excellence dans tous
+                les aspects de notre service. Découvrez ce que nous avons à offrir et voyez comment nous pouvons
+                contribuer à votre réussite.
             </p>
-            <a href="https://careandnet.onrender.com" target="_blank" rel="noopener noreferrer" class="project-btn">
-                Visiter le site
-            </a>
         </div>
 
         <div class="project-card">
-            <h3>Thomaservice</h3>
+            <h3>Histoires racontées en pixels</h3>
             <p class="project-desc">
-                Accompagnement, autonomie et bien‑être au Cannet : présentation des services, tarifs et formulaire de contact.
+                Nous nous adaptons à vos besoins et nous nous engageons à vous offrir un service de qualité
+                à chaque étape. Découvrez nos solutions et voyez comment nous pouvons vous aider à atteindre
+                vos objectifs.
             </p>
-            <a href="https://thomaservice.onrender.com" target="_blank" rel="noopener noreferrer" class="project-btn">
-                Visiter le site
-            </a>
+        </div>
+
+        <div class="project-card">
+            <h3>Histoires racontées en pixels</h3>
+            <p class="project-desc">
+                On est fiers de notre capacité à nous adapter et de notre engagement à vous offrir un service
+                au top. Découvrez ce qu’on peut vous apporter et voyez comment on peut vous aider à réussir.
+            </p>
         </div>
 
     </div>
-</div>
-
-<!-- ==== BLOC IMAGES FULL WIDTH ==== -->
-<style>
-    .real-grid {
-        width: 100%;
-        background: #ffffff;
-        padding: 40px 20px;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-    }
-
-    .real-grid img {
-        width: 100%;
-        height: 230px;
-        object-fit: cover;
-        border-radius: 8px;
-    }
-</style>
-
-<div class="real-grid">
-    <img src="{{ asset('images/1134192.webp') }}" alt="">
-    <img src="{{ asset('images/2011929.webp') }}" alt="">
-    <img src="{{ asset('images/2332611.webp') }}" alt="">
-    <img src="{{ asset('images/6434779.webp') }}" alt="">
-    <img src="{{ asset('images/12149155.webp') }}" alt="">
-    <img src="{{ asset('images/29430138.jpg') }}" alt="">
-    <img src="{{ asset('images/28625421.jpg') }}" alt="">
-    <img src="{{ asset('images/5623083.webp') }}" alt="">
 </div>
 
 <!-- ==== BLOC BLEU FULL WIDTH ==== -->
@@ -238,25 +169,18 @@
     }
 
     @media (max-width: 600px) {
-        .cta-blue-full h2 {
-            font-size: 26px;
-        }
-        .cta-blue-full p {
-            font-size: 15px;
-        }
-        .cta-blue-full .cta-white-btn {
-            width: 90%;
-        }
+        .cta-blue-full h2 { font-size: 26px; }
+        .cta-blue-full p { font-size: 15px; }
+        .cta-blue-full .cta-white-btn { width: 90%; }
     }
 </style>
 
 <div class="cta-blue-full">
-    <h2>Prêt à lancer votre site internet ?</h2>
+    <h2>Rejoignez-nous</h2>
 
     <p>
-        Vous lancez votre activité ou souhaitez donner un nouvel élan à votre présence en ligne ?
-        Contactez infortom dès aujourd'hui par téléphone ou via notre formulaire pour échanger sur vos besoins
-        et obtenir une solution adaptée à votre budget.
+        Nous sommes heureux que vous soyez ici pour faire partie de notre histoire.
+        Contactez-nous dès aujourd'hui pour échanger sur vos besoins.
     </p>
 
     <a href="{{ route('services') }}" class="cta-white-btn">Découvrir nos services</a>
