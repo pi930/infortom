@@ -1,11 +1,23 @@
 @extends('layouts.app')
 
-@section('title', 'Nos services - Infortom | Dépannage informatique, serveurs AD et sites web à Cannes')
-@section('description', 'Dépannage informatique, nettoyage système, serveurs Active Directory, réseaux, création de site web, devis automatisés et paiement en ligne : les services Infortom à Cannes.')
+@section('title', 'Dépannage informatique à Cannes - Infortom | Serveurs AD, nettoyage, réseaux')
+@section('description', 'Dépannage informatique, nettoyage virus, serveurs Active Directory, réseaux et sites web à Cannes. Intervention rapide, devis gratuit : 07 43 33 44 24.')
 
 @section('content')
 
 <style>
+    /* ==== HERO ==== */
+    .hero-split { display:flex; align-items:center; background:linear-gradient(135deg, #f8f9ff 0%, #e2e8f0 100%); padding:45px; border-radius:12px; margin-top:20px; box-shadow:0 4px 15px rgba(0,0,0,0.05); }
+    .hero-left { flex:1; }
+    .hero-badge { display:inline-block; background:#1e3a8a; color:#fff; padding:6px 14px; font-size:13px; font-weight:700; border-radius:20px; margin-bottom:15px; text-transform:uppercase; letter-spacing:0.5px; }
+    .hero-left h1 { font-size:32px; font-weight:800; color:#1e3a8a; margin-bottom:15px; line-height:1.2; }
+    .hero-left p { font-size:16px; color:#333; margin-bottom:18px; line-height:1.5; }
+    .hero-list { background:#fff; border-left:5px solid #2563eb; padding:18px; margin:20px 0; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.03); }
+    .hero-list div { margin-bottom:10px; font-size:15px; font-weight:600; color:#1f2937; }
+    .hero-list div:last-child { margin-bottom:0; }
+    .hero-phone { font-size:22px; font-weight:700; color:#1e3a8a; margin:15px 0; }
+    .btn-outline { background:#fff; color:#1e3a8a; border:2px solid #1e3a8a; padding:12px 22px; font-size:16px; font-weight:700; text-decoration:none; display:inline-block; border-radius:8px; }
+
     /* ==== STYLES COMMUNS ==== */
     .btn-blue { background:#1e3a8a; color:#fff; padding:14px 30px; border-radius:8px; text-decoration:none; font-size:16px; font-weight:600; display:inline-block; margin-top:20px; text-align:center; }
     .cta-white { background:#fff; color:#000; padding:14px 30px; border-radius:8px; text-decoration:none; font-size:16px; font-weight:600; display:inline-block; }
@@ -13,8 +25,8 @@
     .section-subtitle { font-size:16px; color:#333; margin-bottom:40px; max-width:900px; line-height:1.6; }
 
     /* ==== BLOC BLEU ==== */
-    .full-blue { width:100%; background:#1e3a8a; color:#fff; padding:60px 30px; text-align:center; }
-    .full-blue h1 { font-size:34px; font-weight:800; margin-bottom:20px; }
+    .full-blue { width:100%; background:#1e3a8a; color:#fff; padding:60px 30px; text-align:center; margin-top:20px; }
+    .full-blue h2 { font-size:34px; font-weight:800; margin-bottom:20px; color:#fff; }
     .full-blue p { font-size:17px; max-width:900px; margin:0 auto 20px auto; line-height:1.6; }
 
     /* ==== BLOCS BLANCS ==== */
@@ -45,20 +57,52 @@
 
     /* ==== RESPONSIVE ==== */
     @media (max-width:600px) {
-        .full-blue h1, .section-title, .bloc-gris-full h2, .double-text h2 { font-size:26px; }
+        .hero-split { flex-direction:column; text-align:center; padding:25px; }
+        .hero-left h1 { font-size:26px; }
+        .hero-left p { font-size:15px; }
+        .btn-outline { width:90%; box-sizing:border-box; }
+        .full-blue h2, .section-title, .bloc-gris-full h2, .double-text h2 { font-size:26px; }
         .full-blue p, .bloc-gris-full p, .double-text p { font-size:15px; }
         .full-blue { padding:40px 20px; }
         .block-white { padding:35px 20px; }
-        .btn-blue, .cta-white { width:90%; }
+        .btn-blue, .cta-white { width:90%; box-sizing:border-box; }
         .double-row { flex-direction:column; text-align:center; }
         .double-text { text-align:center; }
         .double-row img { max-width:100%; }
     }
 </style>
 
+<!-- ==== HERO ==== -->
+<div class="hero-split">
+    <div class="hero-left">
+        <span class="hero-badge">🛠️ Intervention rapide à Cannes</span>
+        <h1>Une panne ? Diagnostic clair, sans mauvaise surprise.</h1>
+
+        <p>
+            Ordinateur lent, virus, serveur à installer ou réseau en panne : Infortom intervient à Cannes
+            et dans les environs pour particuliers et professionnels.
+        </p>
+
+        <div class="hero-list">
+            <div>✅ Dépannage matériel et diagnostic complet</div>
+            <div>✅ Nettoyage virus, malwares et logiciels espions</div>
+            <div>✅ Serveurs Active Directory sur mesure</div>
+            <div>✅ Réseaux et forfaits de maintenance</div>
+        </div>
+
+        <p class="hero-phone">📞 07 43 33 44 24</p>
+
+        <a href="tel:0743334424" class="btn-blue">📞 Appeler maintenant</a>
+        <br>
+        <a href="{{ route('contact') }}" class="btn-outline">💬 Demander un devis gratuit</a>
+        <br><br>
+        <small style="color:#555;">Basé à Cannes • Particuliers et professionnels</small>
+    </div>
+</div>
+
 <!-- ==== BLOC BLEU : INTRO ==== -->
 <div class="full-blue">
-    <h1>Dépannage informatique, serveurs et solutions web pour votre activité</h1>
+    <h2>Dépannage informatique, serveurs et solutions web pour votre activité</h2>
 
     <p>
         Chez Infortom, nous intervenons rapidement pour réparer vos équipements, sécuriser vos systèmes
