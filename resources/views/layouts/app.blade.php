@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>@yield('title', 'Infortom Cannes - Dépannage informatique, serveurs AD et sites web')</title>
+    <title>@yield('title', 'Dépannage informatique et sites web à Cannes | Infortom')</title>
     <meta name="description" content="@yield('description', 'Infortom à Cannes : dépannage informatique, serveurs Active Directory, réseaux et création de sites web professionnels clé en main pour particuliers et auto-entrepreneurs.')">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="google-site-verification" content="LGvgF4dy0ULdL49WpW8ic6lZsEcseuuqnz23poSY6hE" />

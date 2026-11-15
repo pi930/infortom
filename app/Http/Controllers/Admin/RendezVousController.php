@@ -123,24 +123,33 @@ $rdv->save();
         RendezVous::findOrFail($id)->delete();
         return back()->with('success', 'Rendez-vous supprimé');
     }
-   public function confirm(Request $request, $id)
+
+
+public function confirm(Request $request, $id)
 {
-if (! $request->hasValidSignature()) {
-abort(403, 'Lien de confirmation invalide ou expiré.');
-}
+    if (! $request->hasValidSignature()) {
+        abort(403, 'Lien de confirmation invalide ou expiré.');
+    }
 
-$rdv = RendezVous::findOrFail($id);
+    $rdv = RendezVous::findOrFail($id);
+    $user = User::find($rdv->user_id);
 
-if ($rdv->confirmation_mail_sent) {
-return redirect()->route('home')
-->with('success', 'Votre rendez-vous est déjà confirmé.');
-}
+    if (! $user) {
+        return redirect()->route('home')
+            ->with('error', 'Ce rendez-vous n\'est plus disponible.');
+    }
 
-$rdv->confirmed = true;
-$rdv->confirmation_mail_sent = true;
-$rdv->save();
+    if ($rdv->confirmation_mail_sent) {
+        return redirect()->route('home')
+            ->with('success', 'Votre rendez-vous est déjà confirmé.');
+    }
 
-$user = User::find($rdv->user_id);
+    $rdv->confirmed = true;
+    $rdv->confirmation_mail_sent = true;
+    $rdv->save();
+
+    // ... le reste (if telephone / else Google Meet) est inchangé
+
 
 
 if ($rdv->type === 'telephone') {

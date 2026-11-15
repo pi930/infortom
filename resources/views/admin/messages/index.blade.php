@@ -42,7 +42,17 @@
                 ]) }}" class="btn btn-primary">
                     Faire un devis
                 </a>
+                <form action="{{ route('admin.messages.destroy', $msg->id) }}"
+      method="POST"
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce message ?');">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger w-100">
+        Supprimer
+    </button>
+</form>
             </div>
+            
 
         </div>
     @endforeach

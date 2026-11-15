@@ -78,7 +78,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('admin.rendezvous.destroy');
 
 });
-
+Route::delete('/admin/messages/{id}', [AdminMessageController::class, 'destroy'])
+    ->name('admin.messages.destroy');
+Route::delete('/admin/messages/{id}/auteur', [AdminMessageController::class, 'destroyAuthor'])
+    ->name('admin.messages.destroyAuthor');
 Route::get('/admin/devis/send-email/{devis}', [AdminDevisController::class, 'sendEmail'])
     ->name('admin.devis.sendEmail');
 
@@ -125,14 +128,20 @@ Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
     Route::get('/service-config/{devis}', [AdminServiceConfigController::class, 'form'])->name('admin.service.config.form');
     Route::post('/service-config/{devis}', [AdminServiceConfigController::class, 'store'])->name('admin.service.config.store');
 
-    // Messages
+       // Messages
     Route::get('/messages', [AdminMessageController::class, 'index'])
         ->name('admin.messages.index');
     Route::get('/messages/{id}/repondre', [AdminMessageController::class, 'repondre'])
         ->name('admin.messages.repondre');
     Route::post('/messages/{id}/repondre', [AdminMessageController::class, 'envoyerReponse'])
         ->name('admin.messages.envoyerReponse');
+    Route::delete('/messages/{id}', [AdminMessageController::class, 'destroy'])
+        ->name('admin.messages.destroy');
+    Route::delete('/messages/{id}/auteur', [AdminMessageController::class, 'destroyAuthor'])
+        ->name('admin.messages.destroyAuthor');
+
 });
+
 Route::get('/admin/users/{user}/show', [AdminUserController::class, 'show'])
     ->name('admin.user.show');
 
