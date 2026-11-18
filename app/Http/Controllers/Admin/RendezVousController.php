@@ -83,34 +83,43 @@ $meetLink = 'https://meet.google.com/lookup/INFORTOM-' . uniqid();
     }
 
     // 🔥 Envoi du mail automatique
-Mail::send([], [], function ($message) use ($user, $rdv, $confirmationLink, $typeMessage) {
-    $message->to($user->email)
-            ->subject('Confirmation de votre rendez-vous - Infortom')
-            ->text("
+// 🔥 Envoi du mail automatique avec gestion des erreurs
+try {
+
+    Mail::send([], [], function ($message) use ($user, $rdv, $confirmationLink, $typeMessage) {
+
+        $message->to($user->email)
+                ->subject('Confirmation de votre rendez-vous - Infortom')
+                ->text("
 Bonjour {$user->name},
 
 Merci d'avoir pris rendez-vous avec Infortom.
 
-📅 Date : {$rdv->date->format('d/m/Y à H:i')}
-📍 Ville : {$rdv->ville}
+Date : {$rdv->date->format('d/m/Y à H:i')}
+Ville : {$rdv->ville}
 
-$typeMessage
+{$typeMessage}
 
-Pour confirmer votre rendez-vous, veuillez cliquer sur le lien ci-dessous :
+Pour confirmer votre rendez-vous :
+{$confirmationLink}
 
-$confirmationLink
-
-Nous restons disponibles pour toute question.
-
-Cordialement,
 Infortom
-06400 Cannes
 ");
-});
 
-// Si l’envoi ne plante pas → on marque comme envoyé
-$rdv->email_sent = true;
-$rdv->save();
+    });
+
+    $rdv->email_sent = true;
+    $rdv->save();
+
+} catch (\Exception $e) {
+
+    \Log::error('Erreur mail : ' . $e->getMessage());
+
+    return back()->with(
+        'error',
+        'Erreur lors de l\'envoi du mail : ' . $e->getMessage()
+    );
+}
 
     
 
