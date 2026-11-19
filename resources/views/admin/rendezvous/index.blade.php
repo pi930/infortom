@@ -15,6 +15,10 @@
 
     {{-- Formulaire pré-rempli depuis un message --}}
     @if(request()->has('name'))
+    <input type="hidden" name="user_id" value="{{ $users->firstWhere('email', request('email'))->id ?? 1 }}">
+
+{{-- AJOUT : email de la personne qui a écrit --}}
+
         <div class="alert alert-info p-3 mb-4">
             <h4>Client concerné</h4>
 
@@ -29,7 +33,7 @@
 
             <form action="{{ route('admin.rendezvous.store') }}" method="POST">
                 @csrf
-
+<input type="hidden" name="email" value="{{ request('email') }}">
                 <div class="row g-2 mb-3">
                     <div class="col-12 col-md-6">
                         <label class="form-label">Date</label>

@@ -31,15 +31,16 @@ public function index()
 public function store(Request $request)
 {
     $request->validate([
-        'date' => 'required|date',
-        'heure' => 'required',
-        'nom' => 'required',
-        'rue' => 'required',
-        'ville' => 'required',
-        'telephone' => 'required',
-        'user_id' => 'required|exists:users,id',
-        'type' => 'required|string'
-    ]);
+    'date' => 'required|date',
+    'heure' => 'required',
+    'nom' => 'required',
+    'email' => 'required|email',
+    'rue' => 'required',
+    'ville' => 'required',
+    'telephone' => 'required',
+    'user_id' => 'required|exists:users,id',
+    'type' => 'required|string'
+]);
 
     $dateHeure = Carbon::parse($request->date . ' ' . $request->heure);
 
@@ -56,17 +57,19 @@ $meetLink = 'https://meet.google.com/lookup/INFORTOM-' . uniqid();
 }
 
     // Création du rendez-vous
-    $rdv = RendezVous::create([
-        'date'      => $dateHeure,
-        'nom'       => $request->nom,
-        'rue'       => $request->rue,
-        'ville'     => $request->ville,
-        'telephone' => $request->telephone,
-        'user_id'   => $request->user_id,
-        'confirmed' => false,
-        'type'      => $request->type,
-        'meet_link' => $meetLink
-    ]);
+   $rdv = RendezVous::create([
+    'date' => $dateHeure,
+    'nom' => $request->nom,
+    'email' => $request->email,
+    'rue' => $request->rue,
+    'ville' => $request->ville,
+    'telephone' => $request->telephone,
+    'user_id' => $request->user_id,
+    'confirmed' => false,
+    'type' => $request->type,
+    'meet_link' => $meetLink
+]);
+
 
     // 🔥 Lien de confirmation signé (sécurisé)
     $confirmationLink = URL::temporarySignedRoute(
@@ -86,11 +89,12 @@ $meetLink = 'https://meet.google.com/lookup/INFORTOM-' . uniqid();
 // 🔥 Envoi du mail automatique avec gestion des erreurs
 try {
 
-    Mail::send([], [], function ($message) use ($user, $rdv, $confirmationLink, $typeMessage) {
+Mail::send([], [], function ($message) use ($request, $user, $rdv, $confirmationLink, $typeMessage) {
 
-        $message->to($user->email)
-                ->subject('Confirmation de votre rendez-vous - Infortom')
-                ->text("
+$message->to($request->email)
+
+->subject('Confirmation de votre rendez-vous - Infortom')
+->text("
 Bonjour {$user->name},
 
 Merci d'avoir pris rendez-vous avec Infortom.
@@ -105,8 +109,9 @@ Pour confirmer votre rendez-vous :
 
 Infortom
 ");
+});
 
-    });
+  
 
     $rdv->email_sent = true;
     $rdv->save();
@@ -163,7 +168,8 @@ public function confirm(Request $request, $id)
 
 if ($rdv->type === 'telephone') {
 Mail::send([], [], function ($message) use ($user, $rdv) {
-$message->to($user->email)
+$message->to($rdv->email)
+
 ->subject('Rendez-vous confirmé - Infortom')
 ->text("
 Bonjour {$user->name},
@@ -179,7 +185,8 @@ Infortom
 });
 } else {
 Mail::send([], [], function ($message) use ($user, $rdv) {
-$message->to($user->email)
+$message->to($rdv->email)
+
 ->subject('Rendez-vous Google Meet confirmé - Infortom')
 ->text("
 Bonjour {$user->name},
