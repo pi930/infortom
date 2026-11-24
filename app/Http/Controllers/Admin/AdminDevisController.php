@@ -30,6 +30,14 @@ class AdminDevisController extends Controller
 
     public function store(Request $request)
     {
+
+ $request->validate([
+    'client_name'   => 'required|string|max:255',
+    'client_email'  => 'required|email|max:255',
+    'custom_name'   => 'nullable|string|max:255',
+    'custom_amount' => 'nullable|numeric|min:0|max:10000',
+    'items'         => 'nullable|array',
+]);   
         // Liste des prix
         $prices = [
             'site_internet' => 200,
@@ -276,6 +284,10 @@ Infortom
     public function updateSettings(Request $request)
     {
         $user = auth()->user();
+        $request->validate([
+    'name' => 'required|string|max:255',
+    'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+]);
 
         $user->update([
             'name'  => $request->name,
@@ -302,16 +314,23 @@ Infortom
 
     public function upload(Request $request, $id)
     {
-        $devis = Devis::findOrFail($id);
+        
+    $devis = Devis::findOrFail($id);
 
-        if (!$request->hasFile('contrat_pdf')) {
-            return back()->with('error', 'Aucun fichier reçu.');
-        }
+    $request->validate([
+        'contrat_pdf' => 'required|file|mimes:pdf|max:10240'
+    ]);
 
-        $file = $request->file('contrat_pdf');
+    $file = $request->file('contrat_pdf');
+
+       
 
         // Nettoyage du nom
-        $cleanName = str_replace([' ', 'é', 'è', 'ê', 'à'], '_', $file->getClientOriginalName());
+       $cleanName = preg_replace(
+    '/[^A-Za-z0-9._-]/',
+    '_',
+    $file->getClientOriginalName()
+);
         $filename = time() . '_' . $cleanName;
 
         // Stockage

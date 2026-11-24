@@ -50,9 +50,11 @@ Route::get('/realisations', function () {
 Route::get('/contact', [App\Http\Controllers\Public\ContactController::class, 'index'])
     ->name('contact');
 
-Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+Route::post('/contact/send', [ContactController::class, 'send'])
+    ->middleware('throttle:5,1')
+    ->name('contact.send');
 
-// --------------------------------------------------
+
 // ADMIN
 // --------------------------------------------------
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

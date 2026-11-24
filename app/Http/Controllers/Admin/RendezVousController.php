@@ -31,71 +31,90 @@ public function index()
 public function store(Request $request)
 {
     $request->validate([
-    'date' => 'required|date',
-    'heure' => 'required',
-    'nom' => 'required',
-    'email' => 'required|email',
-    'rue' => 'required',
-    'ville' => 'required',
-    'telephone' => 'required',
-    'user_id' => 'required|exists:users,id',
-    'type' => 'required|string'
-]);
+        'date' => 'required|date',
+        'heure' => 'required',
+        'nom' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'rue' => 'required|string|max:255',
+        'ville' => 'required|string|max:255',
+        'telephone' => 'required|string|max:20',
+        'type' => 'required|in:telephone,google_meet'
+    ]);
 
-    $dateHeure = Carbon::parse($request->date . ' ' . $request->heure);
+    $dateHeure = Carbon::parse(
+        $request->date . ' ' . $request->heure
+    );
 
-    // Mise à jour du téléphone dans users.phone
-    $user = User::find($request->user_id);
-    $user->phone = $request->telephone;
-    $user->save();
+    // Recherche de l'utilisateur par email
+    $user = User::where('email', $request->email)->first();
 
-    // 🔥 Génération du lien Google Meet si nécessaire
-$meetLink = null;
+    // Nom utilisé dans les emails
+    $userName = $user
+        ? $user->name
+        : $request->nom;
 
-if ($request->type === 'google_meet') {
-$meetLink = 'https://meet.google.com/lookup/INFORTOM-' . uniqid();
-}
+    // Mise à jour du téléphone si l'utilisateur existe
+    if ($user) {
+        $user->phone = $request->telephone;
+        $user->save();
+    }
+
+    // Génération du lien Google Meet
+    $meetLink = null;
+
+    if ($request->type === 'google_meet') {
+        $meetLink = 'https://meet.google.com/lookup/INFORTOM-' . uniqid();
+    }
 
     // Création du rendez-vous
-   $rdv = RendezVous::create([
-    'date' => $dateHeure,
-    'nom' => $request->nom,
-    'email' => $request->email,
-    'rue' => $request->rue,
-    'ville' => $request->ville,
-    'telephone' => $request->telephone,
-    'user_id' => $request->user_id,
-    'confirmed' => false,
-    'type' => $request->type,
-    'meet_link' => $meetLink
-]);
+    $rdv = RendezVous::create([
+        'date' => $dateHeure,
+        'nom' => $request->nom,
+        'email' => $request->email,
+        'rue' => $request->rue,
+        'ville' => $request->ville,
+        'telephone' => $request->telephone,
+        'user_id' => $user?->id,
+        'confirmed' => false,
+        'type' => $request->type,
+        'meet_link' => $meetLink
+    ]);
 
-
-    // 🔥 Lien de confirmation signé (sécurisé)
+    // Lien signé de confirmation
     $confirmationLink = URL::temporarySignedRoute(
         'admin.rendezvous.confirm',
         now()->addDays(2),
         ['id' => $rdv->id]
     );
 
-    // 🔥 Texte spécifique selon le type
+    // Texte spécifique selon le type
     if ($request->type === 'telephone') {
-        $typeMessage = "Ce rendez-vous se déroulera par téléphone.\nNous vous appellerons au numéro indiqué.";
+
+        $typeMessage = "Ce rendez-vous se déroulera par téléphone.\n"
+            . "Nous vous appellerons au numéro indiqué.";
+
     } else {
-        $typeMessage = "Ce rendez-vous se déroulera via Google Meet.\nVoici votre lien de réunion :\n\n$meetLink\n\nUn rappel vous sera envoyé après confirmation.";
+
+        $typeMessage = "Ce rendez-vous se déroulera via Google Meet.\n\n"
+            . "Lien de réunion :\n"
+            . $meetLink
+            . "\n\nUn rappel vous sera envoyé après confirmation.";
     }
 
-    // 🔥 Envoi du mail automatique
-// 🔥 Envoi du mail automatique avec gestion des erreurs
-try {
+    try {
 
-Mail::send([], [], function ($message) use ($request, $user, $rdv, $confirmationLink, $typeMessage) {
+        Mail::send([], [], function ($message) use (
+            $request,
+            $userName,
+            $rdv,
+            $confirmationLink,
+            $typeMessage
+        ) {
 
-$message->to($request->email)
-
-->subject('Confirmation de votre rendez-vous - Infortom')
-->text("
-Bonjour {$user->name},
+            $message->to($request->email)
+                ->subject('Confirmation de votre rendez-vous - Infortom')
+                ->text("
+Bonjour {$userName},
 
 Merci d'avoir pris rendez-vous avec Infortom.
 
@@ -109,26 +128,25 @@ Pour confirmer votre rendez-vous :
 
 Infortom
 ");
-});
+        });
 
-  
+        $rdv->email_sent = true;
+        $rdv->save();
 
-    $rdv->email_sent = true;
-    $rdv->save();
+    } catch (\Exception $e) {
 
-} catch (\Exception $e) {
+        \Log::error('Erreur mail : ' . $e->getMessage());
 
-    \Log::error('Erreur mail : ' . $e->getMessage());
+        return back()->with(
+            'error',
+            'Erreur lors de l\'envoi du mail : ' . $e->getMessage()
+        );
+    }
 
     return back()->with(
-        'error',
-        'Erreur lors de l\'envoi du mail : ' . $e->getMessage()
+        'success',
+        'Rendez-vous ajouté et email envoyé au client.'
     );
-}
-
-    
-
-    return back()->with('success', 'Rendez-vous ajouté et email envoyé au client.');
 }
 
 
@@ -146,12 +164,14 @@ public function confirm(Request $request, $id)
     }
 
     $rdv = RendezVous::findOrFail($id);
+
+    // Peut être null maintenant
     $user = User::find($rdv->user_id);
 
-    if (! $user) {
-        return redirect()->route('home')
-            ->with('error', 'Ce rendez-vous n\'est plus disponible.');
-    }
+    // Utiliser le nom du rendez-vous si aucun utilisateur associé
+    $userName = $user
+        ? $user->name
+        : $rdv->nom;
 
     if ($rdv->confirmation_mail_sent) {
         return redirect()->route('home')
@@ -162,46 +182,55 @@ public function confirm(Request $request, $id)
     $rdv->confirmation_mail_sent = true;
     $rdv->save();
 
-    // ... le reste (if telephone / else Google Meet) est inchangé
+    if ($rdv->type === 'telephone') {
 
+        Mail::send([], [], function ($message) use ($userName, $rdv) {
 
+            $message->to($rdv->email)
+                ->subject('Rendez-vous confirmé - Infortom')
+                ->text("
+Bonjour {$userName},
 
-if ($rdv->type === 'telephone') {
-Mail::send([], [], function ($message) use ($user, $rdv) {
-$message->to($rdv->email)
-
-->subject('Rendez-vous confirmé - Infortom')
-->text("
-Bonjour {$user->name},
 Votre rendez-vous est désormais confirmé.
-📅 Date : {$rdv->date->format('d/m/Y à H:i')}
-📞 Type : Rendez-vous téléphonique
+
+Date : {$rdv->date->format('d/m/Y à H:i')}
+Type : Rendez-vous téléphonique
+
 Nous vous contacterons au numéro :
 {$rdv->telephone}
+
 Merci de votre confiance.
 
 Infortom
 ");
-});
-} else {
-Mail::send([], [], function ($message) use ($user, $rdv) {
-$message->to($rdv->email)
+        });
 
-->subject('Rendez-vous Google Meet confirmé - Infortom')
-->text("
-Bonjour {$user->name},
+    } else {
+
+        Mail::send([], [], function ($message) use ($userName, $rdv) {
+
+            $message->to($rdv->email)
+                ->subject('Rendez-vous Google Meet confirmé - Infortom')
+                ->text("
+Bonjour {$userName},
+
 Votre rendez-vous est désormais confirmé.
-📅 Date : {$rdv->date->format('d/m/Y à H:i')}
-🎥 Type : Google Meet
+
+Date : {$rdv->date->format('d/m/Y à H:i')}
+Type : Google Meet
+
 Lien de connexion :
 {$rdv->meet_link}
+
 Merci de vous connecter quelques minutes avant l'heure prévue.
+
 Infortom
 ");
-});
-}
-return redirect()->route('home')
-->with('success', 'Votre rendez-vous est confirmé !');
+        });
+    }
+
+    return redirect()->route('home')
+        ->with('success', 'Votre rendez-vous est confirmé !');
 }
 
 
