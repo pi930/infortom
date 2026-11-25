@@ -130,6 +130,7 @@ public function checkoutReste(Devis $devis)
     public function success(Request $request)
     {  
     dd('SUCCESS STRIPE ATTEINT');    
+    \Log::info('SUCCESS STRIPE ATTEINT');
         $sessionId = $request->get('session_id');
 
         if (!$sessionId) {
@@ -178,7 +179,9 @@ public function checkoutReste(Devis $devis)
                         ->subject("Votre facture - Devis #{$devis->id}")
                         ->attach(Storage::disk('public')->path($path));
             });
+           \Log::info('MAIL FACTURE ENVOYE A : '.$devis->client_email);
         } catch (\Throwable $e) {
+              \Log::error('ERREUR FACTURE : '.$e->getMessage());
             report($e); // le paiement reste valide même si le PDF ou le mail échoue
         }
 
