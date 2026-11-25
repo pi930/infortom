@@ -253,5 +253,16 @@ Route::get('/user/devis/{id}/download-both', [UserDevisController::class, 'downl
 // ADMIN
 Route::get('/admin/devis/{id}/download-both', [AdminDevisController::class, 'downloadBoth'])
     ->name('admin.devis.downloadBoth');
+Route::get('/test-facture-mail/{devis}', function (\App\Models\Devis $devis) {
 
+    $path = "factures/facture_{$devis->paiement_type}_devis_{$devis->id}.pdf";
+
+    Mail::send('emails.facture', ['devis' => $devis], function ($message) use ($devis, $path) {
+        $message->to($devis->client_email)
+                ->subject("Votre facture - Devis #{$devis->id}")
+                ->attach(Storage::disk('public')->path($path));
+    });
+
+    return 'Mail envoyé';
+});
 
