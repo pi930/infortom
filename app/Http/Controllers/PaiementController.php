@@ -128,8 +128,7 @@ public function checkoutReste(Devis $devis)
     return redirect($session->url);
 }
     public function success(Request $request)
-    {  
-    dd('SUCCESS STRIPE ATTEINT');    
+    {     
     \Log::info('SUCCESS STRIPE ATTEINT');
         $sessionId = $request->get('session_id');
 
