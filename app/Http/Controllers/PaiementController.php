@@ -27,7 +27,7 @@ public function checkoutTotal(Devis $devis)
 
     try {
 
-        \Log::info('CREATION SESSION STRIPE TOTAL');
+      
 
     $session = Session::create([
         'line_items' => [[
@@ -50,11 +50,9 @@ public function checkoutTotal(Devis $devis)
         ],
     ] + $this->pmcOptions());
 
-        \Log::info('SESSION STRIPE OK : '.$session->id);
 
     } catch (\Throwable $e) {
 
-        \Log::error('ERREUR STRIPE : '.$e->getMessage());
 
         return back()->with('error', $e->getMessage());
     }
