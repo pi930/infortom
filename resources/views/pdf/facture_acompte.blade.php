@@ -1,18 +1,51 @@
-<h1>Facture - Acompte</h1>
+@include('pdf.partials.header', [
+    'devis' => $devis,
+    'facture' => $facture
+])
 
-<div style="position: absolute; top: 10px; right: 10px; text-align: right;">
-    <strong>Infortom</strong><br>
-    <span>SIRET : 93818904000034</span>
-</div>
+<h2>FACTURE D'ACOMPTE</h2>
 
-@include('pdf.partials.header', ['devis' => $devis])
+<table width="100%" border="1" cellspacing="0" cellpadding="8">
 
-<h3>Acompte payé</h3>
-<p><strong>100 €</strong></p>
+    <tr>
+        <th align="left">Description</th>
+        <th align="right">Montant</th>
+    </tr>
 
-<h3>Total du devis</h3>
-<p><strong>{{ number_format($devis->total_ttc, 2, ',', ' ') }} €</strong></p>
+    <tr>
+        <td>Acompte sur devis DEV-{{ $devis->id }}</td>
+        <td align="right">100,00 €</td>
+    </tr>
 
-<h3>Reste à payer</h3>
-<p><strong>{{ $devis->total_ttc - 100 }} €</strong></p>
-@include('pdf.partials.mentions')
+    <tr>
+        <td><strong>Total facturé</strong></td>
+        <td align="right">
+            <strong>100,00 €</strong>
+        </td>
+    </tr>
+
+</table>
+
+<br>
+
+<p>
+    Montant total du devis :
+    {{ number_format($devis->total_ttc, 2, ',', ' ') }} €
+</p>
+
+<p>
+    Cette facture correspond à l'acompte versé par le client.
+</p>
+
+
+<p style="margin-top:20px;">
+    <strong>Montant facturé :</strong>
+    100,00 €
+</p>
+
+<p>
+    Acompte reçu le
+    {{ $facture->date_facture->format('d/m/Y') }}
+</p>
+
+@include('pdf.partials.footer')

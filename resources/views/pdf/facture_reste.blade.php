@@ -1,19 +1,45 @@
-<h1>Facture - Solde</h1>
+@include('pdf.partials.header', [
+    'devis' => $devis,
+    'facture' => $facture
+])
 
-<div style="position: absolute; top: 10px; right: 10px; text-align: right;">
-    <strong>Infortom</strong><br>
-    <span>SIRET : 93818904000034</span>
-</div>
+<h2>FACTURE DE SOLDE</h2>
 
-@include('pdf.partials.header', ['devis' => $devis])
+<table width="100%" border="1" cellspacing="0" cellpadding="8">
 
-<h3>Total du devis</h3>
-<p><strong>{{ number_format($devis->total_ttc, 2, ',', ' ') }} €</strong></p>
+    <tr>
+        <td>Total du devis</td>
+        <td align="right">
+            {{ number_format($devis->total_ttc, 2, ',', ' ') }} €
+        </td>
+    </tr>
 
-<h3>Acompte déjà versé</h3>
-<p><strong>100,00 €</strong></p>
+    <tr>
+        <td>Acompte déjà facturé</td>
+        <td align="right">
+            100,00 €
+        </td>
+    </tr>
 
-<h3>Solde payé</h3>
-<p><strong>{{ number_format($devis->total_ttc - 100, 2, ',', ' ') }} €</strong></p>
+    <tr>
+        <td><strong>Solde facturé</strong></td>
+        <td align="right">
+            <strong>
+                {{ number_format($devis->total_ttc - 100, 2, ',', ' ') }} €
+            </strong>
+        </td>
+    </tr>
 
-@include('pdf.partials.mentions')
+</table>
+
+<br>
+
+<p>
+    Cette facture correspond au règlement du solde du devis DEV-{{ $devis->id }}.
+</p>
+<p style="margin-top:20px;">
+    Solde reçu le
+    {{ $facture->date_facture->format('d/m/Y') }}
+</p>
+
+@include('pdf.partials.footer')

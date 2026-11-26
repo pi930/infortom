@@ -9,6 +9,8 @@ use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use App\Models\Devis;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Facture;
+
 
 class PaiementController extends Controller
 {
@@ -160,6 +162,8 @@ public function checkoutReste(Devis $devis)
         $devis->paiement_type = $typePaiement;
         $devis->paiement_date = now();
         $devis->save();
+        $numero = 'FAC-' . date('Y') . '-' .
+    str_pad(\App\Models\Facture::count() + 1, 4, '0', STR_PAD_LEFT);
 
         // Facture générée au paiement (une par type, l'acompte est conservé)
         try {
@@ -169,6 +173,28 @@ public function checkoutReste(Devis $devis)
             Storage::disk('public')->makeDirectory('factures');
             $pdf = Pdf::loadView("pdf.facture_{$typePaiement}", compact('devis'));
             Storage::disk('public')->put($path, $pdf->output());
+            \App\Models\Facture::create([
+
+    'devis_id' => $devis->id,
+
+    'numero' => $numero,
+
+    'type' => match($typePaiement) {
+        'acompte' => 'acompte',
+        'reste' => 'solde',
+        default => 'totale',
+    },
+
+    'montant' => match($typePaiement) {
+        'acompte' => 100,
+        'reste' => $devis->total_ttc - 100,
+        default => $devis->total_ttc,
+    },
+
+    'pdf_path' => $path,
+
+    'date_facture' => now(),
+]);
 
 
             Mail::send('emails.facture', ['devis' => $devis], function ($message) use ($devis, $path) {

@@ -1,16 +1,41 @@
-<h1>Facture</h1>
+<h1>FACTURE</h1>
 
-<div style="position: absolute; top: 10px; right: 10px; text-align: right;">
+<div style="text-align:right;">
     <strong>Infortom</strong><br>
-    <span>SIRET : 93818904000034</span>
+    SIRET : 93818904000034<br>
+    12 impasse Saint Louis<br>
+    06400 Cannes<br>
+    contact@infortom.fr
 </div>
 
-<p><strong>Devis :</strong> #{{ $devis->id }}</p>
-<p><strong>Client :</strong> {{ $devis->client_name }}</p>
-<p><strong>Email :</strong> {{ $devis->client_email }}</p>
-<p><strong>Date :</strong> {{ $devis->paiement_date ? $devis->paiement_date->format('d/m/Y') : '—' }}</p>
+<hr>
 
-<h3>Détails du devis</h3>
+<p>
+    <strong>Facture n° :</strong>
+    {{ $facture->numero }}
+</p>
+
+<p>
+    <strong>Référence devis :</strong>
+    DEV-{{ $devis->id }}
+</p>
+
+<p>
+    <strong>Date :</strong>
+    {{ $facture->date_facture->format('d/m/Y') }}
+</p>
+
+<p>
+    <strong>Client :</strong>
+    {{ $devis->client_name }}
+</p>
+
+<p>
+    <strong>Email :</strong>
+    {{ $devis->client_email }}
+</p>
+
+<h3>Prestations</h3>
 
 <ul>
     @foreach($devis->items as $item)
@@ -18,5 +43,4 @@
     @endforeach
 </ul>
 
-<h3>Total TTC</h3>
-<p><strong>{{ $devis->total_ttc }} €</strong></p>
+<hr>

@@ -1,24 +1,51 @@
-<h1>Facture - Paiement total</h1>
+@include('pdf.partials.header', [
+    'devis' => $devis,
+    'facture' => $facture
+])
 
-<div style="position: absolute; top: 10px; right: 10px; text-align: right;">
-    <strong>Infortom</strong><br>
-    <span>SIRET : 93818904000034</span>
-</div>
+<h2>FACTURE</h2>
 
-<p><strong>Devis :</strong> #{{ $devis->id }}</p>
-<p><strong>Client :</strong> {{ $devis->client_name }}</p>
-<p><strong>Email :</strong> {{ $devis->client_email }}</p>
-<p><strong>Date :</strong> {{ $devis->paiement_date ? $devis->paiement_date->format('d/m/Y') : '—' }}</p>
+<table width="100%" border="1" cellspacing="0" cellpadding="8">
 
-<h3>Détails du devis</h3>
+    <tr>
+        <th align="left">Description</th>
+        <th align="right">Montant</th>
+    </tr>
 
-<ul>
-    @foreach($devis->items as $item)
-        <li>{{ ucfirst(str_replace('_', ' ', $item)) }}</li>
-    @endforeach
-</ul>
+    <tr>
+        <td>Prestations selon devis DEV-{{ $devis->id }}</td>
+        <td align="right">
+            {{ number_format($devis->total_ht, 2, ',', ' ') }} €
+        </td>
+    </tr>
 
-<h3>Total payé</h3>
-<p><strong>{{ number_format($devis->total_ttc, 2, ',', ' ') }} €</strong></p>
+    <tr>
+        <td>TVA</td>
+        <td align="right">
+            0,00 €
+        </td>
+    </tr>
 
-@include('pdf.partials.mentions')
+    <tr>
+        <td><strong>Total TTC</strong></td>
+        <td align="right">
+            <strong>
+                {{ number_format($devis->total_ttc, 2, ',', ' ') }} €
+            </strong>
+        </td>
+    </tr>
+
+</table>
+
+
+<p style="margin-top:20px;">
+    <strong>Montant réglé :</strong>
+    {{ number_format($devis->total_ttc, 2, ',', ' ') }} €
+</p>
+
+<p>
+    Paiement intégral reçu le
+    {{ $facture->date_facture->format('d/m/Y') }}
+</p>
+
+@include('pdf.partials.footer')
