@@ -101,6 +101,7 @@ class AdminDevisController extends Controller
         $devis = Devis::create([
             'client_name' => $request->client_name,
             'client_email' => $request->client_email,
+            'client_address' => $request->client_address,
             'items' => $selected,
             'total_ht' => $total_ht,
             'tva' => $tva,
