@@ -11,7 +11,6 @@
         <div class="bg-white p-3 mb-3 shadow-sm rounded">
 
             <strong>{{ $msg->name }} ({{ $msg->email }})</strong><br>
-            <br>
 <strong>Adresse postale :</strong> {{ $msg->client_address ?: 'Non renseignée' }}<br>
             <strong>Sujet :</strong> {{ $msg->subject }}
 
@@ -40,7 +39,7 @@
 
                 <a href="{{ route('admin.devis.create', [
                     'client_name' => $msg->name,
-                    'client_email' => $msg->email
+                    'client_email' => $msg->email,
                     'client_address' => $msg->client_address,
                 ]) }}" class="btn btn-primary">
                     Faire un devis
