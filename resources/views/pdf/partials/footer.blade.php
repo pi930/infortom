@@ -16,6 +16,4 @@
     TVA non applicable, article 293 B du CGI.
 </p>
 
-<p style="font-size:11px; color:#666;">
-    Facture émise électroniquement par Infortom.
-</p>
+

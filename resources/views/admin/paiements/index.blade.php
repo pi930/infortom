@@ -25,6 +25,7 @@
                     <td>
                         {{ $p->client_name }}<br>
                         <small class="text-muted">{{ $p->client_email }}</small>
+                        <small class="text-muted">{{ $p->client_address ?: 'Adresse non renseignée' }}</small>
                     </td>
 
                     <td><strong>{{ $p->total_ttc }} €</strong></td>

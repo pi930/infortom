@@ -34,6 +34,7 @@
     <strong>Email :</strong>
     {{ $devis->client_email }}
 </p>
+<p><strong>Adresse postale :</strong> {{ $devis->client_address ?: 'Non renseignée' }}</p>
 
 <h3>Prestations</h3>
 

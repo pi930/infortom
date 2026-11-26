@@ -13,7 +13,10 @@
             <input type="text" name="client_name" class="form-control"
                    value="{{ $client_name ?? '' }}" required>
         </div>
-
+        <div class="mb-3">
+    <label class="form-label">Adresse postale du client</label>
+    <textarea name="client_address" class="form-control" rows="3" required>{{ old('client_address', $client_address ?? '') }}</textarea>
+</div>
         <div class="mb-3">
             <label class="form-label">Email du client</label>
             <input type="email" name="client_email" class="form-control"

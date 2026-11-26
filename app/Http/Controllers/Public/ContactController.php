@@ -21,6 +21,7 @@ class ContactController extends Controller
     'subject' => 'required|string|max:255',
     'message' => 'required|string|max:5000',
     'phone'   => 'nullable|string|max:20',
+    'client_address' => 'nullable|string|max:1000',
 ]);
 
        Message::create([
@@ -29,6 +30,7 @@ class ContactController extends Controller
     'subject' => $request->subject,
     'message' => $request->message,
     'phone'   => $request->phone,
+    'client_address' => $request->input('client_address'),
 ]);
 
 

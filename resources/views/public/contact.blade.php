@@ -94,7 +94,12 @@
         <img src="{{ asset('images/localisation.png') }}" alt="Contact Infortom">
 
         <h2>Localisation</h2>
-        <p>Cannes, France</p>
+        <h2>Adresse postale</h2>
+<p>
+    Infortom – Thomas Pierrard<br>
+    12 impasse Saint Louis<br>
+    06400 Cannes, France
+</p>
 
         <h2>Téléphone</h2>
         <p><a href="tel:0743334424" style="color:#1e3a8a; font-weight:700; text-decoration:none;">📞 07 43 33 44 24</a></p>
@@ -121,6 +126,8 @@
 
         <form action="{{ route('contact.send') }}" method="POST">
             @csrf
+            <label>Adresse postale</label>
+<textarea name="client_address" rows="3">{{ old('client_address') }}</textarea>
             <label>Sujet *</label>
             <input type="text" name="subject" required>
 

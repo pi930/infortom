@@ -17,6 +17,7 @@ class AdminDevisController extends Controller
     {
         $client_name = $request->client_name;
         $client_email = $request->client_email;
+        $client_address = $request->client_address;
 
         // Prestations autorisées pour la page admin
         $adminPrices = [
@@ -25,7 +26,12 @@ class AdminDevisController extends Controller
             'depannage' => 60,
         ];
 
-        return view('admin.devis.create', compact('client_name', 'client_email', 'adminPrices'));
+       return view('admin.devis.create', compact(
+    'client_name',
+    'client_email',
+    'client_address',
+    'adminPrices'
+));
     }
 
     public function store(Request $request)
@@ -37,6 +43,7 @@ class AdminDevisController extends Controller
     'custom_name'   => 'nullable|string|max:255',
     'custom_amount' => 'nullable|numeric|min:0|max:10000',
     'items'         => 'nullable|array',
+    'client_address' => 'required|string|max:1000',
 ]);   
         // Liste des prix
         $prices = [

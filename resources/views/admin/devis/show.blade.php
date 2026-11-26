@@ -7,6 +7,7 @@
 
     <p><strong>Client :</strong> {{ $devis->client_name }}</p>
     <p><strong>Email :</strong> {{ $devis->client_email }}</p>
+    <p><strong>Adresse postale :</strong> {{ $devis->client_address ?: 'Non renseignée' }}</p>
 
     <hr>
 
