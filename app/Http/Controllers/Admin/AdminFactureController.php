@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Facture;
 
 class AdminFactureController extends Controller
 {
@@ -22,19 +23,54 @@ class AdminFactureController extends Controller
 
     // Génère le PDF si besoin et retourne son chemin relatif sur le disque public
     private function ensurePdf(Devis $devis, bool $force = false): string
-    {
-        $type = $devis->paiement_type;
-        $filename = "facture_{$type}_devis_{$devis->id}.pdf";
-        $path = "factures/{$filename}";
+{
+    $paiementType = $devis->paiement_type;
 
-        if ($force || !Storage::disk('public')->exists($path)) {
-            $pdf = Pdf::loadView($this->viewFor($type), compact('devis'));
-            Storage::disk('public')->makeDirectory('factures');
-            Storage::disk('public')->put($path, $pdf->output());
-        }
+    $typeFacture = match ($paiementType) {
+        'total' => 'totale',
+        'acompte' => 'acompte',
+        'reste' => 'solde',
+        default => abort(404, 'Type de paiement inconnu.'),
+    };
 
-        return $path;
+    $montant = match ($paiementType) {
+        'total' => $devis->total_ttc,
+        'acompte' => 100,
+        'reste' => $devis->total_ttc - 100,
+    };
+
+    $facture = $devis->factures()
+        ->where('type', $typeFacture)
+        ->first();
+
+    if (!$facture) {
+        $numero = 'FAC-' . now()->format('Y') . '-' .
+            str_pad((string) (Facture::count() + 1), 4, '0', STR_PAD_LEFT);
+
+        $facture = $devis->factures()->create([
+            'numero' => $numero,
+            'type' => $typeFacture,
+            'montant' => $montant,
+            'date_facture' => $devis->paiement_date ?? now(),
+        ]);
     }
+
+    $path = "factures/facture_{$paiementType}_devis_{$devis->id}.pdf";
+
+    if ($force || !Storage::disk('public')->exists($path)) {
+        $pdf = Pdf::loadView($this->viewFor($paiementType), [
+            'devis' => $devis,
+            'facture' => $facture,
+        ]);
+
+        Storage::disk('public')->makeDirectory('factures');
+        Storage::disk('public')->put($path, $pdf->output());
+
+        $facture->update(['pdf_path' => $path]);
+    }
+
+    return $path;
+}
 
     // Voir la facture (sans envoyer de mail)
     public function show(Devis $devis)
@@ -57,11 +93,17 @@ class AdminFactureController extends Controller
     {
         $path = $this->ensurePdf($devis);
 
-        Mail::send('emails.facture', ['devis' => $devis], function ($message) use ($devis, $path) {
-            $message->to($devis->client_email)
-                    ->subject("Votre facture - Devis #{$devis->id}")
-                    ->attach(Storage::disk('public')->path($path));
-        });
+     Mail::send('emails.facture', [
+    'devis' => $devis,
+    'facture' => $devis->factures()->where(
+        'type',
+        match ($devis->paiement_type) {
+            'total' => 'totale',
+            'acompte' => 'acompte',
+            'reste' => 'solde',
+        }
+    )->first(),
+], function ($message) use ($devis, $path) {
 
         return back()->with('success', 'Facture envoyée au client.');
     }

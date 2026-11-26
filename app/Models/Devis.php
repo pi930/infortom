@@ -23,6 +23,8 @@ class Devis extends Model
     'date',
     'heure',
     'statut',
+    'acompte',
+'reste_a_payer',
 ];
 
 

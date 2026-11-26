@@ -127,89 +127,121 @@ public function checkoutReste(Devis $devis)
 
     return redirect($session->url);
 }
-    public function success(Request $request)
-    {     
-    \Log::info('SUCCESS STRIPE ATTEINT');
-        $sessionId = $request->get('session_id');
+ public function success(Request $request)
+{
+    \Log::info('Retour Stripe atteint');
 
-        if (!$sessionId) {
-            return redirect()->route('home')->with('error', 'Session Stripe introuvable.');
-        }
+    $sessionId = $request->get('session_id');
 
+    if (!$sessionId) {
+        return redirect()->route('home')
+            ->with('error', 'Session Stripe introuvable.');
+    }
+
+    try {
         Stripe::setApiKey(config('services.stripe.secret'));
-
         $session = Session::retrieve($sessionId);
+    } catch (\Throwable $e) {
+        \Log::error('Impossible de récupérer la session Stripe : '.$e->getMessage());
 
-        if ($session->payment_status !== 'paid') {
-            return redirect()->route('home')->with('error', 'Paiement non confirmé.');
-        }
+        return redirect()->route('home')
+            ->with('error', 'Impossible de vérifier le paiement.');
+    }
 
-        $devisId = $session->metadata->devis_id ?? null;
-        $typePaiement = $session->metadata->type_paiement ?? null;
-        $devis = $devisId ? Devis::find($devisId) : null;
+    if ($session->payment_status !== 'paid') {
+        return redirect()->route('home')
+            ->with('error', 'Paiement non confirmé.');
+    }
 
-        if (!$devis || !in_array($typePaiement, ['total', 'acompte', 'reste'])) {
-            return redirect()->route('home')->with('error', 'Devis introuvable.');
-        }
+    $devisId = $session->metadata->devis_id ?? null;
+    $typePaiement = $session->metadata->type_paiement ?? null;
+    $devis = $devisId ? Devis::find($devisId) : null;
 
-        // Anti-doublon : si la page est rechargée, on ne retraite pas le paiement
-        if ($devis->paiement_type === $typePaiement) {
-            return redirect()->route('home')->with('success', 'Paiement déjà enregistré.');
-        }
+    if (!$devis || !in_array($typePaiement, ['total', 'acompte', 'reste'], true)) {
+        return redirect()->route('home')
+            ->with('error', 'Devis ou type de paiement introuvable.');
+    }
 
-        // "payé" uniquement si tout est réglé
+    $typeFacture = match ($typePaiement) {
+        'total' => 'totale',
+        'acompte' => 'acompte',
+        'reste' => 'solde',
+    };
+
+    $montant = match ($typePaiement) {
+        'total' => $devis->total_ttc,
+        'acompte' => 100,
+        'reste' => $devis->total_ttc - 100,
+    };
+
+    // Enregistre le paiement seulement s'il ne l'est pas déjà.
+    // Même s'il est déjà enregistré, on continue pour réparer/générer la facture.
+    if ($devis->paiement_type !== $typePaiement) {
         $devis->statut = $typePaiement === 'acompte' ? 'acompte_payé' : 'payé';
         $devis->paiement_type = $typePaiement;
         $devis->paiement_date = now();
         $devis->save();
-        $numero = 'FAC-' . date('Y') . '-' .
-    str_pad(\App\Models\Facture::count() + 1, 4, '0', STR_PAD_LEFT);
+    }
 
-        // Facture générée au paiement (une par type, l'acompte est conservé)
-        try {
-            $filename = "facture_{$typePaiement}_devis_{$devis->id}.pdf";
-            $path = "factures/{$filename}";
+    try {
+        $facture = $devis->factures()
+            ->where('type', $typeFacture)
+            ->first();
 
-            Storage::disk('public')->makeDirectory('factures');
-            $pdf = Pdf::loadView("pdf.facture_{$typePaiement}", compact('devis'));
-            Storage::disk('public')->put($path, $pdf->output());
-            \App\Models\Facture::create([
+        $nouvelleFacture = false;
 
-    'devis_id' => $devis->id,
+        if (!$facture) {
+            $numero = 'FAC-' . now()->format('Y') . '-' .
+                str_pad((string) (Facture::count() + 1), 4, '0', STR_PAD_LEFT);
 
-    'numero' => $numero,
+            $facture = $devis->factures()->create([
+                'numero' => $numero,
+                'type' => $typeFacture,
+                'montant' => $montant,
+                'date_facture' => $devis->paiement_date ?? now(),
+            ]);
 
-    'type' => match($typePaiement) {
-        'acompte' => 'acompte',
-        'reste' => 'solde',
-        default => 'totale',
-    },
-
-    'montant' => match($typePaiement) {
-        'acompte' => 100,
-        'reste' => $devis->total_ttc - 100,
-        default => $devis->total_ttc,
-    },
-
-    'pdf_path' => $path,
-
-    'date_facture' => now(),
-]);
-
-
-            Mail::send('emails.facture', ['devis' => $devis], function ($message) use ($devis, $path) {
-                $message->to($devis->client_email)
-                        ->subject("Votre facture - Devis #{$devis->id}")
-                        ->attach(Storage::disk('public')->path($path));
-            });
-           \Log::info('MAIL FACTURE ENVOYE A : '.$devis->client_email);
-        } catch (\Throwable $e) {
-              \Log::error('ERREUR FACTURE : '.$e->getMessage());
-            report($e); // le paiement reste valide même si le PDF ou le mail échoue
+            $nouvelleFacture = true;
         }
 
-        return redirect()->route('home')->with('success', 'Paiement effectué avec succès.');
+        $path = "factures/facture_{$typePaiement}_devis_{$devis->id}.pdf";
+
+        if (!$facture->pdf_path || !Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->makeDirectory('factures');
+
+            $pdf = Pdf::loadView("pdf.facture_{$typePaiement}", [
+                'devis' => $devis,
+                'facture' => $facture,
+            ]);
+
+            Storage::disk('public')->put($path, $pdf->output());
+            $facture->update(['pdf_path' => $path]);
+        }
+
+        // Évite un nouvel envoi automatique quand Stripe recharge la page de retour.
+        if ($nouvelleFacture) {
+            Mail::send('emails.facture', [
+                'devis' => $devis,
+                'facture' => $facture,
+            ], function ($message) use ($devis, $path) {
+                $message->to($devis->client_email)
+                    ->subject("Votre facture - Devis #{$devis->id}")
+                    ->attach(Storage::disk('public')->path($path));
+            });
+
+            \Log::info('Facture envoyée à : '.$devis->client_email);
+        }
+    } catch (\Throwable $e) {
+        \Log::error('Erreur lors de la création de la facture : '.$e->getMessage());
+        report($e);
+
+        return redirect()->route('home')
+            ->with('error', 'Paiement reçu, mais la facture n’a pas pu être générée. Contacte Infortom.');
     }
+
+    return redirect()->route('home')
+        ->with('success', 'Paiement effectué avec succès.');
+}
 
     public function cancel()
     {
