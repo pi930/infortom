@@ -89,22 +89,30 @@ class AdminFactureController extends Controller
     }
 
     // Envoi explicite de la facture au client
-    public function send(Devis $devis)
-    {
-        $path = $this->ensurePdf($devis);
+ public function send(Devis $devis)
+{
+    $path = $this->ensurePdf($devis);
 
-     Mail::send('emails.facture', [
-    'devis' => $devis,
-    'facture' => $devis->factures()->where(
-        'type',
-        match ($devis->paiement_type) {
-            'total' => 'totale',
-            'acompte' => 'acompte',
-            'reste' => 'solde',
-        }
-    )->first(),
-], function ($message) use ($devis, $path) {
+    $typeFacture = match ($devis->paiement_type) {
+        'total' => 'totale',
+        'acompte' => 'acompte',
+        'reste' => 'solde',
+        default => abort(404, 'Type de paiement inconnu.'),
+    };
 
-        return back()->with('success', 'Facture envoyée au client.');
-    }
+    $facture = $devis->factures()
+        ->where('type', $typeFacture)
+        ->firstOrFail();
+
+    Mail::send('emails.facture', [
+        'devis' => $devis,
+        'facture' => $facture,
+    ], function ($message) use ($devis, $path) {
+        $message->to($devis->client_email)
+            ->subject("Votre facture - Devis #{$devis->id}")
+            ->attach(Storage::disk('public')->path($path));
+    });
+
+    return back()->with('success', 'Facture envoyée au client.');
+}
 }
