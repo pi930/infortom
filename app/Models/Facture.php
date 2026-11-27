@@ -18,12 +18,18 @@ class Facture extends Model
     'date_facture',
     'email_envoye',
     'email_envoye_le',
+    'qonto_invoice_id',
+'qonto_status',
+'qonto_attachment_id',
+'qonto_sent_at',
+'qonto_last_error',
 ];
 
     protected $casts = [
     'date_facture' => 'datetime',
     'email_envoye_le' => 'datetime',
     'email_envoye' => 'boolean',
+    'qonto_sent_at' => 'datetime',
 ];
 
     public function devis()

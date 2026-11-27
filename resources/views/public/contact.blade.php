@@ -121,11 +121,61 @@
     </div>
 
     <!-- ==== COLONNE DROITE : FORMULAIRE ==== -->
-    <div class="contact-right" id="formulaire">
+   <div class="contact-right" id="formulaire">
         <h2>Démarrez votre projet</h2>
 
         <form action="{{ route('contact.send') }}" method="POST">
             @csrf
+    <div class="form-check mb-3">
+    <input
+        class="form-check-input"
+        type="checkbox"
+        name="is_company"
+        id="is_company"
+        value="1"
+        @checked(old('is_company'))
+    >
+    <label class="form-check-label" for="is_company">
+        Vous êtes une entreprise
+    </label>
+</div>
+
+<div id="company-fields" @if(!old('is_company')) hidden @endif>
+    <div class="mb-3">
+        <label for="company_name">Raison sociale</label>
+        <input
+            type="text"
+            name="company_name"
+            id="company_name"
+            class="form-control"
+            value="{{ old('company_name') }}"
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="company_siren">SIREN</label>
+        <input
+            type="text"
+            name="company_siren"
+            id="company_siren"
+            class="form-control"
+            maxlength="9"
+            inputmode="numeric"
+            value="{{ old('company_siren') }}"
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="company_vat_number">Numéro de TVA intracommunautaire (facultatif)</label>
+        <input
+            type="text"
+            name="company_vat_number"
+            id="company_vat_number"
+            class="form-control"
+            value="{{ old('company_vat_number') }}"
+        >
+    </div>
+</div>
             <label>Adresse postale</label>
 <textarea name="client_address" rows="3">{{ old('client_address') }}</textarea>
             <label>Sujet *</label>
@@ -148,5 +198,18 @@
     </div>
 
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const checkbox = document.getElementById('is_company');
+    const fields = document.getElementById('company-fields');
+
+    function toggleCompanyFields() {
+        fields.hidden = !checkbox.checked;
+    }
+
+    checkbox.addEventListener('change', toggleCompanyFields);
+    toggleCompanyFields();
+});
+</script>
 
 @endsection

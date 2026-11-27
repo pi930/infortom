@@ -26,12 +26,18 @@ class Devis extends Model
     'statut',
     'acompte',
 'reste_a_payer',
+'qonto_client_id',
+'is_company',
+'company_name',
+'company_siren',
+'company_vat_number',
 ];
 
 
     protected $casts = [
         'items' => 'array',
         'paiement_date' => 'datetime',
+        'is_company' => 'boolean',
     ];
 
 

@@ -25,10 +25,17 @@
     {{ $facture->date_facture->format('d/m/Y') }}
 </p>
 
-<p>
-    <strong>Client :</strong>
-    {{ $devis->client_name }}
-</p>
+@if($devis->is_company)
+    <p><strong>Client professionnel :</strong> {{ $devis->company_name }}</p>
+    <p><strong>Contact :</strong> {{ $devis->client_name }}</p>
+    <p><strong>SIREN :</strong> {{ $devis->company_siren }}</p>
+
+    @if($devis->company_vat_number)
+        <p><strong>N° TVA intracommunautaire :</strong> {{ $devis->company_vat_number }}</p>
+    @endif
+@else
+    <p><strong>Client :</strong> {{ $devis->client_name }}</p>
+@endif
 
 <p>
     <strong>Email :</strong>

@@ -23,6 +23,61 @@
                    value="{{ $client_email ?? '' }}" required>
         </div>
 
+        <div class="form-check mb-3">
+    <input
+        class="form-check-input"
+        type="checkbox"
+        name="is_company"
+        id="is_company"
+        value="1"
+        @checked(old('is_company', $is_company ?? false))
+    >
+    <label class="form-check-label" for="is_company">
+        Vous êtes une entreprise
+    </label>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const checkbox = document.getElementById('is_company');
+    const fields = document.getElementById('company-fields');
+    const companyName = document.getElementById('company_name');
+    const companySiren = document.getElementById('company_siren');
+
+    function toggleCompanyFields() {
+        fields.classList.toggle('d-none', !checkbox.checked);
+        companyName.required = checkbox.checked;
+        companySiren.required = checkbox.checked;
+    }
+
+    checkbox.addEventListener('change', toggleCompanyFields);
+    toggleCompanyFields();
+});
+</script>
+<div id="company-fields"
+     class="{{ old('is_company', $is_company ?? false) ? '' : 'd-none' }}">
+    <div class="mb-3">
+        <label for="company_name" class="form-label">Raison sociale</label>
+        <input type="text" name="company_name" id="company_name"
+               class="form-control"
+               value="{{ old('company_name', $company_name ?? '') }}">
+    </div>
+
+    <div class="mb-3">
+        <label for="company_siren" class="form-label">SIREN</label>
+        <input type="text" name="company_siren" id="company_siren"
+               class="form-control" maxlength="9" inputmode="numeric"
+               value="{{ old('company_siren', $company_siren ?? '') }}">
+    </div>
+
+    <div class="mb-3">
+        <label for="company_vat_number" class="form-label">
+            Numéro de TVA intracommunautaire (facultatif)
+        </label>
+        <input type="text" name="company_vat_number" id="company_vat_number"
+               class="form-control"
+               value="{{ old('company_vat_number', $company_vat_number ?? '') }}">
+    </div>
+</div>
         <hr>
 
         <h4>Prestations</h4>

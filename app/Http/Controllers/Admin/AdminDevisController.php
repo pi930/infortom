@@ -13,38 +13,47 @@ use Illuminate\Support\Facades\Mail;
 
 class AdminDevisController extends Controller
 {
-    public function create(Request $request)
-    {
-        $client_name = $request->client_name;
-        $client_email = $request->client_email;
-        $client_address = $request->client_address;
+   public function create(Request $request)
+{
+    // Prestations autorisées pour la page admin
+    $adminPrices = [
+        'site_internet' => 200,
+        'nom_de_domaine' => 6,
+        'depannage' => 60,
+    ];
 
-        // Prestations autorisées pour la page admin
-        $adminPrices = [
-            'site_internet' => 200,
-            'nom_de_domaine' => 6,
-            'depannage' => 60,
-        ];
-
-       return view('admin.devis.create', compact(
-    'client_name',
-    'client_email',
-    'client_address',
-    'adminPrices'
-));
-    }
+    return view('admin.devis.create', [
+        'client_name' => $request->query('client_name', ''),
+        'client_email' => $request->query('client_email', ''),
+        'client_address' => $request->query('client_address', ''),
+        'is_company' => $request->boolean('is_company'),
+        'company_name' => $request->query('company_name', ''),
+        'company_siren' => $request->query('company_siren', ''),
+        'company_vat_number' => $request->query('company_vat_number', ''),
+        'adminPrices' => $adminPrices,
+    ]);
+}
 
     public function store(Request $request)
     {
 
- $request->validate([
-    'client_name'   => 'required|string|max:255',
-    'client_email'  => 'required|email|max:255',
-    'custom_name'   => 'nullable|string|max:255',
-    'custom_amount' => 'nullable|numeric|min:0|max:10000',
-    'items'         => 'nullable|array',
+ $validated = $request->validate([
+    'client_name' => 'required|string|max:255',
+    'client_email' => 'required|email|max:255',
     'client_address' => 'required|string|max:1000',
-]);   
+
+    'is_company' => 'nullable|boolean',
+    'company_name' => 'nullable|string|required_if:is_company,1|max:255',
+    'company_siren' => 'nullable|required_if:is_company,1|digits:9',
+    'company_vat_number' => 'nullable|string|max:30',
+
+    'custom_name' => 'nullable|string|max:255',
+    'custom_amount' => 'nullable|numeric|min:0|max:10000',
+    'items' => 'nullable|array',
+    'items.*' => 'string|in:depannage,site_internet,campagne_pub,nom_de_domaine',
+]);
+
+$isCompany = $request->boolean('is_company');  
         // Liste des prix
         $prices = [
             'site_internet' => 200,
@@ -54,8 +63,7 @@ class AdminDevisController extends Controller
         ];
 
         // Récupération des éléments cochés
-        $selected = $request->items ?? [];
-
+       $selected = $validated['items'] ?? [];
         // Calcul du total HT
         $total_ht = 0;
         foreach ($selected as $item) {
@@ -99,9 +107,9 @@ class AdminDevisController extends Controller
 
         // Création du devis
         $devis = Devis::create([
-            'client_name' => $request->client_name,
-            'client_email' => $request->client_email,
-            'client_address' => $request->client_address,
+            'client_name' => $validated['client_name'],
+'client_email' => $validated['client_email'],
+'client_address' => $validated['client_address'],
             'items' => $selected,
             'total_ht' => $total_ht,
             'tva' => $tva,
@@ -111,6 +119,12 @@ class AdminDevisController extends Controller
             'reste_a_payer' => $reste,
             'user_id' => $user->id ?? null,
             'service_type' => $service_type,
+            'is_company' => $isCompany,
+'company_name' => $isCompany ? $validated['company_name'] : null,
+'company_siren' => $isCompany ? $validated['company_siren'] : null,
+'company_vat_number' => $isCompany
+    ? ($validated['company_vat_number'] ?? null)
+    : null,
         ]);
 
         // Génération du contrat

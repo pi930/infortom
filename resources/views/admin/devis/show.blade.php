@@ -7,6 +7,11 @@
 
     <p><strong>Client :</strong> {{ $devis->client_name }}</p>
     <p><strong>Email :</strong> {{ $devis->client_email }}</p>
+    @if($devis->is_company)
+    <p><strong>Entreprise :</strong> {{ $devis->company_name }}</p>
+    <p><strong>SIREN :</strong> {{ $devis->company_siren }}</p>
+    <p><strong>Numéro de TVA :</strong> {{ $devis->company_vat_number ?: 'Non renseigné' }}</p>
+@endif
     <p><strong>Adresse postale :</strong> {{ $devis->client_address ?: 'Non renseignée' }}</p>
 
     <hr>

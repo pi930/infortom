@@ -12,6 +12,12 @@
 
             <strong>{{ $msg->name }} ({{ $msg->email }})</strong><br>
 <strong>Adresse postale :</strong> {{ $msg->client_address ?: 'Non renseignée' }}<br>
+@if($msg->is_company)
+    <strong>Entreprise :</strong> {{ $msg->company_name }}<br>
+    <strong>SIREN :</strong> {{ $msg->company_siren }}<br>
+    <strong>TVA intracommunautaire :</strong>
+    {{ $msg->company_vat_number ?: 'Non renseigné' }}<br>
+@endif
             <strong>Sujet :</strong> {{ $msg->subject }}
 
             <div class="mt-2 p-2 bg-light border-start border-3 rounded">
@@ -41,6 +47,10 @@
                     'client_name' => $msg->name,
                     'client_email' => $msg->email,
                     'client_address' => $msg->client_address,
+                    'is_company' => $msg->is_company,
+'company_name' => $msg->company_name,
+'company_siren' => $msg->company_siren,
+'company_vat_number' => $msg->company_vat_number,
                 ]) }}" class="btn btn-primary">
                     Faire un devis
                 </a>
