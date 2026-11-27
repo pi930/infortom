@@ -1,6 +1,12 @@
-<hr>
+<hr style="margin-top:10px;">
 
-<p style="font-size:12px; color:#666; margin-top:20px;">
+<p style="
+    font-size:10px;
+    color:#666;
+    margin-top:5px;
+    margin-bottom:2px;
+    line-height:1.2;
+">
 
     <strong>Infortom</strong><br>
     Thomas Pierrard<br>
@@ -12,7 +18,12 @@
 
 </p>
 
-<p style="font-size:11px; color:#666; margin-top:10px;">
+<p style="
+    font-size:10px;
+    color:#666;
+    margin-top:2px;
+    margin-bottom:0;
+">
     TVA non applicable, article 293 B du CGI.
 </p>
 
