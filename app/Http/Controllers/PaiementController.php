@@ -191,18 +191,49 @@ public function checkoutReste(Devis $devis)
         $nouvelleFacture = false;
 
         if (!$facture) {
-            $numero = 'FAC-' . now()->format('Y') . '-' .
-                str_pad((string) (Facture::count() + 1), 4, '0', STR_PAD_LEFT);
 
-            $facture = $devis->factures()->create([
-                'numero' => $numero,
-                'type' => $typeFacture,
-                'montant' => $montant,
-                'date_facture' => $devis->paiement_date ?? now(),
-            ]);
+    $derniereFacture = Facture::latest('id')->first();
 
-            $nouvelleFacture = true;
-        }
+    $prochainNumero = $derniereFacture
+        ? $derniereFacture->id + 1
+        : 1;
+
+    $numero = 'FAC-' . now()->format('Y') . '-' .
+        str_pad($prochainNumero, 4, '0', STR_PAD_LEFT);
+
+    $montantFacture = match ($typePaiement) {
+        'acompte' => 100,
+        'reste'   => $devis->total_ttc - 100,
+        default   => $devis->total_ttc,
+    };
+
+    $facture = $devis->factures()->create([
+
+        'numero' => $numero,
+
+        'type' => match ($typePaiement) {
+            'acompte' => 'acompte',
+            'reste'   => 'solde',
+            default   => 'totale',
+        },
+
+        'montant' => $montantFacture,
+
+        'montant_ht' => $montantFacture,
+
+        'montant_ttc' => $montantFacture,
+
+        'tva' => 0,
+
+        'date_facture' => now(),
+
+        'email_envoye' => false,
+
+        'email_envoye_le' => null,
+    ]);
+
+    $nouvelleFacture = true;
+}
 
         $path = "factures/facture_{$typePaiement}_devis_{$devis->id}.pdf";
 
@@ -221,16 +252,22 @@ public function checkoutReste(Devis $devis)
         // Évite un nouvel envoi automatique quand Stripe recharge la page de retour.
         if ($nouvelleFacture) {
             Mail::send('emails.facture', [
-                'devis' => $devis,
-                'facture' => $facture,
-            ], function ($message) use ($devis, $path) {
-                $message->to($devis->client_email)
-                    ->subject("Votre facture - Devis #{$devis->id}")
-                    ->attach(Storage::disk('public')->path($path));
-            });
+    'devis' => $devis,
+    'facture' => $facture,
+], function ($message) use ($devis, $path) {
 
-            \Log::info('Facture envoyée à : '.$devis->client_email);
-        }
+    $message->to($devis->client_email)
+        ->subject("Votre facture - Devis #{$devis->id}")
+        ->attach(Storage::disk('public')->path($path));
+
+});
+
+$facture->update([
+    'email_envoye' => true,
+    'email_envoye_le' => now(),
+]);
+
+\Log::info('Facture envoyée à : '.$devis->client_email);}
     } catch (\Throwable $e) {
         \Log::error('Erreur lors de la création de la facture : '.$e->getMessage());
         report($e);

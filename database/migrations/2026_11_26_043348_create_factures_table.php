@@ -10,28 +10,39 @@ return new class extends Migration
     {
         Schema::create('factures', function (Blueprint $table) {
 
-            $table->id();
+    $table->id();
 
-            $table->foreignId('devis_id')
-                ->constrained()
-                ->cascadeOnDelete();
+    $table->foreignId('devis_id')
+        ->constrained()
+        ->cascadeOnDelete();
 
-            $table->string('numero')->unique();
+    // FAC-2026-0001
+    $table->string('numero')->unique();
 
-            $table->enum('type', [
-                'acompte',
-                'solde',
-                'totale'
-            ]);
+    $table->enum('type', [
+        'acompte',
+        'solde',
+        'totale'
+    ]);
 
-            $table->decimal('montant', 10, 2);
+    $table->decimal('montant_ht', 10, 2);
+    $table->decimal('montant_ttc', 10, 2);
 
-            $table->string('pdf_path')->nullable();
+    $table->decimal('tva', 10, 2)->default(0);
 
-            $table->timestamp('date_facture');
+    $table->string('pdf_path')->nullable();
 
-            $table->timestamps();
-        });
+    $table->timestamp('date_facture');
+
+    // envoyé automatiquement au client ?
+    $table->boolean('email_envoye')->default(false);
+
+    // date réelle d'envoi
+    $table->timestamp('email_envoye_le')->nullable();
+
+    $table->timestamps();
+});
+
     }
 
     public function down(): void
